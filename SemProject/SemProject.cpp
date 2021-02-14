@@ -32,8 +32,8 @@ struct Circle
 class PointArray
 {
 private:
-    size_t m_size;
     Point* data;
+    PointArray* next;
 
 public:
     PointArray()
