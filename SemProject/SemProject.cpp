@@ -1,6 +1,7 @@
 ﻿
 #include <iostream>
 using namespace std;
+
 enum Colors
 {
     COL_RED,
@@ -29,154 +30,169 @@ struct Circle
     int r;
 };
 
-class PointArray
+class PointList
 {
 private:
+    size_t size;
     Point* data;
-    PointArray* next;
+    PointList* next;
 
 public:
-    PointArray()
+    PointList()
     {
-        m_size = 0;
+        size = 0;
         data = nullptr;
+        next = nullptr;
     }
-    ~PointArray()
+   
+    void addPoint(Point* val2add)
     {
-        if (data != nullptr)
-            delete[] data;
-    }
-    void addPoint(Point val2add)
-    {
-        if (m_size == 0)
+        if (data == nullptr)
         {
-            data = new Point[1];
-            data[0] = val2add;
-            m_size = 1;
+            size = 1;
+            data = val2add;
+            next = new PointList;
         }
         else
         {
-            Point* tmp = new Point[m_size + 1];
-            for (size_t i = 0; i < m_size; i++)
+            PointList* marker = next;
+            while (marker->data != nullptr)
             {
-                tmp[i] = data[i];
+                marker = marker->next;
             }
-            tmp[m_size] = val2add;
-            delete[] data;
-            data = tmp;
-            m_size++;
+            marker->data = val2add;
+            marker->next = new PointList;
+            size++;
         }
     }
-    size_t getSize() const { return m_size; }
-    Point getElementByInd(size_t index /*номер элемента*/) const
+    size_t getSize() const { return size; }
+    Point getElementByInd(size_t index) const
     {
-        if (m_size <= index)
-            //Ошибка !!!
+        if (size <= index)
+        {
+            cout << "Неверный индекс";
             exit(1);
-        else
-            return data[index]; // *(data + index)
+        }
+        if (index == 0)
+            return *data;
+        PointList* marker = next;
+        for (size_t i = 2; i < size; i++)
+        {
+            marker = marker->next;
+        }
+        return *marker->data;
     }
 };
 
-class SegmentArray
+class SegmentList
 {
 private:
-    size_t m_size;
+    size_t size;
     Segment* data;
+    SegmentList* next;
 
 public:
-    SegmentArray()
+    SegmentList()
     {
-        m_size = 0;
+        size = 0;
         data = nullptr;
+        next = nullptr;
     }
-    ~SegmentArray()
+
+    void addSegment(Segment* val2add)
     {
-        if (data != nullptr)
-            delete[] data;
-    }
-    void addSegment(Segment val2add)
-    {
-        if (m_size == 0)
+        if (data == nullptr)
         {
-            data = new Segment[1];
-            data[0] = val2add;
-            m_size = 1;
+            size = 1;
+            data = val2add;
+            next = new SegmentList;
         }
         else
         {
-            Segment* tmp = new Segment[m_size + 1];
-            for (size_t i = 0; i < m_size; i++)
+            SegmentList* marker = next;
+            while (marker->data != nullptr)
             {
-                tmp[i] = data[i];
+                marker = marker->next;
             }
-            tmp[m_size] = val2add;
-            delete[] data;
-            data = tmp;
-            m_size++;
+            marker->data = val2add;
+            marker->next = new SegmentList;
+            size++;
         }
     }
-    size_t getSize() const { return m_size; }
-    Segment getElementByInd(size_t index /*номер элемента*/) const
+    size_t getSize() const { return size; }
+    Segment getElementByInd(size_t index) const
     {
-        if (m_size <= index)
-            //Ошибка !!!
+        if (size <= index)
+        {
+            cout << "Неверный индекс";
             exit(1);
-        else
-            return data[index]; // *(data + index)
+        }
+        if (index == 0)
+            return *data;
+        SegmentList* marker = next;
+        for (size_t i = 2; i < size; i++)
+        {
+            marker = marker->next;
+        }
+        return *marker->data;
     }
 };
 
-class CircleArray
+class CircleList
 {
 private:
-    size_t m_size;
+    size_t size;
     Circle* data;
+    CircleList* next;
 
 public:
-    CircleArray()
+    CircleList()
     {
-        m_size = 0;
+        size = 0;
         data = nullptr;
+        next = nullptr;
     }
-    ~CircleArray()
+
+    void addCircle(Circle* val2add)
     {
-        if (data != nullptr)
-            delete[] data;
-    }
-    void addCircle(Circle val2add)
-    {
-        if (m_size == 0)
+        if (data == nullptr)
         {
-            data = new Circle[1];
-            data[0] = val2add;
-            m_size = 1;
+            size = 1;
+            data = val2add;
+            next = new CircleList;
         }
         else
         {
-            Circle* tmp = new Circle[m_size + 1];
-            for (size_t i = 0; i < m_size; i++)
+            CircleList* marker = next;
+            while (marker->data != nullptr)
             {
-                tmp[i] = data[i];
+                marker = marker->next;
             }
-            tmp[m_size] = val2add;
-            delete[] data;
-            data = tmp;
-            m_size++;
+            marker->data = val2add;
+            marker->next = new CircleList;
+            size++;
         }
     }
-    size_t getSize() const { return m_size; }
-    Circle getElementByInd(size_t index /*номер элемента*/) const
+    size_t getSize() const { return size; }
+    Circle getElementByInd(size_t index) const
     {
-        if (m_size <= index)
-            //Ошибка !!!
+        if (size <= index)
+        {
+            cout << "Неверный индекс";
             exit(1);
-        else
-            return data[index]; // *(data + index)
+        }
+        if (index == 0)
+            return *data;
+        CircleList* marker = next;
+        for (size_t i = 2; i < size; i++)
+        {
+            marker = marker->next;
+        }
+        return *marker->data;
     }
 };
 
-void outputPoints(const PointArray* array)
+void outputPoints(const PointList* array)
 {
     for (size_t k = 0; k < array->getSize(); ++k)
     {
@@ -186,28 +202,28 @@ void outputPoints(const PointArray* array)
 }
 bool testPointArrayCreation()
 {
-    PointArray array;
-    if (array.getSize() == 0)
+    PointList list;
+    if (list.getSize() == 0)
         return true;
     return false;
 }
 
 bool testPointArraySize()
 {
-    PointArray array;
+    PointList list;
     Point p1 = { 1, 2 };
-    array.addPoint(p1);
-    if (array.getSize() != 1)
+    list.addPoint(&p1);
+    if (list.getSize() != 1)
         return false;
     return true;
 }
 
 bool testPointArrayAccess1()
 {
-    PointArray array;
+    PointList list;
     Point p1 = { 1, 2 };
-    array.addPoint(p1);
-    Point p2 = array.getElementByInd(0);
+    list.addPoint(&p1);
+    Point p2 = list.getElementByInd(0);
     if (p1.x == p2.x && p1.y == p2.y)
         return true;
     return false;
@@ -215,15 +231,15 @@ bool testPointArrayAccess1()
 
 bool testPointArrayAccessN()
 {
-    PointArray array;
+    PointList list;
     Point p1 = { 1, 2 };
-    array.addPoint(p1);
+    list.addPoint(&p1);
     Point p2 = { 2, 2 };
-    array.addPoint(p2);
+    list.addPoint(&p2);
     Point p3 = { 4, 2 };
-    array.addPoint(p3);
+    list.addPoint(&p3);
 
-    Point pp = array.getElementByInd(2);
+    Point pp = list.getElementByInd(2);
     if (pp.x == p3.x && pp.y == p3.y)
         return true;
     return false;
@@ -239,21 +255,22 @@ void runAllTests()
 
 int main(int argc, char* argv[])
 {
+    setlocale(LC_ALL, "Rus");
     runAllTests();
-    PointArray pointArray;
+    PointList pointList;
 
     Point p1;
     p1.x = 1;
     p1.y = 2;
-    pointArray.addPoint(p1);
+    pointList.addPoint(&p1);
     Point p2 = { 2, 3 };
-    pointArray.addPoint(p2);
+    pointList.addPoint(&p2);
     Point p3 = { 5, 3 };
-    pointArray.addPoint(p3);
+    pointList.addPoint(&p3);
     Point p4 = { 6, 4 };
-    pointArray.addPoint(p4);
+    pointList.addPoint(&p4);
 
-    outputPoints(&pointArray);
+    outputPoints(&pointList);
     system("pause");
     return 0;
 }
