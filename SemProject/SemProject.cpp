@@ -253,6 +253,8 @@ int main(int argc, char* argv[])
     Point p4 = { 6, 4 };
     pointArray.addPoint(p4);
 
+
+    cout << "CHANGED!\n";
     outputPoints(&pointArray);
     system("pause");
     return 0;
