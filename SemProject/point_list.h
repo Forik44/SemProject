@@ -15,6 +15,7 @@ private:
 
 public:
     PointList();    //constructor
+    PointList(const PointList& original);
     ~PointList();   //destructor
     void addPoint(Point val2add);
     Point getElementByIdx(size_t Num) const;
