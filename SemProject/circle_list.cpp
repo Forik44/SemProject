@@ -7,6 +7,30 @@ CircleList::CircleList()    //constructor
     first = last = nullptr;
     size = 0;
 };
+CircleList::CircleList(const CircleList& original)
+{
+    size = original.size;
+    first = last = nullptr;
+
+    size_t tmpSize = 0;
+
+    for (Node* tmpNode = original.first; tmpNode; tmpNode = tmpNode->next, tmpSize++)
+    {
+        Node* newListNode = new Node;
+        newListNode->idx = tmpSize;
+        newListNode->data = tmpNode->data;
+        newListNode->next = nullptr;
+        if (first == nullptr)
+            first = last = newListNode;
+        else
+        {
+            last->next = newListNode;
+            last = newListNode;
+        };
+    };
+
+
+}
 CircleList::~CircleList()   //destructor
 {
     for (Node* tmp = first; tmp; tmp = first)

@@ -15,6 +15,7 @@ private:
 
 public:
     CircleList();    //constructor
+    CircleList(const CircleList& original);
     ~CircleList();   //destructor
     void addCircle(Circle val2add);
     Circle getElementByIdx(size_t Num) const;
