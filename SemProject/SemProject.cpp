@@ -1,4 +1,5 @@
-﻿
+﻿#include"point_array.h"
+#include"point_list.h"
 #include <iostream>
 using namespace std;
 enum Colors
@@ -8,75 +9,9 @@ enum Colors
     COL_BLUE
 };
 
-struct Point
-{
-    //Colors color;
-    int x;
-    int y;
-};
 
-struct Segment
-{
-    //Colors color;
-    Point p1;
-    Point p2;
-};
 
-struct Circle
-{
-    //Colors color;
-    Point center;
-    int r;
-};
 
-class PointArray
-{
-private:
-    size_t m_size;
-    Point* data;
-
-public:
-    PointArray()
-    {
-        m_size = 0;
-        data = nullptr;
-    }
-    ~PointArray()
-    {
-        if (data != nullptr)
-            delete[] data;
-    }
-    void addPoint(Point val2add)
-    {
-        if (m_size == 0)
-        {
-            data = new Point[1];
-            data[0] = val2add;
-            m_size = 1;
-        }
-        else
-        {
-            Point* tmp = new Point[m_size + 1];
-            for (size_t i = 0; i < m_size; i++)
-            {
-                tmp[i] = data[i];
-            }
-            tmp[m_size] = val2add;
-            delete[] data;
-            data = tmp;
-            m_size++;
-        }
-    }
-    size_t getSize() const { return m_size; }
-    Point getElementByInd(size_t index /*номер элемента*/) const
-    {
-        if (m_size <= index)
-            //Ошибка !!!
-            exit(1);
-        else
-            return data[index]; // *(data + index)
-    }
-};
 
 class SegmentArray
 {
@@ -176,12 +111,20 @@ public:
     }
 };
 
-void outputPoints(const PointArray* array)
+void outputPoints(const PointArray array)
 {
-    for (size_t k = 0; k < array->getSize(); ++k)
+    for (size_t k = 0; k < array.getSize(); ++k)
     {
         // Output single point
-        std::cout << array->getElementByInd(k).x << " " << array->getElementByInd(k).y << std::endl;
+        std::cout << array.getElementByInd(k).x << " " << array.getElementByInd(k).y << std::endl;
+    }
+}
+void outputPoints(const PointList array)
+{
+    for (size_t k = 0; k < array.getSize(); ++k)
+    {
+        // Output single point
+        std::cout << array.getElementByInd(k).x << " " << array.getElementByInd(k).y << std::endl;
     }
 }
 bool testPointArrayCreation()
@@ -240,22 +183,22 @@ void runAllTests()
 int main(int argc, char* argv[])
 {
     runAllTests();
-    PointArray pointArray;
+    PointArray pointStorage;
 
     Point p1;
     p1.x = 1;
     p1.y = 2;
-    pointArray.addPoint(p1);
+    pointStorage.addPoint(p1);
     Point p2 = { 2, 3 };
-    pointArray.addPoint(p2);
+    pointStorage.addPoint(p2);
     Point p3 = { 5, 3 };
-    pointArray.addPoint(p3);
+    pointStorage.addPoint(p3);
     Point p4 = { 6, 4 };
-    pointArray.addPoint(p4);
+    pointStorage.addPoint(p4);
 
-    cout << "I'm here!\n";
-    cout << "CHANGED!\n";
-    outputPoints(&pointArray);
+    
+    outputPoints(pointStorage);
+    outputPoints(pointStorage);
     system("pause");
     return 0;
 }

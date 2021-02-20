@@ -139,7 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="objects.cpp" />
+    <ClCompile Include="point_array.cpp" />
+    <ClCompile Include="point_list.cpp" />
     <ClCompile Include="SemProject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="objects.h" />
+    <ClInclude Include="point_array.h" />
+    <ClInclude Include="point_list.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
