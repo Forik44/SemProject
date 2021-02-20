@@ -108,7 +108,7 @@ int main(int argc, char* argv[])
     Point p4 = { 6, 4 };
     pointStorage.addPoint(p4);
     */
-    CircleArray circleStorage;
+    CircleList circleStorage;
     for (int i = 0; i < 5; i++)
     {
         Point p = { i,i };

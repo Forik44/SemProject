@@ -140,7 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="circle_list.cpp" />
-    <ClCompile Include="objects.cpp" />
     <ClCompile Include="point_array.cpp" />
     <ClCompile Include="point_list.cpp" />
     <ClCompile Include="SemProject.cpp" />

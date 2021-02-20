@@ -19,6 +19,18 @@
     <Filter Include="Файлы заголовков\Objects">
       <UniqueIdentifier>{586f1ee2-70d8-4282-a1a4-95f5ff8724ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Objects\Circle">
+      <UniqueIdentifier>{0144335b-e29b-45b5-8704-2e3d8aad79e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Objects\Point">
+      <UniqueIdentifier>{6f8b335a-ee31-4ea0-96c1-944ba6d40701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Objects\Circle">
+      <UniqueIdentifier>{894e0948-611f-4b82-a915-1bf631bb14c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Objects\Point">
+      <UniqueIdentifier>{d2b9f9a3-fe44-42c0-b60d-adce76f51ce5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SemProject.cpp">
@@ -27,40 +39,37 @@
     <ClCompile Include="Tests.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="circle_array.cpp">
-      <Filter>Исходные файлы\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="circle_list.cpp">
-      <Filter>Исходные файлы\Objects</Filter>
+      <Filter>Исходные файлы\Objects\Circle</Filter>
     </ClCompile>
-    <ClCompile Include="objects.cpp">
-      <Filter>Исходные файлы\Objects</Filter>
+    <ClCompile Include="circle_array.cpp">
+      <Filter>Исходные файлы\Objects\Circle</Filter>
     </ClCompile>
     <ClCompile Include="point_array.cpp">
-      <Filter>Исходные файлы\Objects</Filter>
+      <Filter>Исходные файлы\Objects\Point</Filter>
     </ClCompile>
     <ClCompile Include="point_list.cpp">
-      <Filter>Исходные файлы\Objects</Filter>
+      <Filter>Исходные файлы\Objects\Point</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tests.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="circle_array.h">
-      <Filter>Файлы заголовков\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="circle_list.h">
-      <Filter>Файлы заголовков\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="objects.h">
       <Filter>Файлы заголовков\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="circle_list.h">
+      <Filter>Файлы заголовков\Objects\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="circle_array.h">
+      <Filter>Файлы заголовков\Objects\Circle</Filter>
+    </ClInclude>
     <ClInclude Include="point_array.h">
-      <Filter>Файлы заголовков\Objects</Filter>
+      <Filter>Файлы заголовков\Objects\Point</Filter>
     </ClInclude>
     <ClInclude Include="point_list.h">
-      <Filter>Файлы заголовков\Objects</Filter>
+      <Filter>Файлы заголовков\Objects\Point</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
