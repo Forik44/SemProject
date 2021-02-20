@@ -1,13 +1,13 @@
 
-#include "point_list.h"
+#include "circle_list.h"
 
 
-PointList::PointList()    //constructor
+CircleList::CircleList()    //constructor
 {
     first = last = nullptr;
     size = 0;
 };
-PointList::~PointList()   //destructor
+CircleList::~CircleList()   //destructor
 {
     for (Node* tmp = first; tmp; tmp = first)
     {
@@ -15,7 +15,7 @@ PointList::~PointList()   //destructor
         delete tmp;
     };
 };
-void PointList::addPoint(Point val2add)
+void CircleList::addCircle(Circle val2add)
 {
     Node* tmp = new Node;
     tmp->idx = size;
@@ -33,7 +33,7 @@ void PointList::addPoint(Point val2add)
         size++;
     }
 };
-Point PointList::getElementByIdx(size_t Num) const
+Circle CircleList::getElementByIdx(size_t Num) const
 {
     if (Num < size)
     {
@@ -44,7 +44,7 @@ Point PointList::getElementByIdx(size_t Num) const
     else
         exit(1); //Error
 };
-size_t PointList::getSize() const
+size_t CircleList::getSize() const
 {
     return size;
 };

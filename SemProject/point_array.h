@@ -12,7 +12,9 @@ public:
     ~PointArray();   //destructor
     void addPoint(Point val2add);
     Point getElementByIdx(size_t idx) const;
-    size_t getSize() const;
-
+    size_t getSize() const
+    {
+        return size;
+    };
 };
 

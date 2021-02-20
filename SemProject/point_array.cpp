@@ -1,4 +1,4 @@
-#include "objects.h"
+
 #include "point_array.h"
 
 
@@ -48,8 +48,5 @@ Point PointArray::getElementByIdx(size_t idx) const
     else
         exit(1); //Error
 };
-size_t PointArray::getSize() const
-{
-    return size;
-};
+
 
