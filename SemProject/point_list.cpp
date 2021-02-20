@@ -1,55 +1,78 @@
-#include "point_list.h"
 #include "objects.h"
-#include <iostream>
+#include "point_list.h"
 
-    PointList::PointList()
+
+
+PointList::PointList()    //constructor
+{
+    first = last = nullptr;
+    size = 0;
+};
+PointList::PointList(const PointList& original)
+{
+
+    size = original.size;
+    first = last = nullptr;
+
+    size_t tmpSize = 0;
+
+    for (Node* tmpNode = original.first; tmpNode; tmpNode = tmpNode->next, tmpSize++)
     {
-        size = 0;
-        first->next = nullptr;
-        first->data = nullptr;
-    } 
-    PointList::~PointList() //destructor
-    {
-        for (Node* tmp = first; tmp; tmp = first)
-        {
-            first = tmp->next;
-            delete tmp;
-        };
-    };
-    void PointList::addPoint(Point &val2add)
-    {
-        if (size == 0)
-        {
-            size = 1;
-            first->data = &val2add;
-            first->next = new Node;
-        }
+        Node* newListNode = new Node;
+        newListNode->idx = tmpSize;
+        newListNode->data = tmpNode->data;
+        newListNode->next = nullptr;
+
+        if (first == nullptr)
+            first = last = tmpNode;
         else
         {
-            Node* marker = first;
-            for (size_t i = 0; i < size-1; i++)
-            {
-                marker = marker->next;
-            }
-            marker->data = &val2add;
-            marker->next = new Node;
-            size++;
-        }
-    }
-    size_t PointList::getSize() const { return size; }
-    Point PointList::getElementByInd(size_t index) const
+            last->next = newListNode;
+            last = newListNode;
+        };
+    };
+
+
+}
+PointList::~PointList()   //destructor
+{
+  
+    for (Node* tmp = first; tmp; tmp = first)
     {
-        if (size <= index)
-        {
-            std::cout << "Неверный индекс";
-            exit(1);
-        }
-        if (index == 0)
-            return *first->data;
-        Node* marker = first;
-        for (size_t i = 1; i < index; i++)
-        {
-            marker = marker->next;
-        }
-        return *marker->data;
+        first = tmp->next;
+        delete tmp;
+    };
+};
+void PointList::addPoint(Point val2add)
+{
+    Node* tmp = new Node;
+    tmp->idx = size;
+    tmp->data = val2add;
+    tmp->next = nullptr;
+    if (first == nullptr)
+    {
+        first = last = tmp;
+        size = 1;
     }
+    else
+    {
+        last->next = tmp;
+        last = tmp;
+        size++;
+    }
+};
+Point PointList::getElementByInd(size_t Num) const
+{
+    if (Num < size)
+    {
+        Node* tmp;
+        for (tmp = first; tmp->idx != Num; tmp = tmp->next);
+        return tmp->data;
+    }
+    else
+        exit(1); //Error
+};
+size_t PointList::getSize() const
+{
+    return size;
+};
