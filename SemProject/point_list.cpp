@@ -22,17 +22,17 @@
         {
             size = 1;
             first->data = &val2add;
-            first->next = new PointList;
+            first->next = new Node;
         }
         else
         {
-            PointList* marker = next;
+            Node* marker = first;
             for (size_t i = 0; i < size-1; i++)
             {
                 marker = marker->next;
             }
             marker->data = &val2add;
-            marker->next = new PointList;
+            marker->next = new Node;
             size++;
         }
     }
@@ -45,8 +45,8 @@
             exit(1);
         }
         if (index == 0)
-            return *data;
-        PointList* marker = next;
+            return *first->data;
+        Node* marker = first;
         for (size_t i = 1; i < index; i++)
         {
             marker = marker->next;
