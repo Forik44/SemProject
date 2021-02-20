@@ -1,5 +1,7 @@
 ﻿#include "point_array.h"
 #include "point_list.h"
+#include "segment_array.h"
+#include "segment_list.h"
 #include "circle_array.h"
 #include "circle_list.h"
 #include "Tests.h"
@@ -14,54 +16,7 @@ enum Colors
     COL_BLUE
 };
 
-class SegmentArray
-{
-private:
-    size_t size;
-    Segment* data;
 
-public:
-    SegmentArray()
-    {
-        size = 0;
-        data = nullptr;
-    }
-    ~SegmentArray()
-    {
-        if (data != nullptr)
-            delete[] data;
-    }
-    void addSegment(Segment val2add)
-    {
-        if (size == 0)
-        {
-            data = new Segment[1];
-            data[0] = val2add;
-            size = 1;
-        }
-        else
-        {
-            Segment* tmp = new Segment[size + 1];
-            for (size_t i = 0; i < size; i++)
-            {
-                tmp[i] = data[i];
-            }
-            tmp[size] = val2add;
-            delete[] data;
-            data = tmp;
-            size++;
-        }
-    }
-    size_t getSize() const { return size; }
-    Segment getElementByIdx(size_t index /*номер элемента*/) const
-    {
-        if (size <= index)
-            //Ошибка !!!
-            exit(1);
-        else
-            return data[index]; // *(data + index)
-    }
-};
 
 void outputPoints(const PointList pointStorage)
 {
@@ -89,10 +44,24 @@ void outputPoints(const CircleArray circleStorage)
         cout << "R = " << circleStorage.getElementByIdx(k).r << endl;
     }
 };
+void outputPoints(const SegmentArray segmentStorage)
+{
+    for (size_t k = 0; k < segmentStorage.getSize(); ++k) {
+        cout << "( " << segmentStorage.getElementByIdx(k).p1.x << " ; " << segmentStorage.getElementByIdx(k).p1.y << " ) :";
+        cout << "( " << segmentStorage.getElementByIdx(k).p2.x << " ; " << segmentStorage.getElementByIdx(k).p2.y << " ) " << endl;
+    }
+};
+void outputPoints(const SegmentList segmentStorage)
+{
+    for (size_t k = 0; k < segmentStorage.getSize(); ++k) {
+        cout << "( " << segmentStorage.getElementByIdx(k).p1.x << " ; " << segmentStorage.getElementByIdx(k).p1.y << " ) :";
+        cout << "( " << segmentStorage.getElementByIdx(k).p2.x << " ; " << segmentStorage.getElementByIdx(k).p2.y << " ) " << endl;
+    }
+};
 
 int main(int argc, char* argv[])
 {
-    runAllTests();
+    /*runAllTests();*/
     /*
     PointArray pointStorage;
  
@@ -108,16 +77,24 @@ int main(int argc, char* argv[])
     Point p4 = { 6, 4 };
     pointStorage.addPoint(p4);
     */
-    CircleList circleStorage;
+    /*CircleList circleStorage;
     for (int i = 0; i < 5; i++)
     {
         Point p = { i,i };
         Circle tmp = { p, i*i };
         circleStorage.addCircle(tmp);
+    }*/
+    SegmentList segmentStorage;
+    for (int i = 0; i < 5; i++)
+    {
+        Point p1 = { i,i };
+        Point p2 = { i-1,i+1 };
+        Segment tmp = { p1, p2 };
+        segmentStorage.addSegment(tmp);
     }
     
-    outputPoints(circleStorage);
-    outputPoints(circleStorage);
+    outputPoints(segmentStorage);
+    outputPoints(segmentStorage);
     system("pause");
     return 0;
 }
