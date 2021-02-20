@@ -31,6 +31,12 @@
     <Filter Include="Файлы заголовков\Objects\Point">
       <UniqueIdentifier>{d2b9f9a3-fe44-42c0-b60d-adce76f51ce5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Objects\Segment">
+      <UniqueIdentifier>{09130bfd-197d-4e59-b37f-48b116213484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Objects\Segment">
+      <UniqueIdentifier>{2b5e0b29-6c20-4eda-9dbd-72b06008c8e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SemProject.cpp">
@@ -51,6 +57,9 @@
     <ClCompile Include="point_list.cpp">
       <Filter>Исходные файлы\Objects\Point</Filter>
     </ClCompile>
+    <ClCompile Include="segment_array.cpp">
+      <Filter>Исходные файлы\Objects\Segment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tests.h">
@@ -70,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="point_list.h">
       <Filter>Файлы заголовков\Objects\Point</Filter>
+    </ClInclude>
+    <ClInclude Include="segment_array.h">
+      <Filter>Файлы заголовков\Objects\Segment</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

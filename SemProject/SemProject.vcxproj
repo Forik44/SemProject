@@ -142,6 +142,7 @@
     <ClCompile Include="circle_list.cpp" />
     <ClCompile Include="point_array.cpp" />
     <ClCompile Include="point_list.cpp" />
+    <ClCompile Include="segment_array.cpp" />
     <ClCompile Include="SemProject.cpp" />
     <ClCompile Include="circle_array.cpp" />
     <ClCompile Include="Tests.cpp" />
@@ -149,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="circle_array.h" />
     <ClInclude Include="circle_list.h" />
+    <ClInclude Include="segment_array.h" />
     <ClInclude Include="Tests.h" />
     <ClInclude Include="objects.h" />
     <ClInclude Include="point_array.h" />

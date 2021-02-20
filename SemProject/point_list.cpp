@@ -1,6 +1,4 @@
-
 #include "point_list.h"
-
 
 PointList::PointList()    //constructor
 {
@@ -28,8 +26,6 @@ PointList::PointList(const PointList& original)
             last = newListNode;
         };
     };
-
-
 }
 PointList::~PointList()   //destructor
 {
