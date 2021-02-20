@@ -158,7 +158,7 @@ bool testPointArrayAccess1()
 
 bool testPointArrayAccessN()
 {
-    PointArray array;
+    PointList array;
     Point p1 = { 1, 2 };
     array.addPoint(p1);
     Point p2 = { 2, 2 };

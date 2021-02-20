@@ -5,19 +5,24 @@
     PointList::PointList()
     {
         size = 0;
-        next = nullptr;
+        first->next = nullptr;
+        first->data = nullptr;
     } 
-    PointList::~PointList()
+    PointList::~PointList() //destructor
     {
-        next = nullptr;
-    }
-    void PointList::addPoint(Point val2add)
+        for (Node* tmp = first; tmp; tmp = first)
+        {
+            first = tmp->next;
+            delete tmp;
+        };
+    };
+    void PointList::addPoint(Point &val2add)
     {
         if (size == 0)
         {
             size = 1;
-            data = val2add;
-            next = new PointList;
+            first->data = &val2add;
+            first->next = new PointList;
         }
         else
         {
@@ -26,7 +31,7 @@
             {
                 marker = marker->next;
             }
-            marker->data = val2add;
+            marker->data = &val2add;
             marker->next = new PointList;
             size++;
         }
@@ -40,11 +45,11 @@
             exit(1);
         }
         if (index == 0)
-            return data;
+            return *data;
         PointList* marker = next;
         for (size_t i = 1; i < index; i++)
         {
             marker = marker->next;
         }
-        return marker->data;
+        return *marker->data;
     }
