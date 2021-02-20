@@ -8,32 +8,7 @@ PointList::PointList()    //constructor
     first = last = nullptr;
     size = 0;
 };
-PointList::PointList(const PointList& original)
-{
 
-    size = original.size;
-    first = last = nullptr;
-
-    size_t tmpSize = 0;
-
-    for (Node* tmpNode = original.first; tmpNode; tmpNode = tmpNode->next, tmpSize++)
-    {
-        Node* newListNode = new Node;
-        newListNode->idx = tmpSize;
-        newListNode->data = tmpNode->data;
-        newListNode->next = nullptr;
-
-        if (first == nullptr)
-            first = last = tmpNode;
-        else
-        {
-            last->next = newListNode;
-            last = newListNode;
-        };
-    };
-
-
-}
 PointList::~PointList()   //destructor
 {
   
