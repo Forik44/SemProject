@@ -1,6 +1,5 @@
-#include "objects.h"
-#include "point_list.h"
 
+#include "point_List.h"
 
 
 PointList::PointList()    //constructor
@@ -8,10 +7,8 @@ PointList::PointList()    //constructor
     first = last = nullptr;
     size = 0;
 };
-
 PointList::~PointList()   //destructor
 {
-  
     for (Node* tmp = first; tmp; tmp = first)
     {
         first = tmp->next;
@@ -36,7 +33,7 @@ void PointList::addPoint(Point val2add)
         size++;
     }
 };
-Point PointList::getElementByInd(size_t Num) const
+Point PointList::getElementByIdx(size_t Num) const
 {
     if (Num < size)
     {

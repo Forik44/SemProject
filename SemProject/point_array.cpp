@@ -1,64 +1,55 @@
-
-#include <iostream>
 #include "objects.h"
 #include "point_array.h"
-using namespace std;
 
-    PointArray::PointArray()
-    {
-        m_size = 0;
+
+PointArray::PointArray()    //constructor
+{
+    size = 0;
+    data = nullptr;
+}
+PointArray::PointArray(const PointArray& original)
+{
+    size = original.size;
+    if (size == 0)
         data = nullptr;
-    }
-    PointArray::PointArray(const PointArray& original)
+    else
     {
-        m_size = original.m_size;
-        if (m_size == 0)
-            data = nullptr;
-        else
-        {
-            data = new Point[m_size];
-            for (size_t i = 0; i < m_size; i++)
-            {
-                data[i] = original.data[i];
-            }
-        }
+        data = new Point[size];
+        for (size_t k = 0; k < size; ++k)
+            data[k] = original.data[k];
     }
-    PointArray::~PointArray()
-    {
-        if (data != nullptr)
-            delete[] data;
+}
+PointArray::~PointArray()   //destructor
+{
+    if (data != nullptr)
+        delete[] data;
+};
+void PointArray::addPoint(Point val2add)
+{
+    if (size == 0) {
+        data = new Point[1];
+        data[0] = val2add;
+        size = 1;
     }
-    void PointArray::addPoint(Point val2add)
-    {
-        if (m_size == 0)
-        {
-            data = new Point[1];
-            data[0] = val2add;
-            m_size = 1;
-        }
-        else
-        {
-            Point* tmp = new Point[m_size + 1];
-            for (size_t i = 0; i < m_size; i++)
-            {
-                tmp[i] = data[i];
-            }
-            tmp[m_size] = val2add;
-            delete[] data;
-            data = tmp;
-            m_size++;
-        }
+    else {
+        Point* tmp = new Point[size + 1];
+        for (size_t i = 0; i < size; i++)
+            tmp[i] = data[i];
+        tmp[size] = val2add;
+        delete[] data;
+        data = tmp;
+        size++;
     }
-    size_t PointArray::getSize() const { return m_size; }
-    Point PointArray::getElementByInd(size_t index /*номер элемента*/) const
-    {
-        if (m_size <= index)
-            //Ошибка !!!
-            exit(1);
-        else
-            return data[index]; // *(data + index)
-    }
-
-
-
+};
+Point PointArray::getElementByIdx(size_t idx) const
+{
+    if (idx < size)
+        return data[idx];
+    else
+        exit(1); //Error
+};
+size_t PointArray::getSize() const
+{
+    return size;
+};
 
