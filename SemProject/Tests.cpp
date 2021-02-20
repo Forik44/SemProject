@@ -1,9 +1,6 @@
-#pragma once
 
-#include "objects.h"
-#include "point_list.h"
-#include "point_array.h"
-#include <iostream>
+
+#include "Tests.h"
 
 
 bool testPointArrayCreation()
@@ -29,7 +26,7 @@ bool testPointArrayAccess1()
     PointArray array;
     Point p1 = { 1, 2 };
     array.addPoint(p1);
-    Point p2 = array.getElementByInd(0);
+    Point p2 = array.getElementByIdx(0);
     if (p1.x == p2.x && p1.y == p2.y)
         return true;
     return false;
@@ -45,7 +42,7 @@ bool testPointArrayAccessN()
     Point p3 = { 4, 2 };
     array.addPoint(p3);
 
-    Point pp = array.getElementByInd(2);
+    Point pp = array.getElementByIdx(2);
     if (pp.x == p3.x && pp.y == p3.y)
         return true;
     return false;

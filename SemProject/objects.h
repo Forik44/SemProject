@@ -1,6 +1,7 @@
 #pragma once
 
-#include <iostream>
+#include "stdlib.h"
+
 struct Point
 {
     //Colors color;
