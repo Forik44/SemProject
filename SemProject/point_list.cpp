@@ -1,6 +1,6 @@
 #include "objects.h"
 #include "point_list.h"
-
+#include <iostream>
 
 
 PointList::PointList()    //constructor
