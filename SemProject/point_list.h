@@ -8,7 +8,7 @@ private:
     {
         Node* next;
         Point data;
-        int idx;
+        size_t idx;
     };
     size_t size;
     Node* first, * last;

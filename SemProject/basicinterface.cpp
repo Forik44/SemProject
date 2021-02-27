@@ -1,11 +1,14 @@
+/*
+
 #include "basicinterface.h"
 
 BasicInterface::BasicInterface()
 {
 
 }
-ID  BasicInterface::addObject(ObjType ot){
-        ID id;
+ID  BasicInterface::addObject(ObjType ot)
+{
+    ID id;
     switch (ot){
     case OT_POINT:
 
@@ -42,3 +45,5 @@ bool BasicInterface::removeRequirement(ID id){
     }
     return false;
 }
+
+*/

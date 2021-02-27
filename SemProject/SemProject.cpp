@@ -1,10 +1,6 @@
-﻿#include "point_array.h"
-#include "point_list.h"
-#include "segment_array.h"
-#include "segment_list.h"
-#include "circle_array.h"
-#include "circle_list.h"
-#include "Tests.h"
+﻿#include "Objects.h"
+#include "Array.h"
+//#include "Array.cpp"
 #include <iostream>
 
 using namespace std;
@@ -17,7 +13,7 @@ enum Colors
 };
 
 
-
+/*
 void outputPoints(const PointList pointStorage)
 {
     for (size_t k = 0; k < pointStorage.getSize(); ++k) {
@@ -58,6 +54,14 @@ void outputPoints(const SegmentList segmentStorage)
         cout << "( " << segmentStorage.getElementByIdx(k).p2.x << " ; " << segmentStorage.getElementByIdx(k).p2.y << " ) " << endl;
     }
 };
+*/
+
+void OutputPoints(const Array<Point> pointStorage)
+{
+    for (size_t k = 0; k < pointStorage.getSize(); ++k) {
+        cout << "( " << pointStorage.getElementByIdx(k).x << " ; " << pointStorage.getElementByIdx(k).y << " )" << endl;
+    }
+}
 
 int main(int argc, char* argv[])
 {
@@ -83,7 +87,7 @@ int main(int argc, char* argv[])
         Point p = { i,i };
         Circle tmp = { p, i*i };
         circleStorage.addCircle(tmp);
-    }*/
+    }
     SegmentList segmentStorage;
     for (int i = 0; i < 5; i++)
     {
@@ -95,6 +99,18 @@ int main(int argc, char* argv[])
     
     outputPoints(segmentStorage);
     outputPoints(segmentStorage);
+    */
+
+    Array<Point> ArrayPoint;
+    for (int i = 0; i < 5; i++)
+    {
+        Point p1 = { i,i };
+        ArrayPoint.add(p1);
+    }
+    OutputPoints(ArrayPoint);
+    ArrayPoint.removeByIdx(2);
+    OutputPoints(ArrayPoint);
+
     system("pause");
     return 0;
 }

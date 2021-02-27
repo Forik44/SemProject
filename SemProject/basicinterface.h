@@ -1,3 +1,5 @@
+/*
+
 #ifndef BASICINTERFACE_H
 #define BASICINTERFACE_H
 #include "objects.h"
@@ -8,14 +10,12 @@ class BasicInterface
 {
 public:
     BasicInterface();
-    ID  addObject(ObjType);
+    ID addObject(ObjType);
     bool removeObject(ID );
     bool changeObjectProperty(ID);
-
     ID  addRequirement(Array<ID>&, ReqType);
 
     bool removeRequirement(ID);
-   // void draw();
 private:
     Array<Identifiable<Point> > m_points;
     Array<Identifiable<Segment> > m_segments;
@@ -25,3 +25,4 @@ private:
 };
 
 #endif // BASICINTERFACE_H
+*/

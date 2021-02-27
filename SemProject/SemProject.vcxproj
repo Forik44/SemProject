@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -139,7 +139,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Array.cpp" />
+    <ClCompile Include="basicinterface.cpp" />
     <ClCompile Include="circle_list.cpp" />
+    <ClCompile Include="objects.cpp" />
     <ClCompile Include="point_array.cpp" />
     <ClCompile Include="point_list.cpp" />
     <ClCompile Include="segment_array.cpp" />
@@ -149,6 +152,8 @@
     <ClCompile Include="Tests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Array.h" />
+    <ClInclude Include="basicinterface.h" />
     <ClInclude Include="circle_array.h" />
     <ClInclude Include="circle_list.h" />
     <ClInclude Include="segment_array.h" />
