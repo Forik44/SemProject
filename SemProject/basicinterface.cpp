@@ -12,9 +12,11 @@ ID  BasicInterface::addObject(ObjType ot)
         m_points.add({id,Point()});
         break;
     case OT_SEGMENT:
+        m_segments.add({ id,Segment() });
         break;
     case OT_CIRCLE:
-        ;
+        m_circles.add({ id,Circle() });
+        break;
     }
     return id;
 
@@ -41,8 +43,21 @@ bool BasicInterface::removeObject(ID id ){
     return false;
 }
 
-ID  BasicInterface::addRequirement(Array<ID>&, ReqType){
-
+ID  BasicInterface::addRequirement(Array<ID>&, ReqType rt){
+    ID id;
+    switch (rt) {
+    case RT_PARALLEL:
+        break;
+    case RT_ORTHO:
+        break;
+    case RT_COINCIDE:
+        break;
+    case RT_GROUP:
+        break;
+    case RT_DISTANCE:
+        break;
+    }
+    return id;
 }
 
 bool BasicInterface::removeRequirement(ID id){
