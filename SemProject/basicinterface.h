@@ -1,5 +1,3 @@
-/*
-
 #ifndef BASICINTERFACE_H
 #define BASICINTERFACE_H
 #include "objects.h"
@@ -25,4 +23,3 @@ private:
 };
 
 #endif // BASICINTERFACE_H
-*/
