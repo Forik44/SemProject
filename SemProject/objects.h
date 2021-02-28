@@ -2,6 +2,7 @@
 
 #include "stdlib.h"
 #include "Array.h"
+#include "Array.cpp"
 
 enum ObjType{
     OT_POINT,
@@ -40,8 +41,14 @@ struct Circle
 
 class ID{
 public:
-    ID();
-    bool isEqual(const ID&);
+    ID()
+    {
+    }
+    bool isEqual(const ID&)
+    {
+        return 1;
+    }
+   
 };
 
 struct Requirement{

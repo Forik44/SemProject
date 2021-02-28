@@ -1,5 +1,6 @@
-
+#pragma once
 #include "Array.h"
+
 
 template<typename ArrayElement> Array<ArrayElement>::Array()
 {

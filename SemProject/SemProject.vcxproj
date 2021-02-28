@@ -143,24 +143,18 @@
     <ClCompile Include="basicinterface.cpp" />
     <ClCompile Include="circle_list.cpp" />
     <ClCompile Include="objects.cpp" />
-    <ClCompile Include="point_array.cpp" />
     <ClCompile Include="point_list.cpp" />
-    <ClCompile Include="segment_array.cpp" />
     <ClCompile Include="segment_list.cpp" />
     <ClCompile Include="SemProject.cpp" />
-    <ClCompile Include="circle_array.cpp" />
     <ClCompile Include="Tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h" />
     <ClInclude Include="basicinterface.h" />
-    <ClInclude Include="circle_array.h" />
     <ClInclude Include="circle_list.h" />
-    <ClInclude Include="segment_array.h" />
     <ClInclude Include="segment_list.h" />
     <ClInclude Include="Tests.h" />
     <ClInclude Include="objects.h" />
-    <ClInclude Include="point_array.h" />
     <ClInclude Include="point_list.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

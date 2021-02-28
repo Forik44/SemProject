@@ -48,17 +48,8 @@
     <ClCompile Include="circle_list.cpp">
       <Filter>Исходные файлы\Objects\Circle</Filter>
     </ClCompile>
-    <ClCompile Include="circle_array.cpp">
-      <Filter>Исходные файлы\Objects\Circle</Filter>
-    </ClCompile>
-    <ClCompile Include="point_array.cpp">
-      <Filter>Исходные файлы\Objects\Point</Filter>
-    </ClCompile>
     <ClCompile Include="point_list.cpp">
       <Filter>Исходные файлы\Objects\Point</Filter>
-    </ClCompile>
-    <ClCompile Include="segment_array.cpp">
-      <Filter>Исходные файлы\Objects\Segment</Filter>
     </ClCompile>
     <ClCompile Include="segment_list.cpp">
       <Filter>Исходные файлы\Objects\Segment</Filter>
@@ -83,17 +74,8 @@
     <ClInclude Include="circle_list.h">
       <Filter>Файлы заголовков\Objects\Circle</Filter>
     </ClInclude>
-    <ClInclude Include="circle_array.h">
-      <Filter>Файлы заголовков\Objects\Circle</Filter>
-    </ClInclude>
-    <ClInclude Include="point_array.h">
-      <Filter>Файлы заголовков\Objects\Point</Filter>
-    </ClInclude>
     <ClInclude Include="point_list.h">
       <Filter>Файлы заголовков\Objects\Point</Filter>
-    </ClInclude>
-    <ClInclude Include="segment_array.h">
-      <Filter>Файлы заголовков\Objects\Segment</Filter>
     </ClInclude>
     <ClInclude Include="segment_list.h">
       <Filter>Файлы заголовков\Objects\Segment</Filter>

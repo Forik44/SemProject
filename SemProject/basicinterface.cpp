@@ -1,3 +1,4 @@
+#pragma once
 #include "basicinterface.h"
 
 BasicInterface::BasicInterface()

@@ -1,7 +1,7 @@
-#ifndef BASICINTERFACE_H
-#define BASICINTERFACE_H
+#pragma once
 #include "objects.h"
 #include "Array.h"
+
 
 
 class BasicInterface
@@ -22,4 +22,4 @@ private:
     Array<Identifiable<Requirement> > m_requirements;
 };
 
-#endif // BASICINTERFACE_H
+
