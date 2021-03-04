@@ -7,9 +7,9 @@ private:
     size_t size;
     ArrayElement* data;
 public:
-    Array();  //constructor
+    Array();  
     Array(const Array& original);
-    ~Array();   //destructor
+    ~Array();   
     void add(ArrayElement val2add);
     ArrayElement getElementByIdx(size_t idx) const;
     bool removeByIdx(size_t idx);
