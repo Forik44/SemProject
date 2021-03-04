@@ -9,6 +9,7 @@ enum ObjType{
     OT_SEGMENT,
     OT_CIRCLE
 };
+
 enum ReqType{
     RT_PARALLEL,
     RT_ORTHO,
@@ -24,6 +25,7 @@ struct Point
     int x;
     int y;
 };
+
 struct Segment
 {
     //Colors color;

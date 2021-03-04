@@ -1,12 +1,12 @@
 #pragma once
 #include "Array.h"
 
-
 template<typename ArrayElement> Array<ArrayElement>::Array()
 {
     size = 0;
     data = nullptr;
 };
+
 template<typename ArrayElement> Array<ArrayElement>::Array(const Array<ArrayElement>& original)
 {
     size = original.size;
@@ -18,12 +18,14 @@ template<typename ArrayElement> Array<ArrayElement>::Array(const Array<ArrayElem
         for (size_t k = 0; k < size; ++k)
             data[k] = original.data[k];
     }
-}
+};
+
 template<typename ArrayElement> Array<ArrayElement>::~Array()
 {
     if (data != nullptr)
         delete[] data;
 };
+
 template<typename ArrayElement> void Array<ArrayElement>::add(ArrayElement val2add)
 {
     if (size == 0)
@@ -45,6 +47,7 @@ template<typename ArrayElement> void Array<ArrayElement>::add(ArrayElement val2a
         size++;
     }
 };
+
 template<typename ArrayElement> ArrayElement Array<ArrayElement>::getElementByIdx(size_t idx) const
 {
     if (size <= idx)
@@ -52,6 +55,7 @@ template<typename ArrayElement> ArrayElement Array<ArrayElement>::getElementById
     else
         return data[idx]; // *(data + index)
 };
+
 template<typename ArrayElement> bool Array<ArrayElement>::removeByIdx(size_t idx)
 {
     if (size <= idx)

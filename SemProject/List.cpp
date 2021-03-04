@@ -1,9 +1,12 @@
 #include "List.h"
+#include <iostream>
+
 template<typename ListElement> List<ListElement>::List()  
 {
     first = last = nullptr;
     size = 0;
 };
+
 template<typename ListElement> List<ListElement>::List(const List& original)
 {
     size = original.size;
@@ -25,9 +28,8 @@ template<typename ListElement> List<ListElement>::List(const List& original)
             last = newListNode;
         };
     };
+};
 
-
-}
 template<typename ListElement> List<ListElement>::~List()  
 {
     for (Node* tmp = first; tmp; tmp = first)
@@ -36,6 +38,7 @@ template<typename ListElement> List<ListElement>::~List()
         delete tmp;
     };
 };
+
 template<typename ListElement> void List<ListElement>::add(ListElement val2add)
 {
     Node* tmp = new Node;
@@ -54,6 +57,7 @@ template<typename ListElement> void List<ListElement>::add(ListElement val2add)
         size++;
     }
 };
+
 template<typename ListElement> ListElement List<ListElement>::getElementByIdx(size_t Num) const
 {
     if (Num < size)
@@ -63,8 +67,9 @@ template<typename ListElement> ListElement List<ListElement>::getElementByIdx(si
         return tmp->data;
     }
     else
-        exit(1); //Error
+        exit(1); 
 };
+
 template<typename ListElement> size_t List<ListElement>::getSize() const
 {
     return size;

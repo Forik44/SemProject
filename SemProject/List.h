@@ -1,4 +1,5 @@
 #pragma once
+
 template<typename ListElement> class List
 {
 private:
@@ -10,7 +11,6 @@ private:
     };
     size_t size;
     Node* first, * last;
-
 public:
     List();   
     List(const List& original);

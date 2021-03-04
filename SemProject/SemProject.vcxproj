@@ -143,7 +143,6 @@
     <ClCompile Include="basicinterface.cpp" />
     <ClCompile Include="circle_list.cpp" />
     <ClCompile Include="List.cpp" />
-    <ClCompile Include="objects.cpp" />
     <ClCompile Include="point_list.cpp" />
     <ClCompile Include="segment_list.cpp" />
     <ClCompile Include="SemProject.cpp" />
