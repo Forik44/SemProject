@@ -1,6 +1,5 @@
 ﻿#include "Objects.h"
 #include "Array.h"
-#include "Array.cpp"
 #include <iostream>
 
 using namespace std;

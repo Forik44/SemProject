@@ -2,7 +2,6 @@
 
 #include "stdlib.h"
 #include "Array.h"
-#include "Array.cpp"
 
 enum ObjType{
     OT_POINT,

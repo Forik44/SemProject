@@ -3,7 +3,7 @@
 #include "objects.h"
 #include "Array.h"
 #include "List.h"
-#include "List.cpp"
+
 
 class BasicInterface
 {
@@ -15,6 +15,7 @@ public:
     ID  addRequirement(Array<ID>&, ReqType);
 
     bool removeRequirement(ID);
+
 private:
     Array<Identifiable<Point> > m_points;
     Array<Identifiable<Segment> > m_segments;
