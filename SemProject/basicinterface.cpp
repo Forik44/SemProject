@@ -1,6 +1,6 @@
 #pragma once
 #include "basicinterface.h"
-
+/*
 BasicInterface::BasicInterface()
 {
 
@@ -73,3 +73,4 @@ bool BasicInterface::removeRequirement(ID id) {
     return false;
 };
 
+*/

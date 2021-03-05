@@ -1,5 +1,6 @@
 ﻿#include "Objects.h"
 #include "Array.h"
+#include "List.h"
 #include <iostream>
 
 using namespace std;
@@ -64,51 +65,7 @@ void OutputPoints(const Array<Point> pointStorage)
 
 int main(int argc, char* argv[])
 {
-    /*runAllTests();*/
-    /*
-    PointArray pointStorage;
- 
-    Point p1;
-    p1.x = 1;
-    p1.y = 2;
-
-    pointStorage.addPoint(p1);
-    Point p2 = { 2, 3 };
-    pointStorage.addPoint(p2);
-    Point p3 = { 5, 3 };
-    pointStorage.addPoint(p3);
-    Point p4 = { 6, 4 };
-    pointStorage.addPoint(p4);
-    */
-    /*CircleList circleStorage;
-    for (int i = 0; i < 5; i++)
-    {
-        Point p = { i,i };
-        Circle tmp = { p, i*i };
-        circleStorage.addCircle(tmp);
-    }
-    SegmentList segmentStorage;
-    for (int i = 0; i < 5; i++)
-    {
-        Point p1 = { i,i };
-        Point p2 = { i-1,i+1 };
-        Segment tmp = { p1, p2 };
-        segmentStorage.addSegment(tmp);
-    }
     
-    outputPoints(segmentStorage);
-    outputPoints(segmentStorage);
-    */
-
-    Array<Point> ArrayPoint;
-    for (int i = 0; i < 5; i++)
-    {
-        Point p1 = { i,i };
-        ArrayPoint.add(p1);
-    }
-    OutputPoints(ArrayPoint);
-    ArrayPoint.removeByIdx(2);
-    OutputPoints(ArrayPoint);
 
     system("pause");
     return 0;

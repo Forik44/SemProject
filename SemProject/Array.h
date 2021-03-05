@@ -12,7 +12,7 @@ public:
     ~Array();   
     void add(ArrayElement val2add);
     ArrayElement getElementByIdx(size_t idx) const;
-    bool removeByIdx(size_t idx);
+    bool removeElementByIdx(size_t idx);
     size_t getSize() const
     {
         return size;
@@ -74,7 +74,7 @@ template<typename ArrayElement> ArrayElement Array<ArrayElement>::getElementById
         return data[idx]; // *(data + index)
 };
 
-template<typename ArrayElement> bool Array<ArrayElement>::removeByIdx(size_t idx)
+template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(size_t idx)
 {
     if (size <= idx)
         return 0;

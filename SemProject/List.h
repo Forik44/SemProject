@@ -17,6 +17,7 @@ public:
     ~List();  
     void add(ListElement val2add);
     ListElement getElementByIdx(size_t Num) const;
+    bool removeElementByIdx(size_t Num);
     size_t getSize() const;
 };
 
@@ -87,6 +88,43 @@ template<typename ListElement> ListElement List<ListElement>::getElementByIdx(si
     }
     else
         exit(1);
+};
+
+template<typename ListElement> bool List<ListElement>::removeElementByIdx(size_t Num)
+{
+    if (Num >= size)
+        return 0;
+    Node* item2BeDeleted;
+
+    if (size == 1)
+    {
+        item2BeDeleted = first;
+        first = last = nullptr;
+    }
+    else if (Num == 0)
+    {
+        item2BeDeleted = first;
+        first = first->next;
+    }
+    else
+    {
+        Node** ptr;
+        for (ptr = &first; (*ptr)->next->idx != Num; ptr = &(*ptr)->next);
+
+        item2BeDeleted = (*ptr)->next;
+        (*ptr)->next = item2BeDeleted->next;
+
+        if (Num == size - 1)
+            last = (*ptr);
+    }
+
+    for (Node** tmp = &item2BeDeleted->next; (*tmp); tmp = &(*tmp)->next)
+        (*tmp)->idx--;
+
+    delete item2BeDeleted;
+    size--;
+
+    return 1;
 };
 
 template<typename ListElement> size_t List<ListElement>::getSize() const
