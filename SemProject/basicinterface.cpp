@@ -1,6 +1,6 @@
 #pragma once
 #include "basicinterface.h"
-/*
+
 BasicInterface::BasicInterface()
 {
 
@@ -27,19 +27,19 @@ ID  BasicInterface::addObject(ObjType ot)
 bool BasicInterface::removeObject(ID id) {
     for (size_t k = 0; k < m_points.getSize();++k) {
         if (m_points.getElementByIdx(k).id.isEqual(id)) {
-            m_points.removeByIdx(k);
+            m_points.removeElementByIdx(k);
             return true;
         }
     }
     for (size_t k = 0; k < m_segments.getSize();++k) {
         if (m_segments.getElementByIdx(k).id.isEqual(id)) {
-            m_segments.removeByIdx(k);
+            m_segments.removeElementByIdx(k);
             return true;
         }
     }
     for (size_t k = 0; k < m_circles.getSize();++k) {
         if (m_circles.getElementByIdx(k).id.isEqual(id)) {
-            m_circles.removeByIdx(k);
+            m_circles.removeElementByIdx(k);
             return true;
         }
     }
@@ -66,11 +66,10 @@ ID  BasicInterface::addRequirement(Array<ID>&, ReqType rt) {
 bool BasicInterface::removeRequirement(ID id) {
     for (size_t k = 0; k < m_requirements.getSize();++k) {
         if (m_requirements.getElementByIdx(k).id.isEqual(id)) {
-            m_requirements.removeByIdx(k);
+            m_requirements.removeElementByIdx(k);
             return true;
         }
     }
     return false;
 };
 
-*/
