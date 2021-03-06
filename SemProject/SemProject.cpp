@@ -65,16 +65,21 @@ void outputPoints(const SegmentList segmentStorage)
 
 int main(int argc, char* argv[])
 {
-    Array<int> intArr;
-    intArr.add(4);
-    intArr.add(7);
-    intArr.add(13);
-    intArr.init();
-    while (intArr.canMoveNext())
+    List<int>::Marker m1;
+    List<int>::Marker m2;
+    List<int> intStorage;
+    for (int i = 0; i < 5; i++)
     {
-        cout << intArr.getElem() << " ";
-        intArr.moveNext();
+        intStorage.add(i);
     }
+    m1 = intStorage.init();
+    m2 = intStorage.init();
+    while (m1.canMoveNext())
+    {
+        cout << m1.getElem()<<endl;
+        m1.moveNext();
+    }
+
 
 
     system("pause");

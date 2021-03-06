@@ -9,8 +9,16 @@ private:
         ListElement data;
         size_t idx;
     };
-    struct Marker {
+    size_t size;
+    Node* first, * last;
+public:
+    List();   
+    List(const List& original);
+    ~List();  
+    class Marker {
+    private:
         Node* marker;
+    public:
         bool canMoveNext()
         {
             return marker;
@@ -27,18 +35,14 @@ private:
         {
             marker = marker->next;
         };
-        void init()
-        {
-            marker = first;
-        };
 
     };
-    size_t size;
-    Node* first, * last;
-public:
-    List();   
-    List(const List& original);
-    ~List();  
+    Marker init()//////////////////
+    {
+        Marker Mark;
+        Mark.marker = first;
+        return Mark;
+    };
     void add(ListElement val2add);
     const ListElement& getElementByIdx(size_t Num) const;
     ListElement& getElementByIdx(size_t Num);
