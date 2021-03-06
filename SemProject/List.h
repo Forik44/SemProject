@@ -17,13 +17,18 @@ public:
     List(const List& original);
     ~List();  
     void add(ListElement val2add);
-    ListElement getElementByIdx(size_t Num) const;
+    const ListElement& getElementByIdx(size_t Num) const;
+    ListElement& getElementByIdx(size_t Num);
     bool removeElementByIdx(size_t Num);
     bool canMoveNext()
     {
         return marker;
     }
-    ListElement getElem()
+    ListElement& getElem()
+    {
+        return marker->data;
+    }
+    const ListElement& getElem() const
     {
         return marker->data;
     }
@@ -95,7 +100,7 @@ template<typename ListElement> void List<ListElement>::add(ListElement val2add)
     }
 };
 
-template<typename ListElement> ListElement List<ListElement>::getElementByIdx(size_t Num) const
+template<typename ListElement> ListElement& List<ListElement>::getElementByIdx(size_t Num)
 {
     if (Num < size)
     {
