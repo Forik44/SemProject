@@ -54,24 +54,24 @@ public:
 
 struct ReqParallel
 {
-    double rho();
+    double error();
 };
 
 struct ReqOrtho
 {
-    double rho();
+    double error();
 };
 
 struct ReqDist
 {
-    double rho();
+    double error();
 };
 
 struct Requirement
 {
     ReqType type;
     Array<ID> objs;
-    double rho();
+
 };
 
 

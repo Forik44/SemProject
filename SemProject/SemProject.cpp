@@ -69,11 +69,11 @@ int main(int argc, char* argv[])
     intArr.add(4);
     intArr.add(7);
     intArr.add(13);
-    intArr.init();
-    while (intArr.canMoveNext())
+    Array<int>::Marker marker = intArr.init();
+    while (marker.canMoveNext())
     {
-        cout << intArr.getElem() << " ";
-        intArr.moveNext();
+        cout << marker.getElem() << " ";
+        marker.moveNext();
     }
 
 
