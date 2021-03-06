@@ -66,36 +66,47 @@ void outputPoints(const SegmentList segmentStorage)
 
 int main(int argc, char* argv[])
 {
-    try {
-        BasicInterface bi();
+    //try {
+    //    BasicInterface bi();
 
-        while (true) {
-            char v = std::cin.get();
-            switch (v) {
-            case 'a': {// добавить объект
+    //    while (true) {
+    //        char v = std::cin.get();
+    //        switch (v) {
+    //        case 'a': {// добавить объект
 
-                break;
-            }
-            case 'l': {// показать идентификаторы объектов
+    //            break;
+    //        }
+    //        case 'l': {// показать идентификаторы объектов
 
-                break;
-            }
-            case 'd': { // " отобразить " состояниие рисунка
-            }
+    //            break;
+    //        }
+    //        case 'd': { // " отобразить " состояниие рисунка
+    //        }
 
-            case 'r': {// добавить требование
+    //        case 'r': {// добавить требование
 
-                break;
-            }
-            case 'x': // выйти из программы
-            }
-        }
+    //            break;
+    //        }
+    //        case 'x': // выйти из программы 
+    //        {
+    //            break;
+    //        }
+    //        }
+    //    }
+    //}
+    //catch (...) {
+    //    std::cout << "Achtung!!!" << std::endl;
+    //}
+    Array<int> pointArray;
+    pointArray.add(5);
+    pointArray.add(7);
+    pointArray.add(13);
+    Array<int>::Marker marker = pointArray.init();
+    while (marker.canMoveNext())
+    {
+        cout << marker.getElem();
+        marker.moveNext();
     }
-    catch (...) {
-        std::cout << "Achtung!!!" << std::endl;
-    }
-
-
     system("pause");
     return 0;
 }

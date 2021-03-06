@@ -7,7 +7,7 @@ private:
     size_t size;
     ArrayElement* data;
     struct marker{
-        ArrayElement Elem;
+        ArrayElement *Elem;
         size_t Idx;
         size_t markerSize;
     };
@@ -17,24 +17,36 @@ public:
     ~Array();   
     void add(ArrayElement val2add);
     ArrayElement getElementByIdx(size_t idx);
+    ArrayElement getNextElement(size_t idx)
+    {
+        return data[idx + 1];
+    };
     bool removeElementByIdx(size_t idx);
    /* removeByMarker(const Marker&);*/
     size_t getSize() const
     {
         return size;
     };
+    void setMarkerSize(size_t size, marker mark)
+    {
+        mark.markerSize = size;
+    };
     class Marker
     {
         marker mark;
     public:
         friend class Array;
-        ArrayElement getElem()const
+        ArrayElement& getElem()
+        {
+            return mark.Elem;
+        };
+        const ArrayElement& getElem() const
         {
             return mark.Elem;
         };
         void moveNext()
         {
-            mark.Elem = getElementByIdx(mark.Idx + 1);
+            mark.Elem = ;
             mark.Idx += 1;
         };
         bool canMoveNext()
@@ -44,15 +56,16 @@ public:
             else
                 return false;
         };
-        setMarkerSize(size_t size)
+        void setMarkerSize(size_t size)
         {
-            mark.markerSize = size;
+            Array::setMarkerSize(size);
         }
     };
     Marker init()
     {
         Marker ma;
         ma.setMarkerSize(size);
+        ma.mark = data;
         return ma;
     };
 };
