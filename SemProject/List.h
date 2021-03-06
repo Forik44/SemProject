@@ -9,9 +9,32 @@ private:
         ListElement data;
         size_t idx;
     };
+    struct Marker {
+        Node* marker;
+        bool canMoveNext()
+        {
+            return marker;
+        };
+        ListElement& getElem()
+        {
+            return marker->data;
+        };
+        const ListElement& getElem() const
+        {
+            return marker->data;
+        };
+        void moveNext()
+        {
+            marker = marker->next;
+        };
+        void init()
+        {
+            marker = first;
+        };
+
+    };
     size_t size;
     Node* first, * last;
-    Node* marker;
 public:
     List();   
     List(const List& original);
@@ -20,7 +43,7 @@ public:
     const ListElement& getElementByIdx(size_t Num) const;
     ListElement& getElementByIdx(size_t Num);
     bool removeElementByIdx(size_t Num);
-    bool canMoveNext()
+   /* bool canMoveNext()
     {
         return marker;
     }
@@ -39,7 +62,7 @@ public:
     void init()
     {
         marker = first;
-    }
+    }*/
     size_t getSize() const;
 };
 
