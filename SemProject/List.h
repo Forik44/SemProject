@@ -11,6 +11,7 @@ private:
     };
     size_t size;
     Node* first, * last;
+    Node* marker;
 public:
     List();   
     List(const List& original);
@@ -18,6 +19,22 @@ public:
     void add(ListElement val2add);
     ListElement getElementByIdx(size_t Num) const;
     bool removeElementByIdx(size_t Num);
+    bool canMoveNext()
+    {
+        return marker;
+    }
+    ListElement getElem()
+    {
+        return marker->data;
+    }
+    void moveNext()
+    {
+        marker = marker->next;
+    }
+    void init()
+    {
+        marker = first;
+    }
     size_t getSize() const;
 };
 
