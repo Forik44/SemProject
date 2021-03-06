@@ -6,6 +6,11 @@ template<typename ArrayElement> class Array{
 private:
     size_t size;
     ArrayElement* data;
+    struct marker{
+        ArrayElement Elem;
+        size_t Idx;
+    };
+    marker mark;
 public:
     Array();  
     Array(const Array& original);
@@ -17,6 +22,10 @@ public:
     {
         return size;
     };
+    void unit();
+    ArrayElement getElem()const;
+    void moveNext();
+    bool canMoveNext();
 };
 
 template<typename ArrayElement> Array<ArrayElement>::Array()
@@ -99,5 +108,29 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
     }
 };
 
+template<typename ArrayElement> void Array<ArrayElement>::unit()
+{
+    mark.Elem = getElementByIdx(0);
+    mark.Idx = 0;
+};
+
+template<typename ArrayElement> ArrayElement Array<ArrayElement>::getElem()const
+{
+    return mark.Elem;
+};
+
+template<typename ArrayElement> void Array<ArrayElement>::moveNext()
+{
+    mark.Elem = getElementByIdx(mark.Idx + 1);
+    mark.Idx += 1;
+};
+
+template<typename ArrayElement> bool Array<ArrayElement>::canMoveNext()
+{
+    if (mark.Idx < size)
+        return true;
+    else
+        return false;
+};
 
 

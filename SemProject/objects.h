@@ -52,14 +52,32 @@ public:
    
 };
 
-struct Requirement{
+struct ReqParallel
+{
+    double rho();
+};
+
+struct ReqOrtho
+{
+    double rho();
+};
+
+struct ReqDist
+{
+    double rho();
+};
+
+struct Requirement
+{
     ReqType type;
     Array<ID> objs;
+    double rho();
 };
 
 
 template <typename T>
-class Identifiable{
+class Identifiable
+{
 public:
     ID id;
     T obj;

@@ -65,7 +65,17 @@ void OutputPoints(const Array<Point> pointStorage)
 
 int main(int argc, char* argv[])
 {
-    
+    Array<int> intArr;
+    intArr.add(4);
+    intArr.add(7);
+    intArr.add(13);
+    intArr.unit();
+    while (intArr.canMoveNext())
+    {
+        cout << intArr.getElem() << " ";
+        intArr.moveNext();
+    }
+
 
     system("pause");
     return 0;
