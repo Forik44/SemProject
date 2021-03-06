@@ -13,6 +13,8 @@ public:
     bool removeObject(ID);
     bool changeObjectProperty(ID);
     ID  addRequirement(Array<ID>&, ReqType);
+    // TODO 
+    // queryObjProperties(ID) ???
 
     bool removeRequirement(ID);
 

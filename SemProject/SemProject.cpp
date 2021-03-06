@@ -1,6 +1,7 @@
 ﻿#include "Objects.h"
 #include "Array.h"
 #include "List.h"
+#include "Basicinterface.h"
 #include <iostream>
 
 using namespace std;
@@ -65,15 +66,33 @@ void outputPoints(const SegmentList segmentStorage)
 
 int main(int argc, char* argv[])
 {
-    Array<int> intArr;
-    intArr.add(4);
-    intArr.add(7);
-    intArr.add(13);
-    Array<int>::Marker marker = intArr.init();
-    while (marker.canMoveNext())
-    {
-        cout << marker.getElem() << " ";
-        marker.moveNext();
+    try {
+        BasicInterface bi();
+
+        while (true) {
+            char v = std::cin.get();
+            switch (v) {
+            case 'a': {// добавить объект
+
+                break;
+            }
+            case 'l': {// показать идентификаторы объектов
+
+                break;
+            }
+            case 'd': { // " отобразить " состояниие рисунка
+            }
+
+            case 'r': {// добавить требование
+
+                break;
+            }
+            case 'x': // выйти из программы
+            }
+        }
+    }
+    catch (...) {
+        std::cout << "Achtung!!!" << std::endl;
     }
 
 

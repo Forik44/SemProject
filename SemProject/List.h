@@ -15,12 +15,10 @@ public:
     List();   
     List(const List& original);
     ~List();  
-    void add(ListElement val2add);
-    const ListElement& getElementByIdx(size_t Num) const;
-    ListElement& getElementByIdx(size_t Num);
-    bool removeElementByIdx(size_t Num);
-    struct Marker {
+    class Marker {
+    private:
         Node* marker;
+    public:
         bool canMoveNext()
         {
             return marker;
@@ -37,11 +35,18 @@ public:
         {
             marker = marker->next;
         };
+
     };
-    Marker init()
+    Marker init()//////////////////
     {
-        
+        Marker Mark;
+        Mark.marker = first;
+        return Mark;
     };
+    void add(ListElement val2add);
+    const ListElement& getElementByIdx(size_t Num) const;
+    ListElement& getElementByIdx(size_t Num);
+    bool removeElementByIdx(size_t Num);
    /* bool canMoveNext()
     {
         return marker;
@@ -68,7 +73,6 @@ public:
 template<typename ListElement> List<ListElement>::List()
 {
     first = last = nullptr;
-    
     size = 0;
 };
 
