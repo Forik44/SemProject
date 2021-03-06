@@ -22,7 +22,7 @@ public:
     {
         return size;
     };
-    void unit();
+    void init();
     ArrayElement getElem()const;
     void moveNext();
     bool canMoveNext();
@@ -108,7 +108,7 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
     }
 };
 
-template<typename ArrayElement> void Array<ArrayElement>::unit()
+template<typename ArrayElement> void Array<ArrayElement>::init()
 {
     mark.Elem = getElementByIdx(0);
     mark.Idx = 0;

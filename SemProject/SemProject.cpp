@@ -56,12 +56,12 @@ void outputPoints(const SegmentList segmentStorage)
 };
 */
 
-void OutputPoints(const Array<Point> pointStorage)
-{
-    for (size_t k = 0; k < pointStorage.getSize(); ++k) {
-        cout << "( " << pointStorage.getElementByIdx(k).x << " ; " << pointStorage.getElementByIdx(k).y << " )" << endl;
-    }
-}
+//void OutputPoints(const Array<Point> pointStorage)
+//{
+//    for (size_t k = 0; k < pointStorage.getSize(); ++k) {
+//        cout << "( " << pointStorage.getElementByIdx(k).x << " ; " << pointStorage.getElementByIdx(k).y << " )" << endl;
+//    }
+//}
 
 int main(int argc, char* argv[])
 {
@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
     intArr.add(4);
     intArr.add(7);
     intArr.add(13);
-    intArr.unit();
+    intArr.init();
     while (intArr.canMoveNext())
     {
         cout << intArr.getElem() << " ";
