@@ -19,6 +19,7 @@ public:
     private:
         Node* marker;
     public:
+        friend class List;
         bool canMoveNext()
         {
             return marker;
@@ -128,6 +129,17 @@ template<typename ListElement> void List<ListElement>::add(ListElement val2add)
 };
 
 template<typename ListElement> ListElement& List<ListElement>::getElementByIdx(size_t Num)
+{
+    if (Num < size)
+    {
+        Node* tmp;
+        for (tmp = first; tmp->idx != Num; tmp = tmp->next);
+        return tmp->data;
+    }
+    else
+        exit(1);
+};
+template<typename ListElement> const ListElement& List<ListElement>::getElementByIdx(size_t Num) const
 {
     if (Num < size)
     {
