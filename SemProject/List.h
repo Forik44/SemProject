@@ -19,6 +19,7 @@ public:
     private:
         Node* marker;
     public:
+        friend class List;
         bool canMoveNext()
         {
             return marker;

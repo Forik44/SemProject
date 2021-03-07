@@ -97,12 +97,12 @@ int main(int argc, char* argv[])
     //catch (...) {
     //    std::cout << "Achtung!!!" << std::endl;
     //}
-    Array<int> pointArray;
+    List<int> pointArray;
     pointArray.add(5);
     pointArray.add(7);
     pointArray.add(13);
     pointArray.add(15);
-    Array<int>::Marker marker = pointArray.init();
+    List<int>::Marker marker = pointArray.init();
     while (marker.canMoveNext())
     {
         cout << marker.getElem() << " ";
