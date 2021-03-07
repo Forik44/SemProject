@@ -38,7 +38,7 @@ public:
         };
 
     };
-    Marker init()//////////////////
+    Marker init()
     {
         Marker Mark;
         Mark.marker = first;
@@ -48,26 +48,6 @@ public:
     const ListElement& getElementByIdx(size_t Num) const;
     ListElement& getElementByIdx(size_t Num);
     bool removeElementByIdx(size_t Num);
-   /* bool canMoveNext()
-    {
-        return marker;
-    }
-    ListElement& getElem()
-    {
-        return marker->data;
-    }
-    const ListElement& getElem() const
-    {
-        return marker->data;
-    }
-    void moveNext()
-    {
-        marker = marker->next;
-    }
-    void init()
-    {
-        marker = first;
-    }*/
     size_t getSize() const;
 };
 

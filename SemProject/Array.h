@@ -6,11 +6,13 @@ template<typename ArrayElement> class Array{
 private:
     size_t size;
     ArrayElement* data;
-    struct marker{
+    struct marker
+    {
         ArrayElement* Elem;
         size_t Idx;
         size_t markerSize;
     };
+
 public:
     Array();  
     Array(const Array& original);
@@ -38,15 +40,12 @@ public:
         };
         void moveNext()
         {
-            mark.Elem += 1;
-            mark.Idx += 1;
+            mark.Elem++;
+            mark.Idx++;
         };
         bool canMoveNext()
         {
-            if (mark.Idx < mark.markerSize)
-                return true;
-            else
-                return false;
+            return (mark.Idx < mark.markerSize);
         };
         void setMarkerSize(size_t size)
         {
@@ -61,6 +60,15 @@ public:
         ma.mark.Idx = 0;
         return ma;
     };
+    Marker initAfterAddingNewElement()
+    {
+        Marker ma;
+        ma.setMarkerSize(size);
+        ma.mark.Elem = data + size - 2;
+        ma.mark.Idx = size - 2;
+        return ma;
+    };
+    friend class Marker;
 };
 
 template<typename ArrayElement> Array<ArrayElement>::Array()
