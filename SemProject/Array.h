@@ -7,10 +7,10 @@ private:
     size_t size;
     ArrayElement* data;
     struct marker{
-        ArrayElement Elem;
+        ArrayElement* Elem;
         size_t Idx;
+        size_t markerSize;
     };
-    marker mark;
 public:
     Array();  
     Array(const Array& original);
@@ -18,14 +18,49 @@ public:
     void add(ArrayElement val2add);
     ArrayElement getElementByIdx(size_t idx);
     bool removeElementByIdx(size_t idx);
+   /* removeByMarker(const Marker&);*/
     size_t getSize() const
     {
         return size;
     };
-    void init();
-    ArrayElement getElem()const;
-    void moveNext();
-    bool canMoveNext();
+    class Marker
+    {
+        marker mark;
+    public:
+        friend class Array;
+        ArrayElement& getElem()
+        {
+            return *mark.Elem;
+        };
+        const ArrayElement& getElem() const
+        {
+            return *mark.Elem;
+        };
+        void moveNext()
+        {
+            mark.Elem += 1;
+            mark.Idx += 1;
+        };
+        bool canMoveNext()
+        {
+            if (mark.Idx < mark.markerSize)
+                return true;
+            else
+                return false;
+        };
+        void setMarkerSize(size_t size)
+        {
+            mark.markerSize = size;
+        }
+    };
+    Marker init()
+    {
+        Marker ma;
+        ma.setMarkerSize(size);
+        ma.mark.Elem = data;
+        ma.mark.Idx = 0;
+        return ma;
+    };
 };
 
 template<typename ArrayElement> Array<ArrayElement>::Array()
@@ -72,6 +107,7 @@ template<typename ArrayElement> void Array<ArrayElement>::add(ArrayElement val2a
         delete[] data;
         data = tmp;
         size++;
+        
     }
 };
 
@@ -108,29 +144,7 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
     }
 };
 
-template<typename ArrayElement> void Array<ArrayElement>::init()
-{
-    mark.Elem = getElementByIdx(0);
-    mark.Idx = 0;
-};
 
-template<typename ArrayElement> ArrayElement Array<ArrayElement>::getElem()const
-{
-    return mark.Elem;
-};
 
-template<typename ArrayElement> void Array<ArrayElement>::moveNext()
-{
-    mark.Elem = getElementByIdx(mark.Idx + 1);
-    mark.Idx += 1;
-};
-
-template<typename ArrayElement> bool Array<ArrayElement>::canMoveNext()
-{
-    if (mark.Idx < size)
-        return true;
-    else
-        return false;
-};
 
 

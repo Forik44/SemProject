@@ -1,6 +1,5 @@
-﻿#include "Objects.h"
-#include "Array.h"
-#include "List.h"
+﻿
+#include "Basicinterface.h"
 #include <iostream>
 
 using namespace std;
@@ -65,23 +64,60 @@ void outputPoints(const SegmentList segmentStorage)
 
 int main(int argc, char* argv[])
 {
-    List<int>::Marker m1;
-    List<int>::Marker m2;
-    List<int> intStorage;
-    for (int i = 0; i < 5; i++)
+    //try {
+    //    
+
+    //    while (true) {
+    //        char v = std::cin.get();
+    //        switch (v) {
+    //        case 'a': {// добавить объект
+
+    //            break;
+    //        }
+    //        case 'l': {// показать идентификаторы объектов
+
+    //            break;
+    //        }
+    //        case 'd': { // " отобразить " состояниие рисунка
+    //        }
+
+    //        case 'r': {// добавить требование
+
+    //            break;
+    //        }
+    //        case 'x': // выйти из программы 
+    //        {
+    //            break;
+    //        }
+    //        }
+    //    }
+    //}
+    //catch (...) {
+    //    std::cout << "Achtung!!!" << std::endl;
+    //}
+    BasicInterface bi;
+    bi.addObject(OT_POINT);
+    bi.addObject(OT_POINT);
+    bi.addObject(OT_POINT);
+    
+    List<int> pointArray;
+    pointArray.add(5);
+    pointArray.add(7);
+    pointArray.add(13);
+    pointArray.add(15);
+    List<int>::Marker marker = pointArray.init();
+    while (marker.canMoveNext())
     {
-        intStorage.add(i);
+        cout << marker.getElem() << " ";
+        marker.moveNext();
+        cout << identificator << " ";
     }
-    m1 = intStorage.init();
-    m2 = intStorage.init();
-    while (m1.canMoveNext())
+    pointArray.add(16);
+    while (marker.canMoveNext())
     {
-        cout << m1.getElem()<<endl;
-        m1.moveNext();
+        cout << marker.getElem() << " ";
+        marker.moveNext();
     }
-
-
-
     system("pause");
     return 0;
 }
