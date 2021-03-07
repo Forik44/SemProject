@@ -39,15 +39,22 @@ struct Circle
     int r;
 };
 
-static int identificator;//Проба пера
+static int counterID = 0;
+//Проба пера
 class ID{
 private: //Проба пера
+    int counterID = 0;
     int id;//Проба пера
 public:
     ID()
     {
-        identificator++;//Проба пера
-        id = identificator;//Проба пера
+       
+        id = counterID;//Проба пера
+        counterID++;
+    }
+    ID(const ID& original)
+    {
+        id = counterID;
     }
     bool isEqual(const ID& id)
     {

@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 {
     setlocale(LC_ALL, "Russian");
     try {
-        while (true) {
+        while (false) {
             char v = cin.get();
             switch (v) {
             case 'a': {// добавить объект
@@ -182,12 +182,13 @@ int main(int argc, char* argv[])
     catch (...) {
         std::cout << "Achtung!!!" << std::endl;
     }
-    /*
+   
     BasicInterface bi;
     bi.addObject(OT_POINT);
     bi.addObject(OT_POINT);
     bi.addObject(OT_POINT);
-      */
+ 
+  /*
     Array<int> pointArray;
 
     pointArray.add(5);
@@ -210,7 +211,7 @@ int main(int argc, char* argv[])
        cout << marker.getElem() << " ";
        marker.moveNext();
    };
-    
+    */
     system("pause");
     return 0;
 }
