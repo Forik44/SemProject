@@ -101,10 +101,17 @@ int main(int argc, char* argv[])
     pointArray.add(5);
     pointArray.add(7);
     pointArray.add(13);
+    pointArray.add(15);
     Array<int>::Marker marker = pointArray.init();
     while (marker.canMoveNext())
     {
-        cout << marker.getElem();
+        cout << marker.getElem() << " ";
+        marker.moveNext();
+    }
+    pointArray.add(16);
+    while (marker.canMoveNext())
+    {
+        cout << marker.getElem() << " ";
         marker.moveNext();
     }
     system("pause");

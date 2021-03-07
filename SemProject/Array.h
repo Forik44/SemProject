@@ -7,7 +7,7 @@ private:
     size_t size;
     ArrayElement* data;
     struct marker{
-        ArrayElement *Elem;
+        ArrayElement* Elem;
         size_t Idx;
         size_t markerSize;
     };
@@ -17,19 +17,11 @@ public:
     ~Array();   
     void add(ArrayElement val2add);
     ArrayElement getElementByIdx(size_t idx);
-    ArrayElement getNextElement(size_t idx)
-    {
-        return data[idx + 1];
-    };
     bool removeElementByIdx(size_t idx);
    /* removeByMarker(const Marker&);*/
     size_t getSize() const
     {
         return size;
-    };
-    void setMarkerSize(size_t size, marker mark)
-    {
-        mark.markerSize = size;
     };
     class Marker
     {
@@ -38,15 +30,15 @@ public:
         friend class Array;
         ArrayElement& getElem()
         {
-            return mark.Elem;
+            return *mark.Elem;
         };
         const ArrayElement& getElem() const
         {
-            return mark.Elem;
+            return *mark.Elem;
         };
         void moveNext()
         {
-            mark.Elem = ;
+            mark.Elem += 1;
             mark.Idx += 1;
         };
         bool canMoveNext()
@@ -58,14 +50,15 @@ public:
         };
         void setMarkerSize(size_t size)
         {
-            Array::setMarkerSize(size);
+            mark.markerSize = size;
         }
     };
     Marker init()
     {
         Marker ma;
         ma.setMarkerSize(size);
-        ma.mark = data;
+        ma.mark.Elem = data;
+        ma.mark.Idx = 0;
         return ma;
     };
 };
@@ -73,7 +66,6 @@ public:
 template<typename ArrayElement> Array<ArrayElement>::Array()
 {
     size = 0;
-
     data = nullptr;
 };
 
@@ -115,6 +107,7 @@ template<typename ArrayElement> void Array<ArrayElement>::add(ArrayElement val2a
         delete[] data;
         data = tmp;
         size++;
+        
     }
 };
 
