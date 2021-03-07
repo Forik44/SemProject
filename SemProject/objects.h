@@ -39,18 +39,26 @@ struct Circle
     int r;
 };
 
-
+static int identificator;//Проба пера
 class ID{
+private: //Проба пера
+    int id;//Проба пера
 public:
     ID()
     {
+        identificator++;//Проба пера
+        id = identificator;//Проба пера
     }
-    bool isEqual(const ID&)
+    bool isEqual(const ID& id)
     {
-        return 1;
+        if (id.id == ID::id)//Проба пера
+            return true;//Проба пера
+        else//Проба пера
+            return false;//Проба пера
     }
-   
 };
+
+
 
 struct ReqParallel
 {
@@ -71,7 +79,6 @@ struct Requirement
 {
     ReqType type;
     Array<ID> objs;
-
 };
 
 
@@ -82,4 +89,6 @@ public:
     ID id;
     T obj;
 };
+
+
 

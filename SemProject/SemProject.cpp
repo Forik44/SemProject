@@ -1,6 +1,4 @@
-﻿#include "Objects.h"
-#include "Array.h"
-#include "List.h"
+﻿
 #include "Basicinterface.h"
 #include <iostream>
 
@@ -67,7 +65,7 @@ void outputPoints(const SegmentList segmentStorage)
 int main(int argc, char* argv[])
 {
     //try {
-    //    BasicInterface bi();
+    //    
 
     //    while (true) {
     //        char v = std::cin.get();
@@ -97,6 +95,11 @@ int main(int argc, char* argv[])
     //catch (...) {
     //    std::cout << "Achtung!!!" << std::endl;
     //}
+    BasicInterface bi;
+    bi.addObject(OT_POINT);
+    bi.addObject(OT_POINT);
+    bi.addObject(OT_POINT);
+    
     List<int> pointArray;
     pointArray.add(5);
     pointArray.add(7);
@@ -107,6 +110,7 @@ int main(int argc, char* argv[])
     {
         cout << marker.getElem() << " ";
         marker.moveNext();
+        cout << identificator << " ";
     }
     pointArray.add(16);
     while (marker.canMoveNext())
