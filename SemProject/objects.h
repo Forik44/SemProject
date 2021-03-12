@@ -69,17 +69,73 @@ public:
 
 struct ReqParallel
 {
-    double error();
+    double error()
+    {
+        Segment l1, l2;
+
+        double A1 = l1.p1.x - l1.p2.x;
+        double B1 = l1.p1.y - l1.p2.y;
+        double length = sqrt(A1 * A1 + B1 * B1);
+        A1 = A1 / length;
+        B1 = B1 / length;
+
+        double A2 = l2.p1.x - l2.p2.x;
+        double B2 = l2.p1.y - l2.p2.y;
+        double length = sqrt(A2 * A2 + B2 * B2);
+        A2 = A2 / length;
+        B2 = B2 / length;
+
+        return abs(abs(A1) - abs(A2) + abs(B1) - abs(B2));
+    }
 };
 
 struct ReqOrtho
 {
-    double error();
+    double error()
+    {
+        Segment l1, l2;
+        double A1 = l1.p1.x - l1.p2.x;
+        double B1 = l1.p1.y - l1.p2.y;
+        double A2 = l2.p1.x - l2.p2.x;
+        double B2 = l2.p1.y - l2.p2.y;
+
+        return abs(A1 * A2 + B1 * B2);
+        
+    }
 };
 
 struct ReqDist
 {
-    double error();
+    double error(double dist)
+    {
+        if (false) //2 points
+        {
+            Point p1, p2;
+            return abs(dist - sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
+        }
+        else if (false) //point and line
+        {
+            Segment l;
+            Point p;
+            double A = l.p2.y - l.p1.y;
+            double B = l.p1.x - l.p2.x;
+            double C = l.p2.x * l.p1.y - l.p1.x * l.p2.y;
+            return abs(dist - abs(A * p.x + B * p.y + C) / sqrt(A * A + B * B));
+        }
+        else if (false) //2 lines 
+        {
+            Segment l1, l2;
+            if (false) //ReqParallel.error() == 0
+            {
+                double A1 = l1.p2.y - l1.p1.y;
+                double B1 = l1.p1.x - l1.p2.x;
+                double C1 = l1.p2.x * l1.p1.y - l1.p1.x * l1.p2.y;
+
+                return abs(dist - abs(A1 * l2.p1.x + B1 * l2.p1.y + C1) / sqrt(A1 * A1 + B1 * B1));
+            }
+        }
+        
+    };
 };
 
 struct Requirement
