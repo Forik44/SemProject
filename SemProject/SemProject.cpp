@@ -71,6 +71,7 @@ int main(int argc, char* argv[])
             cout << "Что вы хотите сделать?\n";
             cout << "Добавить объект(a)\nПоказать идентификаторы объектов(l)\nОтобразить состояниие рисунка(d)\nДобавить требование(r)\nВыйти из программы(x)\n";
             char startLetter = cin.get();
+            system("cls");
             switch (startLetter) {
             case 'a': {// добавить объект
                 char obj = cin.get();
