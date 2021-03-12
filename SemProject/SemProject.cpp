@@ -65,10 +65,13 @@ void outputPoints(const SegmentList segmentStorage)
 int main(int argc, char* argv[])
 {
     setlocale(LC_ALL, "Russian");
+    BasicInterface bi;
     try {
-        while (false) {
-            char v = cin.get();
-            switch (v) {
+        while (true) {
+            cout << "Что вы хотите сделать?\n";
+            cout << "Добавить объект(a)\nПоказать идентификаторы объектов(l)\nОтобразить состояниие рисунка(d)\nДобавить требование(r)\nВыйти из программы(x)\n";
+            char startLetter = cin.get();
+            switch (startLetter) {
             case 'a': {// добавить объект
                 char obj = cin.get();
                 cout << "Какое тип объекта вы хотите добавить?" << endl;
@@ -76,13 +79,14 @@ int main(int argc, char* argv[])
                 obj = cin.get();
                 if (obj == 'p')
                 {
-                    int x,y;
+                    int x, y;
                     cout << "Введите координаты точки:" << endl;
                     cout << "x: ";
-                    cin >> x;  
+                    cin >> x;
                     cout << "y: ";
                     cin >> y;
-                    //Добавляем точку
+                    //Добавляем точку p1
+
                 }
                 else if (obj == 's')
                 {
@@ -104,7 +108,7 @@ int main(int argc, char* argv[])
                 else if (obj == 'c')
                 {
                     int R, x, y;
-                    cout << "Введите координаты центра: " << endl; 
+                    cout << "Введите координаты центра: " << endl;
                     cout << "x: ";
                     cin >> x;
                     cout << "y: ";
@@ -117,11 +121,10 @@ int main(int argc, char* argv[])
                 }
                 else
                     cout << "Unknown command" << endl;
-
                 break;
             }
             case 'l': {// показать идентификаторы объектов
-
+                
                 break;
             }
             case 'd': { // " отобразить " состояниие рисунка
@@ -183,7 +186,7 @@ int main(int argc, char* argv[])
         std::cout << "Achtung!!!" << std::endl;
     }
    
-    BasicInterface bi;
+ 
     bi.addObject(OT_POINT);
     bi.addObject(OT_POINT);
     bi.addObject(OT_POINT);
