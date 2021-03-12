@@ -161,11 +161,27 @@ int main(int argc, char* argv[])
                 }
                 else if (rq == 'd')
                 {
-
+                    size_t ID1, ID2;
+                    cout << "Введите идентификаторы двух объъектов:" << endl;
+                    cout << "Первая объект: ";
+                    cin >> ID1;
+                    //Проверка что заданный ID принадлежит какому-то объекту 
+                    cout << "Второй объект: ";
+                    cin >> ID2;
+                    //Проверка что заданный ID принадлежит какому-то объекту
+                    //Добавление свойства
                 }
                 else if (rq == 'g')
                 {
-
+                    size_t amount;
+                    cout << "Введите количество объектов:";
+                    cin >> amount;
+                    size_t* IDs = new size_t[amount];
+                    for (size_t i = 0; i < amount; i++)
+                    {
+                        cout << "Введите " << i + 1 << " объект: ";
+                        cin >> IDs[i];
+                    }
                 }
                 else if (rq == 'c')
                 {
