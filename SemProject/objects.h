@@ -81,7 +81,7 @@ struct ReqParallel
 
         double A2 = l2.p1.x - l2.p2.x;
         double B2 = l2.p1.y - l2.p2.y;
-        double length = sqrt(A2 * A2 + B2 * B2);
+        length = sqrt(A2 * A2 + B2 * B2);
         A2 = A2 / length;
         B2 = B2 / length;
 
