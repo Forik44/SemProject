@@ -18,7 +18,8 @@ public:
     Array(const Array& original);
     ~Array();   
     void add(ArrayElement val2add);
-    ArrayElement operator[](size_t idx);
+    ArrayElement& operator[](size_t idx);
+    const ArrayElement& operator[](size_t idx)const;
     bool removeElementByIdx(size_t idx);
    /* removeByMarker(const Marker&);*/
     size_t getSize() const
@@ -30,15 +31,20 @@ public:
         marker mark;
     public:
         friend class Array;
-        ArrayElement& getElem()
+        ArrayElement& operator*()
         {
             return *mark.Elem;
         };
-        const ArrayElement& getElem() const
+        const ArrayElement& operator*() const
         {
             return *mark.Elem;
         };
-        void moveNext()
+        void operator++()
+        {
+            mark.Elem++;
+            mark.Idx++;
+        };
+        void operator++(int)
         {
             mark.Elem++;
             mark.Idx++;
@@ -119,7 +125,14 @@ template<typename ArrayElement> void Array<ArrayElement>::add(ArrayElement val2a
     }
 };
 
-template<typename ArrayElement> ArrayElement Array<ArrayElement>::operator[](size_t idx)
+template<typename ArrayElement> ArrayElement& Array<ArrayElement>::operator[](size_t idx)
+{
+    if (size <= idx)
+        exit(1);
+    else
+        return data[idx]; // *(data + index)
+};
+template<typename ArrayElement> const ArrayElement& Array<ArrayElement>::operator[](size_t idx)const
 {
     if (size <= idx)
         exit(1);

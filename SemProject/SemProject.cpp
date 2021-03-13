@@ -65,12 +65,16 @@ void outputPoints(const SegmentList segmentStorage)
     }
 };
 */
-//void OutputPoints(const Array<Point> pointStorage)
-//{
-//    for (size_t k = 0; k < pointStorage.getSize(); ++k) {
-//        cout << "( " << pointStorage.getElementByIdx(k).x << " ; " << pointStorage.getElementByIdx(k).y << " )" << endl;
-//    }
-//}
+void OutputPoints(const Array<Point>& pointStorage)
+{
+    Array<Point>::Marker m = pointStorage.init();
+    //Константный маркер
+    while (m != pointStorage.afterEnd())
+    {
+        cout << *m << endl;
+        ++m;
+    }
+}
 
 int main(int argc, char* argv[])
 {

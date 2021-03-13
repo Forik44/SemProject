@@ -76,8 +76,12 @@ struct ReqParallel
 {
     double error()
     {
-        Segment l1, l2;
+      /*  BasicInterface* iface;
+        ID id1, id2;
+        Array<> props1 = iface->queryObjProperties(id1);
+        Array<> props1 = iface->queryObjProperties(id2);*/
 
+        Segment l1, l2;
         double A1 = l1.p1.x - l1.p2.x;
         double B1 = l1.p1.y - l1.p2.y;
         double length = sqrt(A1 * A1 + B1 * B1);
