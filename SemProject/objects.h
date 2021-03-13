@@ -43,12 +43,10 @@ static int counterID = 0;
 //Проба пера
 class ID{
 private: //Проба пера
-    int counterID = 0;
     int id;//Проба пера
 public:
     ID()
     {
-       
         id = counterID;//Проба пера
         counterID++;
     }
@@ -58,10 +56,7 @@ public:
     }
     bool isEqual(const ID& id)
     {
-        if (id.id == ID::id)//Проба пера
-            return true;//Проба пера
-        else//Проба пера
-            return false;//Проба пера
+        return (id.id == ID::id)//Проба пера
     }
 };
 
