@@ -8,7 +8,7 @@ BasicInterface::BasicInterface()
 
 ID  BasicInterface::addObject(ObjType ot)
 {
-    ID id;
+    ID id = ID::generateID();
     switch (ot) {
     case OT_POINT:
         m_points.add({ id,Point() });
@@ -47,7 +47,7 @@ bool BasicInterface::removeObject(ID id) {
 };
 
 ID  BasicInterface::addRequirement(Array<ID>&, ReqType rt) {
-    ID id;
+    ID id = ID::generateID();
     switch (rt) {
     case RT_PARALLEL:
         break;

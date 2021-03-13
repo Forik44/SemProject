@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="basicinterface.cpp" />
+    <ClCompile Include="objects.cpp" />
     <ClCompile Include="SemProject.cpp" />
     <ClCompile Include="Tests.cpp" />
   </ItemGroup>

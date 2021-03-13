@@ -39,24 +39,30 @@ struct Circle
     int r;
 };
 
-static int counterID = 0;
+
 //Проба пера
 class ID{
 private: //Проба пера
+    static int counterID;
     int id;//Проба пера
 public:
     ID()
     {
-        id = counterID;//Проба пера
-        counterID++;
+        id = -1;
     }
     ID(const ID& original)
     {
-        id = counterID;
+        id = original.id;
     }
-    bool isEqual(const ID& id)
+    static ID generateID()
     {
-        return (id.id == ID::id);//Проба пера
+        ID newid;
+        newid.id = ID::counterID++;
+        return newid;
+    }
+    bool isEqual(const ID& other)
+    {
+        return (other.id == this->id);//Проба пера
     }
 };
 
