@@ -18,7 +18,7 @@ public:
     Array(const Array& original);
     ~Array();   
     void add(ArrayElement val2add);
-    ArrayElement getElementByIdx(size_t idx);
+    ArrayElement operator[](size_t idx);
     bool removeElementByIdx(size_t idx);
    /* removeByMarker(const Marker&);*/
     size_t getSize() const
@@ -119,7 +119,7 @@ template<typename ArrayElement> void Array<ArrayElement>::add(ArrayElement val2a
     }
 };
 
-template<typename ArrayElement> ArrayElement Array<ArrayElement>::getElementByIdx(size_t idx)
+template<typename ArrayElement> ArrayElement Array<ArrayElement>::operator[](size_t idx)
 {
     if (size <= idx)
         exit(1);

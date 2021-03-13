@@ -1,2 +1,2 @@
 #include "objects.h"
-int ID::counterID = 0;
+int ID::m_counterID = 0;

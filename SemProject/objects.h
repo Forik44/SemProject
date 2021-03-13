@@ -43,26 +43,30 @@ struct Circle
 //Проба пера
 class ID{
 private: //Проба пера
-    static int counterID;
-    int id;//Проба пера
+    static int m_counterID;
+    int m_id;//Проба пера
 public:
     ID()
     {
-        id = -1;
+        m_id = -1;
     }
     ID(const ID& original)
     {
-        id = original.id;
+        m_id = original.m_id;
     }
     static ID generateID()
     {
         ID newid;
-        newid.id = ID::counterID++;
+        newid.m_id = ID::m_counterID++;
         return newid;
     }
-    bool isEqual(const ID& other)
+    bool operator ==(const ID& other)
     {
-        return (other.id == this->id);//Проба пера
+        return (other.m_id == this->m_id);//Проба пера
+    }
+    bool operator < (const ID& other)
+    {
+        return (other.m_id < this->m_id);
     }
 };
 

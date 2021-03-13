@@ -26,19 +26,19 @@ ID  BasicInterface::addObject(ObjType ot)
 
 bool BasicInterface::removeObject(ID id) {
     for (size_t k = 0; k < m_points.getSize();++k) {
-        if (m_points.getElementByIdx(k).id.isEqual(id)) {
+        if (m_points[k].id == id) {
             m_points.removeElementByIdx(k);
             return true;
         }
     }
     for (size_t k = 0; k < m_segments.getSize();++k) {
-        if (m_segments.getElementByIdx(k).id.isEqual(id)) {
+        if (m_segments[k].id == id) {
             m_segments.removeElementByIdx(k);
             return true;
         }
     }
     for (size_t k = 0; k < m_circles.getSize();++k) {
-        if (m_circles.getElementByIdx(k).id.isEqual(id)) {
+        if (m_circles[k].id == id) {
             m_circles.removeElementByIdx(k);
             return true;
         }
@@ -65,7 +65,7 @@ ID  BasicInterface::addRequirement(Array<ID>&, ReqType rt) {
 
 bool BasicInterface::removeRequirement(ID id) {
     for (size_t k = 0; k < m_requirements.getSize();++k) {
-        if (m_requirements.getElementByIdx(k).id.isEqual(id)) {
+        if (m_requirements[k].id == id) {
             m_requirements.removeElementByIdx(k);
             return true;
         }
