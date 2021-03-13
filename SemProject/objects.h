@@ -56,7 +56,7 @@ public:
     }
     bool isEqual(const ID& id)
     {
-        return (id.id == ID::id)//Проба пера
+        return (id.id == ID::id);//Проба пера
     }
 };
 
