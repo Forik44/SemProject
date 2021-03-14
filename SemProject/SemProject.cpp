@@ -65,9 +65,9 @@ void outputPoints(const SegmentList segmentStorage)
     }
 };
 */
-void OutputPoints(const Array<Point>& pointStorage)
+void OutputPoints(const Array<int>& pointStorage)
 {
-    Array<Point>::Marker m = pointStorage.init();
+    Array<int>::Marker m = pointStorage.init();
     //Константный маркер
     while (m != pointStorage.afterEnd())
     {
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
     setlocale(LC_ALL, "Russian");
     BasicInterface bi;
     try {
-        while (true) {
+        while (false) {
             cout << "Что вы хотите сделать?\n";
             cout << "Добавить объект(a)\nПоказать идентификаторы объектов(l)\nОтобразить состояниие рисунка(d)\nДобавить требование(r)\nВыйти из программы(x)\n";
             char startLetter = cin.get();
@@ -222,15 +222,15 @@ int main(int argc, char* argv[])
     bi.addObject(OT_POINT);
     bi.addObject(OT_POINT);
  
-  /*
+  
     Array<int> pointArray;
 
     pointArray.add(5);
     pointArray.add(7);
     pointArray.add(13);
     pointArray.add(15);
-    
-   
+    OutputPoints(pointArray);
+    /*
     Array<int>::Marker marker = pointArray.init();
     while (marker.canMoveNext())
     {

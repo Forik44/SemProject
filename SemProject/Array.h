@@ -12,7 +12,6 @@ private:
         size_t Idx;
         size_t markerSize;
     };
-
 public:
     Array();  
     Array(const Array& original);
@@ -49,6 +48,14 @@ public:
             mark.Elem++;
             mark.Idx++;
         };
+        bool operator==(const Marker& secondMarker) const
+        {
+            return (this->mark.Elem == secondMarker.mark.Elem && this->mark.Idx == secondMarker.mark.Idx);
+        };
+        bool operator!=(const Marker& secondMarker) const
+        {
+            return !(*this == secondMarker);
+        }
         bool canMoveNext()
         {
             return (mark.Idx < mark.markerSize);
@@ -58,12 +65,21 @@ public:
             mark.markerSize = size;
         }
     };
+    
     Marker init()
     {
         Marker ma;
         ma.setMarkerSize(size);
         ma.mark.Elem = data;
         ma.mark.Idx = 0;
+        return ma;
+    };
+    Marker afterEnd()
+    {
+        Marker ma;
+        ma.setMarkerSize(size);
+        ma.mark.Elem = data + size;
+        ma.mark.Idx = ma.mark.markerSize;
         return ma;
     };
     Marker initAfterAddingNewElement()
