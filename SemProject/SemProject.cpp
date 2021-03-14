@@ -67,7 +67,7 @@ void outputPoints(const SegmentList segmentStorage)
 */
 void OutputPoints(Array<Point>& pointStorage)
 {
-    Array<Point>::Marker m = pointStorage.init();
+    Array<int>::Marker m = pointStorage.init();
     //Константный маркер
     while (m != pointStorage.afterEnd())
     {
@@ -235,15 +235,15 @@ int main(int argc, char* argv[])
         cout << "Segment" << endl;
     }
  
-  /*
+  
     Array<int> pointArray;
 
     pointArray.add(5);
     pointArray.add(7);
     pointArray.add(13);
     pointArray.add(15);
-    
-   
+    OutputPoints(pointArray);
+    /*
     Array<int>::Marker marker = pointArray.init();
     while (marker.canMoveNext())
     {
