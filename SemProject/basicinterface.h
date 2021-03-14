@@ -10,6 +10,7 @@ struct Parameter
     PararamType type;
     double value;
 };
+
 class BasicInterface
 {
 public:
@@ -20,10 +21,7 @@ public:
   /*  bool changeObjectProperty(ID);*/
     ID  addRequirement(Array<ID>&, ReqType);
     Array<Parameter>  queryObjPropertiesP(ID);
-    Array<double>  queryObjProperties(ID);
-    // TODO 
-    // queryObjProperties(ID) ???
-
+    ObjType identifyObjTypeByID(ID);
     bool removeRequirement(ID);
 
 private:

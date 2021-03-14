@@ -57,7 +57,22 @@ public:
         {
             mark.markerSize = size;
         }
+      /*  bool operator ==(const Marker& other)
+        {
+            return (other.mark.Elem == this->mark.Elem);
+        }
+        bool operator !=(const Marker& other)
+        {
+            return (other.mark.Elem != this->mark.Elem);
+        }
+        
     };
+    Marker afterEnd() {
+        Marker m;
+        m.mark.Elem = data + size;
+        return m;
+    }
+    */
     Marker init()
     {
         Marker ma;
@@ -82,7 +97,6 @@ template<typename ArrayElement> Array<ArrayElement>::Array()
     size = 0;
     data = nullptr;
 };
-
 template<typename ArrayElement> Array<ArrayElement>::Array(const Array<ArrayElement>& original)
 {
     size = original.size;
@@ -95,13 +109,11 @@ template<typename ArrayElement> Array<ArrayElement>::Array(const Array<ArrayElem
             data[k] = original.data[k];
     }
 };
-
 template<typename ArrayElement> Array<ArrayElement>::~Array()
 {
     if (data != nullptr)
         delete[] data;
 };
-
 template<typename ArrayElement> void Array<ArrayElement>::add(ArrayElement val2add)
 {
     if (size == 0)
@@ -124,7 +136,6 @@ template<typename ArrayElement> void Array<ArrayElement>::add(ArrayElement val2a
         
     }
 };
-
 template<typename ArrayElement> ArrayElement& Array<ArrayElement>::operator[](size_t idx)
 {
     if (size <= idx)
@@ -139,7 +150,6 @@ template<typename ArrayElement> const ArrayElement& Array<ArrayElement>::operato
     else
         return data[idx]; // *(data + index)
 };
-
 template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(size_t idx)
 {
     if (size <= idx)

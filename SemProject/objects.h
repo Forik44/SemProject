@@ -60,6 +60,10 @@ public:
         newid.m_id = ID::m_counterID++;
         return newid;
     }
+    void setID(int id)
+    {
+        m_id = id;
+    }
     bool operator ==(const ID& other)
     {
         return (other.m_id == this->m_id);//Проба пера

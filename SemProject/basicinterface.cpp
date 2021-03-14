@@ -1,5 +1,6 @@
 #pragma once
 #include "basicinterface.h"
+#include <iostream>
 
 BasicInterface::BasicInterface()
 {
@@ -23,7 +24,6 @@ ID  BasicInterface::addObject(ObjType ot)
     return id;
 
 };
-
 bool BasicInterface::removeObject(ID id) {
     for (size_t k = 0; k < m_points.getSize();++k) {
         if (m_points[k].id == id) {
@@ -45,7 +45,6 @@ bool BasicInterface::removeObject(ID id) {
     }
     return false;
 };
-
 ID  BasicInterface::addRequirement(Array<ID>&, ReqType rt) {
     ID id = ID::generateID();
     switch (rt) {
@@ -62,7 +61,6 @@ ID  BasicInterface::addRequirement(Array<ID>&, ReqType rt) {
     }
     return id;
 };
-
 bool BasicInterface::removeRequirement(ID id) {
     for (size_t k = 0; k < m_requirements.getSize();++k) {
         if (m_requirements[k].id == id) {
@@ -72,4 +70,33 @@ bool BasicInterface::removeRequirement(ID id) {
     }
     return false;
 };
+//Array<Parameter>  BasicInterface::queryObjPropertiesP(ID id)
+//{
+
+//}
+ObjType BasicInterface::identifyObjTypeByID(ID id)
+{
+    Array<Identifiable<Point> >::Marker pm = m_points.init();
+    while (pm != m_points.afterEnd())
+    {
+        if ((*pm).id == id)
+            return OT_POINT;
+        pm++;
+    };
+    Array<Identifiable<Circle> >::Marker cm = m_circles.init();
+    while (cm != m_circles.afterEnd())
+    {
+        if ((*cm).id == id)
+            return OT_CIRCLE;
+        cm++;
+    }
+    Array<Identifiable<Segment> >::Marker sm = m_segments.init();
+    while (sm != m_segments.afterEnd())
+    {
+        if ((*sm).id == id)
+            return OT_CIRCLE;
+        sm++;
+    }
+   
+}
 
