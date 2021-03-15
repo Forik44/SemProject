@@ -67,7 +67,7 @@ void outputPoints(const SegmentList segmentStorage)
 */
 void OutputPoints(Array<Point>& pointStorage)
 {
-    Array<int>::Marker m = pointStorage.init();
+    Array<Point>::Marker m = pointStorage.init();
     //Константный маркер
     while (m != pointStorage.afterEnd())
     {
@@ -223,26 +223,11 @@ int main(int argc, char* argv[])
     bi.addObject(OT_POINT);
     ID id;
     id.setID(2);
-    switch (bi.identifyObjTypeByID(id))
-    {
-    case OT_CIRCLE: 
-        cout << "Circle" << endl;
-        break;
-    case OT_POINT:
-        cout << "Point" << endl;
-        break;
-    case OT_SEGMENT:
-        cout << "Segment" << endl;
-    }
+    Parameter* ptr = bi.queryObjProperties(id);
+    if (ptr[0].type == Parameter::PT_POINT)
+        cout << "POINT" << endl;
  
   
-    Array<int> pointArray;
-
-    pointArray.add(5);
-    pointArray.add(7);
-    pointArray.add(13);
-    pointArray.add(15);
-    OutputPoints(pointArray);
     /*
     Array<int>::Marker marker = pointArray.init();
     while (marker.canMoveNext())
@@ -259,6 +244,5 @@ int main(int argc, char* argv[])
        marker.moveNext();
    };
     */
-    system("pause");
     return 0;
 }

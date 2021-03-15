@@ -64,23 +64,9 @@ public:
         {
             mark.markerSize = size;
         }
-      /*  bool operator ==(const Marker& other)
-        {
-            return (other.mark.Elem == this->mark.Elem);
-        }
-        bool operator !=(const Marker& other)
-        {
-            return (other.mark.Elem != this->mark.Elem);
-        }
         
     };
-    
-    Marker afterEnd() {
-        Marker m;
-        m.mark.Elem = data + size;
-        return m;
-    }
-    */
+  
     Marker init()
     {
         Marker ma;

@@ -68,6 +68,10 @@ public:
     {
         return (other.m_id == this->m_id);//Проба пера
     }
+    bool operator !=(const ID& other)
+    {
+        return !(other.m_id == this->m_id);//Проба пера
+    }
     bool operator < (const ID& other)
     {
         return (other.m_id < this->m_id);
