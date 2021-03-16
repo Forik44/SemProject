@@ -6,8 +6,9 @@
 
 struct Parameter
 {
-    enum PararamType
+    enum ParamType
     {
+        PT_ERROR,
         PT_POINT,
         PT_CIRCLE,
         PT_SEGMENT,
@@ -21,7 +22,7 @@ struct Parameter
         PT_PX,
         PT_PY
     };
-    PararamType type;
+    ParamType type;
     double value;
 };
 
@@ -34,7 +35,7 @@ public:
     bool removeObject(ID);
   /*  bool changeObjectProperty(ID);*/
     ID  addRequirement(Array<ID>&, ReqType);
-    Parameter* queryObjProperties(ID);
+    Array<Parameter> queryObjProperties(ID);
     ObjType identifyObjTypeByID(ID);
     bool removeRequirement(ID);
 

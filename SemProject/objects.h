@@ -4,6 +4,7 @@
 #include "Array.h"
 
 enum ObjType{
+    OT_ERROR,
     OT_POINT,
     OT_SEGMENT,
     OT_CIRCLE

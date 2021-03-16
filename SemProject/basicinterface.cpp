@@ -70,7 +70,7 @@ bool BasicInterface::removeRequirement(ID id) {
     }
     return false;
 };
-Parameter* BasicInterface::queryObjProperties(ID id)
+Array<Parameter> BasicInterface::queryObjProperties(ID id)
 {
     switch (identifyObjTypeByID(id))
     {
@@ -79,26 +79,26 @@ Parameter* BasicInterface::queryObjProperties(ID id)
         Array<Identifiable<Circle> >::Marker cm = m_circles.init();
         while ((*cm).id != id)
             cm++;
-        Parameter* ptr = new Parameter[4];
-        Parameter cx, cy, r, obj;
+        Array<Parameter> arr;
+        Parameter obj;
 
         obj.type = Parameter::PT_CIRCLE;
         obj.value = 4;
-        ptr[0] = obj;
+        arr.add(obj);
 
-        cx.type = Parameter::PT_CX;
-        cx.value = (*cm).obj.center.x;
-        ptr[1] = cx;
+        obj.type = Parameter::PT_CX;
+        obj.value = (*cm).obj.center.x;
+        arr.add(obj);
 
-        cy.type = Parameter::PT_CY;
-        cy.value = (*cm).obj.center.y;
-        ptr[2] = cy;
+        obj.type = Parameter::PT_CY;
+        obj.value = (*cm).obj.center.y;
+        arr.add(obj);
 
-        r.type = Parameter::PT_R;
-        r.value = (*cm).obj.r;
-        ptr[3] = r;
+        obj.type = Parameter::PT_R;
+        obj.value = (*cm).obj.r;
+        arr.add(obj);
 
-        return ptr;
+        return arr;
         break;
     }
     case OT_POINT:
@@ -107,22 +107,22 @@ Parameter* BasicInterface::queryObjProperties(ID id)
         while (pm != m_points.afterEnd())
             pm++;
 
-        Parameter* ptr = new Parameter[2];
-        Parameter x, y, obj;
+        Array<Parameter> arr;
+        Parameter obj;
 
         obj.type = Parameter::PT_POINT;
         obj.value = 3;
-        ptr[0] = obj;
+        arr.add(obj);
 
-        x.type = Parameter::PT_PX;
-        x.value = (*pm).obj.x;
-        ptr[1] = x;
+        obj.type = Parameter::PT_PX;
+        obj.value = (*pm).obj.x;
+        arr.add(obj);
 
-        y.type = Parameter::PT_PY;
-        y.value = (*pm).obj.y;
-        ptr[2] = y;
+        obj.type = Parameter::PT_PY;
+        obj.value = (*pm).obj.y;
+        arr.add(obj);
 
-        return ptr;
+        return arr;
         break;
 
     }
@@ -132,35 +132,41 @@ Parameter* BasicInterface::queryObjProperties(ID id)
         while (sm != m_segments.afterEnd())
             sm++;
 
-        Parameter* ptr = new Parameter[5];
-        Parameter p1x, p1y, p2x, p2y, obj;
+        Array<Parameter> arr;
+        Parameter obj;
 
         obj.type = Parameter::PT_SEGMENT;
         obj.value = 5;
-        ptr[0] = obj;
+        arr.add(obj);
 
-        p1x.type = Parameter::PT_P1X;
-        p1x.value = (*sm).obj.p1.x;
-        ptr[1] = p1x;
+        obj.type = Parameter::PT_P1X;
+        obj.value = (*sm).obj.p1.x;
+        arr.add(obj);
 
-        p1y.type = Parameter::PT_P1Y;
-        p1y.value = (*sm).obj.p1.y;
-        ptr[2] = p1y;
+        obj.type = Parameter::PT_P1Y;
+        obj.value = (*sm).obj.p1.y;
+        arr.add(obj);
 
-        p2x.type = Parameter::PT_P2X;
-        p2x.value = (*sm).obj.p2.x;
-        ptr[3] = p2x;
+        obj.type = Parameter::PT_P2X;
+        obj.value = (*sm).obj.p2.x;
+        arr.add(obj);
 
-        p2y.type = Parameter::PT_P1X;
-        p2y.value = (*sm).obj.p2.y;
-        ptr[4] = p2y;
+        obj.type = Parameter::PT_P1X;
+        obj.value = (*sm).obj.p2.y;
+        arr.add(obj);
 
-        return ptr;
+        return arr;
 
         break;
     }
-    default:
-        return nullptr;
+    case OT_ERROR:
+    {
+        Array<Parameter> arr;
+        Parameter err;
+        err.type = Parameter::PT_ERROR;
+        arr.add(err);
+        return arr;
+    }
     }
 }
 ObjType BasicInterface::identifyObjTypeByID(ID id)
@@ -186,6 +192,6 @@ ObjType BasicInterface::identifyObjTypeByID(ID id)
             return OT_CIRCLE;
         sm++;
     }
-   
+    return OT_ERROR;
 }
 

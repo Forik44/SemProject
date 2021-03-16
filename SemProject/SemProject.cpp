@@ -17,6 +17,25 @@ std::ostream& operator<<(std::ostream& ost, const Point& p)
     ost << '(' << p.x << ',' << p.y << ')';
     return ost;
 }
+std::ostream& operator<<(std::ostream& ost, enum Parameter::ParamType& p)
+{
+    string ParamTypesNames[] { 
+        "PT_ERROR",
+        "PT_POINT",
+        "PT_CIRCLE",
+        "PT_SEGMENT",
+        "PT_CX",
+        "PT_CY",
+        "PT_R",
+        "PT_P1X",
+        "PT_P2X",
+        "PT_P1Y",
+        "PT_P2Y",
+        "PT_PX",
+        "PT_PY" };
+    cout << ParamTypesNames[p];
+    return ost;
+}
 //
 //Point p1, p2;
 //std::cout << p1 << "   " << p2 << std::endl;
@@ -223,10 +242,12 @@ int main(int argc, char* argv[])
     bi.addObject(OT_POINT);
     ID id;
     id.setID(2);
-    Parameter* ptr = bi.queryObjProperties(id);
-    if (ptr[0].type == Parameter::PT_POINT)
-        cout << "POINT" << endl;
- 
+    Array<Parameter> objProperties = bi.queryObjProperties(id);
+
+    for (Array<Parameter>::Marker mark = objProperties.init(); mark != objProperties.afterEnd(); mark++)
+    {
+        cout << (*mark).type << " : " << (*mark).value << endl;
+    }
   
     /*
     Array<int>::Marker marker = pointArray.init();
