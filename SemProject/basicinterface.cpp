@@ -12,13 +12,13 @@ ID  BasicInterface::addObject(ObjType ot)
     ID id = ID::generateID();
     switch (ot) {
     case OT_POINT:
-        m_points.add({ id,Point() });
+        m_points.add(id,Point());
         break;
     case OT_SEGMENT:
-        m_segments.add({ id,Segment() });
+        m_segments.add(id,Segment());
         break;
     case OT_CIRCLE:
-        m_circles.add({ id,Circle() });
+        m_circles.add(id,Circle());
         break;
     }
     return id;
@@ -26,32 +26,32 @@ ID  BasicInterface::addObject(ObjType ot)
 };
 bool BasicInterface::removeObject(ID id) {
     for (size_t k = 0; k < m_points.getSize();++k) {
-        if (m_points[k].id == id) {
+        if (m_points.getChemuByIdx(k) == id) {
             m_points.removeElementByIdx(k);
             return true;
         }
     }
     for (size_t k = 0; k < m_segments.getSize();++k) {
-        if (m_segments[k].id == id) {
+        if (m_segments.getChemuByIdx(k) == id) {
             m_segments.removeElementByIdx(k);
             return true;
         }
     }
     for (size_t k = 0; k < m_circles.getSize();++k) {
-        if (m_circles[k].id == id) {
+        if (m_circles.getChemuByIdx(k) == id) {
             m_circles.removeElementByIdx(k);
             return true;
         }
     }
     return false;
 };
-ID  BasicInterface::addRequirement(const Array<ID>& id, ReqType rt) {
+ID  BasicInterface::addRequirement(const Array<ID>& ide, ReqType rt) {
     ID id = ID::generateID();
     switch (rt) {
     case RT_PARALLEL:
         break;
     case RT_ORTHO:
-		// Проверить что id - это отрезки
+		// Проверить что ide - это отрезки
 		// Проверить допустимость этого требования
 		// !!!
 		// Добавить информацию о новом требовании в хранилище        
@@ -69,26 +69,30 @@ ID  BasicInterface::addRequirement(const Array<ID>& id, ReqType rt) {
 };
 bool BasicInterface::removeRequirement(ID id) {
     for (size_t k = 0; k < m_requirements.getSize();++k) {
-        if (m_requirements[k].id == id) {
+        if (m_requirements.getChemuByIdx(k) == id) {
             m_requirements.removeElementByIdx(k);
             return true;
         }
     }
     return false;
 };
-Array<Parameter> BasicInterface::queryObjProperties(ID id)
-{
+UniDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
+{//TODO 
     switch (identifyObjTypeByID(id))
     {
     case OT_CIRCLE:
     {
-        Array<Identifiable<Circle> >::Marker cm = m_circles.init();
-        while ((*cm).id != id)
-            cm++;
-        Array<Parameter> arr;
-        Parameter obj;
+        UniDict<ID, Circle>::Marker cm = m_circles.init();
 
-        obj.type = Parameter::PT_CIRCLE;
+        
+        for (; (*cm).che != id || cm != m_circles.afterEnd() ; cm++)
+        {
+            
+        }
+        UniDict<ParamType, double>;
+        ParamType obj;
+
+        obj.type = ParamType::PT_CIRCLE;
         obj.value = 4;
         arr.add(obj);
 
@@ -177,24 +181,24 @@ Array<Parameter> BasicInterface::queryObjProperties(ID id)
 }
 ObjType BasicInterface::identifyObjTypeByID(ID id)
 {
-    Array<Identifiable<Point> >::Marker pm = m_points.init();
+    UniDict<ID, Point>::Marker pm = m_points.init();
     while (pm != m_points.afterEnd())
     {
-        if ((*pm).id == id)
+        if ((*pm).che == id)
             return OT_POINT;
         pm++;
     };
-    Array<Identifiable<Circle> >::Marker cm = m_circles.init();
+    UniDict<ID, Circle>::Marker cm = m_circles.init();
     while (cm != m_circles.afterEnd())
     {
-        if ((*cm).id == id)
+        if ((*cm).che == id)
             return OT_CIRCLE;
         cm++;
     }
-    Array<Identifiable<Segment> >::Marker sm = m_segments.init();
+    UniDict<ID, Segment>::Marker sm = m_segments.init();
     while (sm != m_segments.afterEnd())
     {
-        if ((*sm).id == id)
+        if ((*sm).che == id)
             return OT_CIRCLE;
         sm++;
     }

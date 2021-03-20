@@ -17,7 +17,7 @@ private:
     size_t size;
     friend class Marker;
 public:
-	Dict();
+	UniDict();
     void add(Chemu che, Chto cht);
     Chto& operator[](Chemu che);
 
@@ -89,7 +89,25 @@ public:
     };
 
     Marker find(Chemu);
+    size_t getSize()
+    {
+        return size;
+    }
+    bool removeElementByIdx(size_t idx)
+    {
+        return m_storage.removeElementByIdx(idx);
+    }
+    Chemu getChemuByIdx(size_t idx)
+    {
+        return m_storage[idx].Chemu;
+    }
 
+};
+
+template<typename  Chemu, typename Chto> UniDict<Chemu, Chto>::UniDict()
+{
+    size = 0;
+    m_storage = nullptr;
 };
 
 template<typename  Chemu, typename Chto> void UniDict<Chemu, Chto>::add(Chemu che, Chto cht)
@@ -97,6 +115,7 @@ template<typename  Chemu, typename Chto> void UniDict<Chemu, Chto>::add(Chemu ch
 	Para newPara;
 	newPara.che = che;
 	newPara.cht = cht;
+    size++;
 	m_storage.add(newPara);
 }
 

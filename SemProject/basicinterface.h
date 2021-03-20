@@ -30,17 +30,17 @@ public:
    /* ID addObject(ObjType, const Array<Parameter>&);*/
     bool removeObject(ID);
   /*  bool changeObjectProperty(ID);*/
-    ID  addRequirement(Array<ID>&, ReqType);
-    Dict<ParamType, double> queryObjProperties(ID);
+    ID  addRequirement(const Array<ID>&, ReqType);
+    UniDict<ParamType, double> queryObjProperties(ID);
     ObjType identifyObjTypeByID(ID);
     bool removeRequirement(ID);
 
 private:
 
-    Dict<ID, Point> m_points;
-    Dict<ID, Circle> m_circles;
-    Dict<ID, Segment> m_segments;
-    Dict<ID, Requirement> m_requirements;
+    UniDict<ID, Point> m_points;
+    UniDict<ID, Circle> m_circles;
+    UniDict<ID, Segment> m_segments;
+    UniDict<ID, Requirement> m_requirements;
 
    /* Array<Identifiable<Point>> m_points;
     Array<Identifiable<Segment> > m_segments;
@@ -56,7 +56,7 @@ private:
 	{
 		ID idSegement1;
 		ID idSegement2;
-		Dict<ID, Segment> *segments;
+        UniDict<ID, Segment> *segments;
 		double error()
 		{
 			

@@ -176,6 +176,7 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
         data = tmp;
         size--;
     }
+    return isFound;
 };
 
 
