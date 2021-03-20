@@ -40,7 +40,7 @@ public:
     bool removeRequirement(ID);
 
 private:
-    Array<Identifiable<Point> > m_points;
+    Array<Identifiable<Point>> m_points;
     Array<Identifiable<Segment> > m_segments;
     Array<Identifiable<Circle> > m_circles;
 

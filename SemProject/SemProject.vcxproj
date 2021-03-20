@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="Array.h" />
     <ClInclude Include="basicinterface.h" />
+    <ClInclude Include="Dict.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Tests.h" />
     <ClInclude Include="objects.h" />
