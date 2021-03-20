@@ -1,10 +1,15 @@
 #pragma once
-template<typename  Chemu, typename Chto> class Dict
+#include "Array.h"
+template<typename  Chemu, typename Chto> class UniDict
 {
 public:
 	Dict();
+	class Marker {
+
+	};
 	void add(Chemu che, Chto cht);
-	Chto get(chemu);
+	Marker find(Chemu);
+	Chto& operator[](Chemu che);
 
 private:
 	struct Para {
@@ -15,9 +20,25 @@ private:
 
 };
 
-template<typename  Chemu, typename Chto> void Dict<Chemu, Chto>::add(Chemu che, Chto cht)
+template<typename  Chemu, typename Chto> void UniDict<Chemu, Chto>::add(Chemu che, Chto cht)
 {
-	
-      m_storage,
+	Para newPara;
+	newPara.che = che;
+	newPara.cht = cht;
+	m_storage.add(newPara);
 }
+
+template<typename  Chemu, typename Chto> Chto& UniDict<Chemu, Chto>::operator[](Chemu che)
+{
+	Array<Para>::Marker m = m_storage.init();
+	for (i = 0; m != m_storage.afterEnd(); m++)
+	{
+		if (m_storage[i].che == che)
+		{
+			return m_storage[i].chto;
+		}
+		i++;
+	}
+}
+
 
