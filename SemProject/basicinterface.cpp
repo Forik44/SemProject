@@ -45,12 +45,13 @@ bool BasicInterface::removeObject(ID id) {
     }
     return false;
 };
-ID  BasicInterface::addRequirement(Array<ID>&, ReqType rt) {
+ID  BasicInterface::addRequirement(const Array<ID>& id, ReqType rt) {
     ID id = ID::generateID();
     switch (rt) {
     case RT_PARALLEL:
         break;
     case RT_ORTHO:
+        
         break;
     case RT_COINCIDE:
         break;

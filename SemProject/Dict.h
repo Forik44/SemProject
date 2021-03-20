@@ -33,11 +33,12 @@ template<typename  Chemu, typename Chto> Chto& UniDict<Chemu, Chto>::operator[](
 	Array<Para>::Marker m = m_storage.init();
 	for (; m != m_storage.afterEnd(); m++)
 	{
-		if (*m.che == che)
+		if ((*m).che == che)
 		{
-			return *m.chto;
+			return (*m).chto;
 		}
 	}
+	return 1;
 }
 
 
