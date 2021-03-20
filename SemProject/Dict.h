@@ -31,13 +31,12 @@ template<typename  Chemu, typename Chto> void UniDict<Chemu, Chto>::add(Chemu ch
 template<typename  Chemu, typename Chto> Chto& UniDict<Chemu, Chto>::operator[](Chemu che)
 {
 	Array<Para>::Marker m = m_storage.init();
-	for (i = 0; m != m_storage.afterEnd(); m++)
+	for (; m != m_storage.afterEnd(); m++)
 	{
-		if (m_storage[i].che == che)
+		if (*m.che == che)
 		{
-			return m_storage[i].chto;
+			return *m.chto;
 		}
-		i++;
 	}
 }
 
