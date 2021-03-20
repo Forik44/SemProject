@@ -3,6 +3,7 @@
 #include "objects.h"
 #include "Array.h"
 #include "List.h"
+#include "Dict.h"
 
 struct Parameter
 {
@@ -34,7 +35,7 @@ public:
    /* ID addObject(ObjType, const Array<Parameter>&);*/
     bool removeObject(ID);
   /*  bool changeObjectProperty(ID);*/
-    ID  addRequirement(Array<ID>&, ReqType);
+    ID  addRequirement(const Array<ID>&, ReqType);
     Array<Parameter> queryObjProperties(ID);
     ObjType identifyObjTypeByID(ID);
     bool removeRequirement(ID);
