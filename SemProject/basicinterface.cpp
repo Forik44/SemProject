@@ -51,7 +51,10 @@ ID  BasicInterface::addRequirement(const Array<ID>& id, ReqType rt) {
     case RT_PARALLEL:
         break;
     case RT_ORTHO:
-        
+		// ѕроверить что id - это отрезки
+		// ѕроверить допустимость этого требовани€
+		// !!!
+		// ƒобавить информацию о новом требовании в хранилище        
         break;
     case RT_COINCIDE:
         break;
@@ -60,7 +63,9 @@ ID  BasicInterface::addRequirement(const Array<ID>& id, ReqType rt) {
     case RT_DISTANCE:
         break;
     }
+	solveReqs();
     return id;
+
 };
 bool BasicInterface::removeRequirement(ID id) {
     for (size_t k = 0; k < m_requirements.getSize();++k) {
@@ -196,3 +201,32 @@ ObjType BasicInterface::identifyObjTypeByID(ID id)
     return OT_ERROR;
 }
 
+Array<double> BasicInterface::getX() {
+	Array<double> res;
+	// ѕробежать по точкам, забрать их координаты в res
+	// ѕробежать по отрезкам, забрать их координаты в res
+	// ѕробежать по окружност€м, забрать их координаты в res
+	return res;
+}
+void BasicInterface::setX(const Array<double>&x) {
+	// ѕробежать часть x и задать координаты точек
+	// ѕробежать часть x и задать координаты отрезков
+	// ѕробежать часть x и задать координаты окружностей
+
+}
+double BasicInterface::calcError(const Array<double>&x) {
+	setX(x)
+	for (Dict<ID, Requirement>::Marker m = m_requirements.init(); m != m_requirements.afterEnd(); m++) {
+			if ((*m).type == RT_ORTHO) {
+				ReqOrtho req;
+				req.idSegement1 = (*m).objs[0];
+				req.idSegement2 = (*m).objs[1];
+				std::cout << "Ortho error " << req.error() << std::endl;
+				return req.error();
+			}
+		}
+
+}
+
+bool BasicInterface::solveReqs() {
+}

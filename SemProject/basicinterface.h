@@ -52,6 +52,33 @@ private:
   
     Array<Identifiable<Requirement> > m_requirements;
       */
+	struct ReqOrtho
+	{
+		ID idSegement1;
+		ID idSegement2;
+		Dict<ID, Segment> *segments;
+		double error()
+		{
+			
+			Segment &l1 = (*segments)[idSegement1];
+			Segment &l2 = (*segments)[idSegement2];
+
+			double A1 = l1.p1.x - l1.p2.x;
+			double B1 = l1.p1.y - l1.p2.y;
+			double A2 = l2.p1.x - l2.p2.x;
+			double B2 = l2.p1.y - l2.p2.y;
+
+			return abs(A1 * A2 + B1 * B2);
+
+		}
+	};
+
+	Array<double> BasicInterface::getX();
+	void BasicInterface::setX(const Array<double>&x);
+	double BasicInterface::calcError(const Array<double>&x);
+	bool BasicInterface::solveReqs();
+
+
 };
 
 
