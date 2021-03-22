@@ -22,8 +22,8 @@ enum ReqType{
 struct Point
 {
     //Colors color;
-    int x;
-    int y;
+    double x;
+    double y;
 };
 
 struct Segment
@@ -37,7 +37,7 @@ struct Circle
 {
     //Colors color;
     Point center;
-    int r;
+    double r;
 };
 
 

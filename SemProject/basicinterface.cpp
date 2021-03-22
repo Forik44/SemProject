@@ -208,8 +208,32 @@ ObjType BasicInterface::identifyObjTypeByID(ID id)
 Array<double> BasicInterface::getX() {
 	Array<double> res;
 	// ѕробежать по точкам, забрать их координаты в res
+    UniDict<ID, Point>::Marker pointMarker = m_points.init();
+    while (pointMarker != m_points.afterEnd())
+    {
+        res.add((*pointMarker).cht.x);
+        res.add((*pointMarker).cht.y);
+        pointMarker++;
+    }
 	// ѕробежать по отрезкам, забрать их координаты в res
+    UniDict<ID, Segment>::Marker segmentMarker = m_segments.init();
+    while (segmentMarker != m_segments.afterEnd())
+    {
+        res.add((*segmentMarker).cht.p1.x);
+        res.add((*segmentMarker).cht.p1.y);
+        res.add((*segmentMarker).cht.p2.x);
+        res.add((*segmentMarker).cht.p2.y);
+        segmentMarker++;
+    }
 	// ѕробежать по окружност€м, забрать их координаты в res
+    UniDict<ID, Circle>::Marker circleMarker = m_circles.init();
+    while (circleMarker != m_circles.afterEnd())
+    {
+        res.add((*circleMarker).cht.center.x);
+        res.add((*circleMarker).cht.center.y);
+        res.add((*circleMarker).cht.r);
+        circleMarker++;
+    }
 	return res;
 }
 void BasicInterface::setX(const Array<double>&x) {
@@ -219,9 +243,9 @@ void BasicInterface::setX(const Array<double>&x) {
 
 }
 double BasicInterface::calcError(const Array<double>&x) {
-	setX(x)
-	for (Dict<ID, Requirement>::Marker m = m_requirements.init(); m != m_requirements.afterEnd(); m++) {
-			if ((*m).type == RT_ORTHO) {
+    setX(x);
+	for (UniDict<ID, Requirement>::Marker m = m_requirements.init(); m != m_requirements.afterEnd(); m++) {
+			if ((*m).cht.type == RT_ORTHO) {
 				ReqOrtho req;
 				req.idSegement1 = (*m).objs[0];
 				req.idSegement2 = (*m).objs[1];

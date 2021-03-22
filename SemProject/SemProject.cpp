@@ -17,7 +17,7 @@ std::ostream& operator<<(std::ostream& ost, const Point& p)
     ost << '(' << p.x << ',' << p.y << ')';
     return ost;
 }
-std::ostream& operator<<(std::ostream& ost, enum Parameter::ParamType& p)
+std::ostream& operator<<(std::ostream& ost, enum ParamType& p)
 {
     string ParamTypesNames[] { 
         "PT_ERROR",
@@ -242,11 +242,11 @@ int main(int argc, char* argv[])
     bi.addObject(OT_POINT);
     ID id;
     id.setID(2);
-    Array<Parameter> objProperties = bi.queryObjProperties(id);
+    UniDict<ParamType, double> objProperties = bi.queryObjProperties(id);
 
-    for (Array<Parameter>::Marker mark = objProperties.init(); mark != objProperties.afterEnd(); mark++)
+    for (UniDict<ParamType, double>::Marker mark = objProperties.init(); mark != objProperties.afterEnd(); mark++)
     {
-        cout << (*mark).type << " : " << (*mark).value << endl;
+        cout << (*mark).che << " : " << (*mark).cht << endl;
     }
   
     /*

@@ -73,10 +73,10 @@ private:
 		}
 	};
 
-	Array<double> BasicInterface::getX();
-	void BasicInterface::setX(const Array<double>&x);
-	double BasicInterface::calcError(const Array<double>&x);
-	bool BasicInterface::solveReqs();
+	Array<double> getX();
+	void setX(const Array<double>&x);
+	double calcError(const Array<double>&x);
+	bool solveReqs();
 
 
 };
