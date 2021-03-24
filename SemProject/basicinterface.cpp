@@ -236,11 +236,44 @@ Array<double> BasicInterface::getX() {
     }
 	return res;
 }
-void BasicInterface::setX(const Array<double>&x) {
-	// ѕробежать часть x и задать координаты точек
+void BasicInterface::setX(const Array<double>& X) {
+    size_t i = 0;
+    UniDict<ID, Point>::Marker pointMarker = m_points.init();
+    // ѕробежать часть x и задать координаты точек
+    while (pointMarker != m_points.afterEnd())
+    {
+        (*pointMarker).cht.x = X[i];
+        i++;
+        (*pointMarker).cht.y = X[i];
+        i++;
+        pointMarker++;
+    }
 	// ѕробежать часть x и задать координаты отрезков
+    UniDict<ID, Segment>::Marker segmentMarker = m_segments.init();
+    while (segmentMarker != m_segments.afterEnd())
+    {
+        (*segmentMarker).cht.p1.x = X[i];
+        i++;
+        (*segmentMarker).cht.p1.y = X[i];
+        i++;
+        (*segmentMarker).cht.p2.x = X[i];
+        i++;
+        (*segmentMarker).cht.p2.y = X[i];
+        i++;
+        segmentMarker++;
+    }
 	// ѕробежать часть x и задать координаты окружностей
-
+    UniDict<ID, Circle>::Marker circleMarker = m_circles.init();
+    while (circleMarker != m_circles.afterEnd())
+    {
+        (*circleMarker).cht.center.x = X[i];
+        i++;
+        (*circleMarker).cht.center.y = X[i];
+        i++;
+        (*circleMarker).cht.r = X[i];
+        i++;
+        segmentMarker++;
+    }
 }
 double BasicInterface::calcError(const Array<double>&x) {
     setX(x);
