@@ -4,7 +4,7 @@ template<typename Chemu, typename Chto> class TreeDict {
 public:
 	TreeDict();
 	void add(Chemu che, Chto cht);
-	Chto& operator[](Chemu cht);
+	Chto& operator[](Chemu che);
     size_t getSize()const
     {
         return size;
