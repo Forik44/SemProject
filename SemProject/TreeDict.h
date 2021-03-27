@@ -4,8 +4,15 @@ template<typename Chemu, typename Chto> class TreeDict {
 public:
 	TreeDict();
 	void add(Chemu che, Chto cht);
-	Chto& operator[](Chemu che);
-	size_t getSize()const;
+	Chto& operator[](Chemu cht);
+    size_t getSize()const
+    {
+        return size;
+    };
+    size_t getHeight()const
+    {
+        return height;
+    }
 private:
     struct Para
     {
@@ -18,6 +25,7 @@ private:
         Para data;
     };
     size_t size;
+    size_t height;
     Node* m_root;
 
 };
