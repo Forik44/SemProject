@@ -13,7 +13,19 @@ public:
     size_t getSize()const
     {
         return size;
-    };
+    }; size_t getHeight()const
+    {
+        int a, b;
+        Node* tmp = m_root;
+        if (tmp->left != nullptr)
+            a = getHeightR(tmp->left);
+        if (tmp->right != nullptr)
+            b = getHeightR(tmp->right);
+        if (a > b)
+            return a++;
+        else
+            return b++;
+    }
 private:
     struct Para
     {
@@ -28,7 +40,43 @@ private:
     size_t size;
     Node* m_root;
 
+    size_t getHeightR(Node* tmp)const
+    {
+        int a = 0, b = 0;
+        if (tmp->left != nullptr)
+        {
+            a = getHeightR(tmp->left);
+            a++;
+        }
+        if (tmp->right != nullptr)
+        {
+            b = getHeightR(tmp->right);
+            b++;
+        }
+        if (a == 0 && b == 0)
+            return 1;
+        if (a > b)
+            return a;
+        else
+            return b;
+
+    }
 };
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 template<typename Chemu, typename Chto> Chto& TreeDict<Chemu, Chto>::operator[](Chemu che)
 {
