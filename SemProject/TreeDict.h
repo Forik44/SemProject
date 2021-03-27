@@ -33,6 +33,16 @@ private:
 
 template<typename Chemu, typename Chto> Chto& TreeDict<Chemu, Chto>::operator[](Chemu che)
 {
+    if (!m_root)
+    {
+        Node* tmp = new Node;
+        tmp->left = tmp->right = = tmp->prev = nullptr;
+        Para p;
+        p.che = che;
+        p.cht = cht;
+        tmp->data = p;
+        m_root = tmp;
+    }
     Node* cur = m_root;
     Node** next;
     while (cur != nullptr)
@@ -64,6 +74,16 @@ template<typename Chemu, typename Chto> Chto& TreeDict<Chemu, Chto>::operator[](
 
 template<typename Chemu, typename Chto> void TreeDict<Chemu, Chto>::add(Chemu che, Chto cht)
 {
+    if (!m_root)
+    {
+        Node* tmp = new Node;
+        tmp->left = tmp->right = = tmp->prev = nullptr;
+        Para p;
+        p.che = che;
+        p.cht = cht;
+        tmp->data = p;
+        m_root = tmp;
+    }
     Node* cur = m_root;
     Node** next;
     while (cur != nullptr)
