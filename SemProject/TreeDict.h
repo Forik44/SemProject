@@ -1,6 +1,7 @@
 #pragma once
 
-template<typename Chemu, typename Chto> class TreeDict {
+template<typename Chemu, typename Chto> class TreeDict 
+{
 public:
 	TreeDict();
 	void add(Chemu che, Chto cht);
@@ -21,7 +22,7 @@ private:
     };
     struct Node
     {
-        Node* left, * right;
+        Node* left, * right, * prev;
         Para data;
     };
     size_t size;
@@ -46,6 +47,7 @@ template<typename Chemu, typename Chto> Chto& TreeDict<Chemu, Chto>::operator[](
         if (*next == nullptr)
         {
             Node* tmp = new Node;
+            tmp->prev = cur;
             tmp->left = tmp->right = nullptr;
             Para p;
             p.che = che;
@@ -77,6 +79,7 @@ template<typename Chemu, typename Chto> void TreeDict<Chemu, Chto>::add(Chemu ch
         {
             Node* tmp = new Node;
             tmp->left = tmp->right = nullptr;
+            tmp->prev = cur;
             Para p;
             p.che = che;
             p.cht = cht;
