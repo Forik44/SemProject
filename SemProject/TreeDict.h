@@ -14,10 +14,6 @@ public:
     {
         return size;
     };
-    size_t getHeight()const
-    {
-        return height;
-    }
 private:
     struct Para
     {
@@ -30,7 +26,6 @@ private:
         Para data;
     };
     size_t size;
-    size_t height;
     Node* m_root;
 
 };
@@ -45,6 +40,7 @@ template<typename Chemu, typename Chto> Chto& TreeDict<Chemu, Chto>::operator[](
         p.che = che;
         tmp->data = p;
         m_root = tmp;
+        return m_root->data.cht;
     }
     Node* cur = m_root;
     Node** next;
