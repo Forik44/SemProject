@@ -44,10 +44,12 @@ template<typename Chemu, typename Chto> Chto& TreeDict<Chemu, Chto>::operator[](
                 Node* tmp = new Node;
                 tmp->left = tmp->right = nullptr;
                 Para p;
+                p.che = che;
                 tmp->data = p;
                 cur->left = tmp;
+                return cur->left->data.cht;
             }
-            cur = cur->left;
+            cur =  cur->left;
         }   
         else if (che > cur->data.che)
         {
@@ -56,10 +58,13 @@ template<typename Chemu, typename Chto> Chto& TreeDict<Chemu, Chto>::operator[](
                 Node* tmp = new Node;
                 tmp->left = tmp->right = nullptr;
                 Para p;
+                p.che = che;
                 tmp->data = p;
                 cur->right = tmp;
+                return cur->right->data.cht;
             }
-            cur = cur->right;
+            cur =  cur->right;
         }
+
     }
 }
