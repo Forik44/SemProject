@@ -50,8 +50,9 @@ template<typename Chemu, typename Chto> Chto& TreeDict<Chemu, Chto>::operator[](
             Para p;
             p.che = che;
             tmp->data = p;
+
             *next = tmp;
-            return *next;
+            return (*next)->data.cht;
         }
 
         cur = *next;

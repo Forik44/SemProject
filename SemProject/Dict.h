@@ -20,77 +20,62 @@ public:
         typename Array<Para>::Marker mark;
     public:
         friend class UniDict;
-        Marker();
         Para& operator*()
         {
-            return ;
+            Marker m;
+            m.mark = m_storage.init();
+            return (*m.mark);
         };
         const Para& operator*() const
         {
-            return *mark.Elem;
+            Marker m;
+            m.mark = m_storage.init();
+            return (*m.mark);
         };
         void operator++()
         {
-            mark.Elem++;
-            mark.Idx++;
+            /*mark.Elem++;
+            mark.Idx++;*/
         };
         void operator++(int)
         {
-            mark.Elem++;
-            mark.Idx++;
+            /*mark.Elem++;
+            mark.Idx++;*/
         };
         bool operator==(const Marker& secondMarker) const
         {
-            return (this->mark.Elem == secondMarker.mark.Elem && this->mark.Idx == secondMarker.mark.Idx);
+            return /*(this->mark.Elem == secondMarker.mark.Elem && this->mark.Idx == secondMarker.mark.Idx)*/false;
         };
         bool operator!=(const Marker& secondMarker) const
         {
-            return !(*this == secondMarker);
+            return /*!(*this == secondMarker)*/false;
         }
         bool canMoveNext()
         {
             return (mark.Idx < mark.markerSize);
         };
-      
-
-       /* Chto find(Chemu che)
-        {
-           
-        }*/
     };
     Marker init()
     {
-       /* Marker ma;
-        ma.mark.markerSize = size;
-        ma.mark.Idx = 0;
-        Array<Para> Marker:: arrm = m_storage.init();
-        Para p;
-        p.cht = arrm;
-        ma.mark.Elem = p;
-        */
-        Marker ma;
-        return ma;
+        Marker m;
+        m.mark = m_storage.init();
+        return m;
     };
     Marker afterEnd()
     {
-       /* Marker ma;
-        ma.mark.markerSize = size;
-        ma.mark.Idx = ma.mark.markerSize;
-        return ma;*/
-        Marker ma;
-        return ma;
+        Marker m;
+        m.mark = m_storage.afterEnd();
+        return m;
     };
     Marker initAfterAddingNewElement()
     {
         Marker ma;
-        ma.setMarkerSize(size);
-        ma.mark.Elem = m_storage.init() + size - 2;
-        ma.mark.Idx = size - 2;
+        ma.mark = m_storage.initAfterAddingNewElement();
         return ma;
     };
     size_t getSize()
     {
-        return size;
+        return m_storage.getSize();
     }
     bool removeElementByIdx(size_t idx)
     {
