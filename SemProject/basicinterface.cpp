@@ -68,6 +68,7 @@ ID  BasicInterface::addRequirement(const Array<ID>& ide, ReqType rt) {
 
 };
 bool BasicInterface::removeRequirement(ID id) {
+
     for (size_t k = 0; k < m_requirements.getSize();++k) {
         if (m_requirements.getChemuByIdx(k) == id) {
             m_requirements.removeElementByIdx(k);
@@ -83,54 +84,28 @@ UniDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
     case OT_CIRCLE:
     {
         UniDict<ID, Circle>::Marker cm = m_circles.init();
+        while ((*cm).che != id)
+            cm++;
 
-        
-        for (; (*cm).che != id || cm != m_circles.afterEnd() ; cm++)
-        {
-            
-        }
-        UniDict<ParamType, double>;
-        ParamType obj;
-
-        obj.type = ParamType::PT_CIRCLE;
-        obj.value = 4;
-        arr.add(obj);
-
-        obj.type = Parameter::PT_CX;
-        obj.value = (*cm).obj.center.x;
-        arr.add(obj);
-
-        obj.type = Parameter::PT_CY;
-        obj.value = (*cm).obj.center.y;
-        arr.add(obj);
-
-        obj.type = Parameter::PT_R;
-        obj.value = (*cm).obj.r;
-        arr.add(obj);
+        UniDict<ParamType, double> arr;
+        arr.add(PT_CIRCLE, 4);
+        arr.add(PT_CX, (*cm).cht.center.x);
+        arr.add(PT_CY, (*cm).cht.center.y);
+        arr.add(PT_R, (*cm).cht.r);
 
         return arr;
         break;
     }
     case OT_POINT:
     {
-        Array<Identifiable<Point> >::Marker pm = m_points.init();
-        while (pm != m_points.afterEnd())
+        UniDict<ID, Point>::Marker pm = m_points.init();
+        while ((*pm).che != id)
             pm++;
 
-        Array<Parameter> arr;
-        Parameter obj;
-
-        obj.type = Parameter::PT_POINT;
-        obj.value = 3;
-        arr.add(obj);
-
-        obj.type = Parameter::PT_PX;
-        obj.value = (*pm).obj.x;
-        arr.add(obj);
-
-        obj.type = Parameter::PT_PY;
-        obj.value = (*pm).obj.y;
-        arr.add(obj);
+        UniDict<ParamType, double> arr;
+        arr.add(PT_POINT, 3);
+        arr.add(PT_PX, (*pm).cht.x);
+        arr.add(PT_PY, (*pm).cht.y);
 
         return arr;
         break;
@@ -138,43 +113,24 @@ UniDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
     }
     case OT_SEGMENT:
     {
-        Array<Identifiable<Segment> >::Marker sm = m_segments.init();
-        while (sm != m_segments.afterEnd())
+        UniDict<ID, Segment>::Marker sm = m_segments.init();
+        while ((*sm).che != id)
             sm++;
 
-        Array<Parameter> arr;
-        Parameter obj;
-
-        obj.type = Parameter::PT_SEGMENT;
-        obj.value = 5;
-        arr.add(obj);
-
-        obj.type = Parameter::PT_P1X;
-        obj.value = (*sm).obj.p1.x;
-        arr.add(obj);
-
-        obj.type = Parameter::PT_P1Y;
-        obj.value = (*sm).obj.p1.y;
-        arr.add(obj);
-
-        obj.type = Parameter::PT_P2X;
-        obj.value = (*sm).obj.p2.x;
-        arr.add(obj);
-
-        obj.type = Parameter::PT_P1X;
-        obj.value = (*sm).obj.p2.y;
-        arr.add(obj);
+        UniDict<ParamType, double> arr;
+        arr.add(PT_SEGMENT, 5);
+        arr.add(PT_P1X, (*sm).cht.p1.x);
+        arr.add(PT_P1Y, (*sm).cht.p1.y);
+        arr.add(PT_P2X, (*sm).cht.p2.x);
+        arr.add(PT_P2Y, (*sm).cht.p2.y);
 
         return arr;
-
         break;
     }
     case OT_ERROR:
     {
-        Array<Parameter> arr;
-        Parameter err;
-        err.type = Parameter::PT_ERROR;
-        arr.add(err);
+        UniDict<ParamType, double> arr;
+        arr.add(PT_ERROR, -1);
         return arr;
     }
     }
@@ -204,7 +160,6 @@ ObjType BasicInterface::identifyObjTypeByID(ID id)
     }
     return OT_ERROR;
 }
-
 Array<double> BasicInterface::getX() {
 	Array<double> res;
 	// ѕробежать по точкам, забрать их координаты в res
@@ -234,6 +189,7 @@ Array<double> BasicInterface::getX() {
         res.add((*circleMarker).cht.r);
         circleMarker++;
     }
+
 	return res;
 }
 void BasicInterface::setX(const Array<double>& X) {
@@ -275,19 +231,75 @@ void BasicInterface::setX(const Array<double>& X) {
         segmentMarker++;
     }
 }
-double BasicInterface::calcError(const Array<double>&x) {
-    setX(x);
-	for (UniDict<ID, Requirement>::Marker m = m_requirements.init(); m != m_requirements.afterEnd(); m++) {
-			if ((*m).cht.type == RT_ORTHO) {
-				ReqOrtho req;
-				req.idSegement1 = (*m).objs[0];
-				req.idSegement2 = (*m).objs[1];
-				std::cout << "Ortho error " << req.error() << std::endl;
-				return req.error();
-			}
-		}
+double BasicInterface::ReqOrtho(ID idSegement1, ID idSegement2)
+{
+    UniDict<ID, Segment>::Marker mark;
 
+    if ((identifyObjTypeByID(idSegement1) != OT_SEGMENT) || (identifyObjTypeByID(idSegement2) != OT_SEGMENT))
+        return -1;
+    
+    mark = m_segments.init();
+    while ((*mark).che != idSegement1)
+        mark++;
+    Segment& l1 = (*mark).cht;
+
+    mark = m_segments.init();
+    while ((*mark).che != idSegement2)
+        mark++;
+    Segment& l2 = (*mark).cht;
+
+    double A1 = l1.p1.x - l1.p2.x;
+    double B1 = l1.p1.y - l1.p2.y;
+    double A2 = l2.p1.x - l2.p2.x;
+    double B2 = l2.p1.y - l2.p2.y;
+
+    return abs(A1 * A2 + B1 * B2);
+};
+double  BasicInterface::partDerivative(Array<double>& arr, int varNumber, ID id1, ID id2)
+{
+    if (arr.getSize() <= varNumber)
+        return 0;
+    double delta = 0.00000000000001;
+    double var = arr[varNumber];
+    double y1 = ReqOrtho(id1, id2);
+    if (y1 == -1)
+        return 0;
+    arr[varNumber] = var + delta;
+    setX(arr);
+    double y2 = ReqOrtho(id1, id2);
+    if (y2 == -1)
+        return 0;
+    arr[varNumber] = var;
+    return (y2 - y1) / delta;
 }
 
-bool BasicInterface::solveReqs() {
+double BasicInterface::calcError() 
+{
+
+   
+}
+
+bool BasicInterface::solveReqs() 
+{
+    UniDict<ID, Requirement>::Marker reqMark = m_requirements.init();
+    while (reqMark != m_requirements.afterEnd())
+    {
+       
+        if ((*reqMark).cht.type == RT_ORTHO)
+        {
+            Array<ID>::Marker m = (*reqMark).cht.objs.init();
+            while (m != (*reqMark).cht.objs.afterEnd())/////////////////
+            {
+                ID id1, id2;
+                id1 = *m;
+                m++;
+                id2 = *m;
+                //////////////////////////////////
+            }
+        }
+       
+       
+        reqMark++;
+    }
+
 }

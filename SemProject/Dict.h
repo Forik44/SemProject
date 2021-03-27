@@ -8,21 +8,20 @@ private:
         Chto cht;
     };
     Array<Para> m_storage;
-    struct marker
-    {
-        Para* Elem;
-        size_t Idx;
-        size_t markerSize;
-    };
     size_t size;
     friend class Marker;
 public:
 	UniDict();
     void add(Chemu che, Chto cht);
     Chto& operator[](Chemu che);
-
     class Marker
     {
+        struct marker
+        {
+            Para* Elem;
+            size_t Idx;
+            size_t markerSize;
+        };
         marker mark;
     public:
         friend class UniDict;
@@ -56,26 +55,28 @@ public:
         {
             return (mark.Idx < mark.markerSize);
         };
-        void setMarkerSize(size_t size)
+      
+
+       /* Chto find(Chemu che)
         {
-            mark.markerSize = size;
-        }
-
+           
+        }*/
     };
-
     Marker init()
     {
         Marker ma;
-        ma.setMarkerSize(size);
-        ma.mark.Elem = m_storage.init();
+        ma.mark.markerSize = size;
         ma.mark.Idx = 0;
+        Array<Para> Marker:: arrm = m_storage.init();
+        Para p;
+        p.cht = &(*arrm);
+        
         return ma;
     };
     Marker afterEnd()
     {
         Marker ma;
-        ma.setMarkerSize(size);
-        ma.mark.Elem = m_storage.init() + size;
+        ma.mark.markerSize = size;
         ma.mark.Idx = ma.mark.markerSize;
         return ma;
     };
@@ -87,8 +88,6 @@ public:
         ma.mark.Idx = size - 2;
         return ma;
     };
-
-    Marker find(Chemu);
     size_t getSize()
     {
         return size;
@@ -101,7 +100,6 @@ public:
     {
         return m_storage[idx].Chemu;
     }
-
 };
 
 template<typename  Chemu, typename Chto> UniDict<Chemu, Chto>::UniDict()
@@ -109,7 +107,6 @@ template<typename  Chemu, typename Chto> UniDict<Chemu, Chto>::UniDict()
     size = 0;
     m_storage = nullptr;
 };
-
 template<typename  Chemu, typename Chto> void UniDict<Chemu, Chto>::add(Chemu che, Chto cht)
 {
 	Para newPara;
@@ -118,18 +115,16 @@ template<typename  Chemu, typename Chto> void UniDict<Chemu, Chto>::add(Chemu ch
     size++;
 	m_storage.add(newPara);
 }
-
-template<typename  Chemu, typename Chto> Chto& UniDict<Chemu, Chto>::operator[](Chemu che)
-{
-	Array<Para>::Marker m = m_storage.init();
-	for (; m != m_storage.afterEnd(); m++)
-	{
-		if ((*m).che == che)
-		{
-			return (*m).chto;
-		}
-	}
-	return 1;
-}
-
+//template<typename  Chemu, typename Chto> Chto& UniDict<Chemu, Chto>::operator[](Chemu che)
+//{
+//	Array<Para>::Marker m = m_storage.init();
+//	for (; m != m_storage.afterEnd(); m++)
+//	{
+//		if ((*m).che == che)
+//		{
+//			return (*m).chto;
+//		}
+//	}
+//	return -1;
+//}
 

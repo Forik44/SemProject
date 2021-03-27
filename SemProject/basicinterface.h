@@ -42,40 +42,12 @@ private:
     UniDict<ID, Segment> m_segments;
     UniDict<ID, Requirement> m_requirements;
 
-   /* Array<Identifiable<Point>> m_points;
-    Array<Identifiable<Segment> > m_segments;
-    Array<Identifiable<Circle> > m_circles;
-
-    List<Identifiable<Point>> l_points;
-    List<Identifiable<Segment>> l_segmentss;
-    List<Identifiable<Circle>> l_circles;
-  
-    Array<Identifiable<Requirement> > m_requirements;
-      */
-	struct ReqOrtho
-	{
-		ID idSegement1;
-		ID idSegement2;
-        UniDict<ID, Segment> *segments;
-		double error()
-		{
-			
-			Segment &l1 = (*segments)[idSegement1];
-			Segment &l2 = (*segments)[idSegement2];
-
-			double A1 = l1.p1.x - l1.p2.x;
-			double B1 = l1.p1.y - l1.p2.y;
-			double A2 = l2.p1.x - l2.p2.x;
-			double B2 = l2.p1.y - l2.p2.y;
-
-			return abs(A1 * A2 + B1 * B2);
-
-		}
-	};
-
+    double ReqOrtho(ID idSegement1, ID idSegement2);
+    double partDerivative(Array<double>& arr, int varNumber, ID id1, ID id2);
 	Array<double> getX();
 	void setX(const Array<double>&x);
-	double calcError(const Array<double>&x);
+
+	double calcError();
 	bool solveReqs();
 
 

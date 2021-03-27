@@ -237,11 +237,12 @@ int main(int argc, char* argv[])
     }
    
  
-    bi.addObject(OT_POINT);
+    bi.addObject(OT_SEGMENT);
     bi.addObject(OT_POINT);
     bi.addObject(OT_POINT);
     ID id;
-    id.setID(2);
+    id.setID(1);
+
     UniDict<ParamType, double> objProperties = bi.queryObjProperties(id);
 
     for (UniDict<ParamType, double>::Marker mark = objProperties.init(); mark != objProperties.afterEnd(); mark++)
@@ -249,21 +250,6 @@ int main(int argc, char* argv[])
         cout << (*mark).che << " : " << (*mark).cht << endl;
     }
   
-    /*
-    Array<int>::Marker marker = pointArray.init();
-    while (marker.canMoveNext())
-    {
-        cout << marker.getElem() << " ";
-        marker.moveNext();
-        cout << identificator << " ";
-    };
-   pointArray.add(16);
-   marker = pointArray.initAfterAddingNewElement();
-   while (marker.canMoveNext())
-   {
-       cout << marker.getElem() << " ";
-       marker.moveNext();
-   };
-    */
+   
     return 0;
 }

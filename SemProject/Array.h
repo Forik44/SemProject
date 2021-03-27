@@ -13,6 +13,7 @@ private:
         size_t markerSize;
     };
 public:
+    
     Array();  
     Array(const Array& original);
     ~Array();   
@@ -175,8 +176,8 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
         delete[] data;
         data = tmp;
         size--;
+        return isFound;
     }
-    return isFound;
 };
 
 
