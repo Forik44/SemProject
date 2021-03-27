@@ -3,7 +3,11 @@
 template<typename Chemu, typename Chto> class TreeDict 
 {
 public:
-	TreeDict();
+    TreeDict()
+    {
+        size_t size = 0;
+        Node* m_root = nullptr;
+    }
 	void add(Chemu che, Chto cht);
 	Chto& operator[](Chemu che);
     size_t getSize()const
@@ -36,10 +40,9 @@ template<typename Chemu, typename Chto> Chto& TreeDict<Chemu, Chto>::operator[](
     if (!m_root)
     {
         Node* tmp = new Node;
-        tmp->left = tmp->right = = tmp->prev = nullptr;
+        tmp->left = tmp->right = tmp->prev = nullptr;
         Para p;
         p.che = che;
-        p.cht = cht;
         tmp->data = p;
         m_root = tmp;
     }
@@ -77,7 +80,7 @@ template<typename Chemu, typename Chto> void TreeDict<Chemu, Chto>::add(Chemu ch
     if (!m_root)
     {
         Node* tmp = new Node;
-        tmp->left = tmp->right = = tmp->prev = nullptr;
+        tmp->left = tmp->right = tmp->prev = nullptr;
         Para p;
         p.che = che;
         p.cht = cht;
