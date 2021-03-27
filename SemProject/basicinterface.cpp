@@ -276,7 +276,7 @@ double  BasicInterface::partDerivative(Array<double>& arr, int varNumber, ID id1
 double BasicInterface::calcError() 
 {
 
-   
+    return 1;
 }
 
 bool BasicInterface::solveReqs() 
@@ -301,5 +301,5 @@ bool BasicInterface::solveReqs()
        
         reqMark++;
     }
-
+    return 1;
 }

@@ -16,18 +16,14 @@ public:
     Chto& operator[](Chemu che);
     class Marker
     {
-        struct marker
-        {
-            Para* Elem;
-            size_t Idx;
-            size_t markerSize;
-        };
-        marker mark;
+    private:
+        typename Array<Para>::Marker mark;
     public:
         friend class UniDict;
+        Marker();
         Para& operator*()
         {
-            return *mark.Elem;
+            return ;
         };
         const Para& operator*() const
         {
@@ -64,20 +60,24 @@ public:
     };
     Marker init()
     {
-        Marker ma;
+       /* Marker ma;
         ma.mark.markerSize = size;
         ma.mark.Idx = 0;
         Array<Para> Marker:: arrm = m_storage.init();
         Para p;
         p.cht = arrm;
         ma.mark.Elem = p;
+        */
+        Marker ma;
         return ma;
     };
     Marker afterEnd()
     {
-        Marker ma;
+       /* Marker ma;
         ma.mark.markerSize = size;
         ma.mark.Idx = ma.mark.markerSize;
+        return ma;*/
+        Marker ma;
         return ma;
     };
     Marker initAfterAddingNewElement()
@@ -98,14 +98,16 @@ public:
     }
     Chemu getChemuByIdx(size_t idx)
     {
-        return m_storage[idx].Chemu;
+       /* return m_storage[idx].Chemu;*/
+        Chemu che;
+        return che;
     }
 };
 
 template<typename  Chemu, typename Chto> UniDict<Chemu, Chto>::UniDict()
 {
-    size = 0;
-    m_storage = nullptr;
+   /* size = 0;
+    m_storage = nullptr;*/
 };
 template<typename  Chemu, typename Chto> void UniDict<Chemu, Chto>::add(Chemu che, Chto cht)
 {
