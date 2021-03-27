@@ -15,7 +15,7 @@ public:
         return size;
     }; size_t getHeight()const
     {
-        int a, b;
+        int a = 0, b = 0;
         Node* tmp = m_root;
         if (tmp->left != nullptr)
             a = getHeightR(tmp->left);
@@ -91,12 +91,13 @@ template<typename Chemu, typename Chto> Chto& TreeDict<Chemu, Chto>::operator[](
         return m_root->data.cht;
     }
     Node* cur = m_root;
-    Node** next;
+    Node** next = nullptr;
     while (cur != nullptr)
     {
         if (cur->data.che == che)
             return cur->data.cht;
-        else if (che < cur->data.che)
+
+        if (che < cur->data.che)
             next = &cur->left;
         else if (che > cur->data.che)
             next = &cur->right;
@@ -132,12 +133,13 @@ template<typename Chemu, typename Chto> void TreeDict<Chemu, Chto>::add(Chemu ch
         m_root = tmp;
     }
     Node* cur = m_root;
-    Node** next;
+    Node** next = nullptr;
     while (cur != nullptr)
     {
         if (cur->data.che == che)
             return;
-        else if (che < cur->data.che)
+
+        if (che < cur->data.che)
             next = &cur->left;
         else if (che > cur->data.che)
             next = &cur->right;

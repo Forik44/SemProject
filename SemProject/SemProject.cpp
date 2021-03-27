@@ -257,5 +257,17 @@
 
 int main()
 {
+	TreeDict<int, int> Dict;
+	Dict.add(1, 8);
+	Dict.add(2, 9);
+	Dict.add(3, 1);
+	Dict.add(4, 6);
+	Dict.add(5, 14);
+	Dict.add(6, 28);
+	Dict.add(7, 5);
+	Dict.add(8, -1);
+	Dict.add(9, 0);
+	int a = Dict.getHeight();
+
 	return 0;
 }
