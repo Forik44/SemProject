@@ -69,8 +69,8 @@ public:
         ma.mark.Idx = 0;
         Array<Para> Marker:: arrm = m_storage.init();
         Para p;
-        p.cht = &(*arrm);
-        
+        p.cht = arrm;
+        ma.mark.Elem = p;
         return ma;
     };
     Marker afterEnd()
