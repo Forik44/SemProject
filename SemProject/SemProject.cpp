@@ -259,6 +259,7 @@ int main()
 {
 	TreeDict<int, int> Dict;
 	Dict.add(1, 8);
+
 	Dict.add(2, 9);
 	Dict.add(3, 1);
 	Dict.add(4, 6);

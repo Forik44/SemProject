@@ -13,7 +13,8 @@ public:
     size_t getSize()const
     {
         return size;
-    }; size_t getHeight()const
+    }; 
+    size_t getHeight()const
     {
         int a = 0, b = 0;
         Node* tmp = m_root;
@@ -26,6 +27,7 @@ public:
         else
             return b++;
     }
+    
 private:
     struct Para
     {

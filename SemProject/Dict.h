@@ -22,9 +22,7 @@ public:
         friend class UniDict;
         Para& operator*()
         {
-            Marker m;
-            m.mark = m_storage.init();
-            return (*m.mark);
+            return (*mark);
         };
         const Para& operator*() const
         {
@@ -34,8 +32,7 @@ public:
         };
         void operator++()
         {
-            /*mark.Elem++;
-            mark.Idx++;*/
+            mark++;
         };
         void operator++(int)
         {
