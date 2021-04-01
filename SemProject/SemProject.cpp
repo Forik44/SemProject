@@ -1,89 +1,88 @@
-﻿
+﻿#include "TreeDict.h"
 #include "Basicinterface.h"
-//#include <iostream>
-//#include <locale>
+#include <iostream>
+#include <locale>
+
+using namespace std;
+
+enum Colors
+{
+    COL_RED,
+    COL_GREEN,
+    COL_BLUE
+};
+
+std::ostream& operator<<(std::ostream& ost, const Point& p)
+{
+    ost << '(' << p.x << ',' << p.y << ')';
+    return ost;
+}
+std::ostream& operator<<(std::ostream& ost, enum ParamType& p)
+{
+    string ParamTypesNames[] { 
+        "PT_ERROR",
+        "PT_POINT",
+        "PT_CIRCLE",
+        "PT_SEGMENT",
+        "PT_CX",
+        "PT_CY",
+        "PT_R",
+        "PT_P1X",
+        "PT_P2X",
+        "PT_P1Y",
+        "PT_P2Y",
+        "PT_PX",
+        "PT_PY" };
+    cout << ParamTypesNames[p];
+    return ost;
+}
 //
-//using namespace std;
+//Point p1, p2;
+//std::cout << p1 << "   " << p2 << std::endl;
 //
-//enum Colors
-//{
-//    COL_RED,
-//    COL_GREEN,
-//    COL_BLUE
-//};
-//
-//std::ostream& operator<<(std::ostream& ost, const Point& p)
-//{
-//    ost << '(' << p.x << ',' << p.y << ')';
-//    return ost;
-//}
-//std::ostream& operator<<(std::ostream& ost, enum ParamType& p)
-//{
-//    string ParamTypesNames[] { 
-//        "PT_ERROR",
-//        "PT_POINT",
-//        "PT_CIRCLE",
-//        "PT_SEGMENT",
-//        "PT_CX",
-//        "PT_CY",
-//        "PT_R",
-//        "PT_P1X",
-//        "PT_P2X",
-//        "PT_P1Y",
-//        "PT_P2Y",
-//        "PT_PX",
-//        "PT_PY" };
-//    cout << ParamTypesNames[p];
-//    return ost;
-//}
-////
-////Point p1, p2;
-////std::cout << p1 << "   " << p2 << std::endl;
-////
-////operator<<(operator<<(operator<<(operator<<(std::cout, p1), "    "), p2), std::endl);
-//
-///*
-//void outputPoints(const PointList pointStorage)
-//{
-//    for (size_t k = 0; k < pointStorage.getSize(); ++k) {
-//        cout << "( " << pointStorage.getElementByIdx(k).x << " ; " << pointStorage.getElementByIdx(k).y << " )" << endl;
-//    }
-//};
-//void outputPoints(const PointArray pointStorage)
-//{
-//    for (size_t k = 0; k < pointStorage.getSize(); ++k) {
-//        cout << "( " << pointStorage.getElementByIdx(k).x << " ; " << pointStorage.getElementByIdx(k).y << " )" << endl;
-//    }
-//};
-//void outputPoints(const CircleList circleStorage)
-//{
-//    for (size_t k = 0; k < circleStorage.getSize(); ++k) {
-//        cout << "( " << circleStorage.getElementByIdx(k).center.x << " ; " << circleStorage.getElementByIdx(k).center.y << " ) ";
-//        cout << "R = " << circleStorage.getElementByIdx(k).r << endl;
-//    }
-//};
-//void outputPoints(const CircleArray circleStorage)
-//{
-//    for (size_t k = 0; k < circleStorage.getSize(); ++k) {
-//        cout << "( " << circleStorage.getElementByIdx(k).center.x << " ; " << circleStorage.getElementByIdx(k).center.y << " ) ";
-//        cout << "R = " << circleStorage.getElementByIdx(k).r << endl;
-//    }
-//};
-//void outputPoints(const SegmentArray segmentStorage)
-//{
-//    for (size_t k = 0; k < segmentStorage.getSize(); ++k) {
-//        cout << "( " << segmentStorage.getElementByIdx(k).p1.x << " ; " << segmentStorage.getElementByIdx(k).p1.y << " ) :";
-//        cout << "( " << segmentStorage.getElementByIdx(k).p2.x << " ; " << segmentStorage.getElementByIdx(k).p2.y << " ) " << endl;
-//    }
-//};
-//void outputPoints(const SegmentList segmentStorage)
-//{
-//    for (size_t k = 0; k < segmentStorage.getSize(); ++k) {
-//        cout << "( " << segmentStorage.getElementByIdx(k).p1.x << " ; " << segmentStorage.getElementByIdx(k).p1.y << " ) :";
-//        cout << "( " << segmentStorage.getElementByIdx(k).p2.x << " ; " << segmentStorage.getElementByIdx(k).p2.y << " ) " << endl;
-//    }
-//};
-//*/
+//operator<<(operator<<(operator<<(operator<<(std::cout, p1), "    "), p2), std::endl);*/
+/*
+void outputPoints(const PointList pointStorage)
+{
+    for (size_t k = 0; k < pointStorage.getSize(); ++k) {
+        cout << "( " << pointStorage.getElementByIdx(k).x << " ; " << pointStorage.getElementByIdx(k).y << " )" << endl;
+    }
+};
+void outputPoints(const PointArray pointStorage)
+{
+    for (size_t k = 0; k < pointStorage.getSize(); ++k) {
+        cout << "( " << pointStorage.getElementByIdx(k).x << " ; " << pointStorage.getElementByIdx(k).y << " )" << endl;
+    }
+};
+void outputPoints(const CircleList circleStorage)
+{
+    for (size_t k = 0; k < circleStorage.getSize(); ++k) {
+        cout << "( " << circleStorage.getElementByIdx(k).center.x << " ; " << circleStorage.getElementByIdx(k).center.y << " ) ";
+        cout << "R = " << circleStorage.getElementByIdx(k).r << endl;
+    }
+};
+void outputPoints(const CircleArray circleStorage)
+{
+    for (size_t k = 0; k < circleStorage.getSize(); ++k) {
+        cout << "( " << circleStorage.getElementByIdx(k).center.x << " ; " << circleStorage.getElementByIdx(k).center.y << " ) ";
+        cout << "R = " << circleStorage.getElementByIdx(k).r << endl;
+    }
+};
+void outputPoints(const SegmentArray segmentStorage)
+{
+    for (size_t k = 0; k < segmentStorage.getSize(); ++k) {
+        cout << "( " << segmentStorage.getElementByIdx(k).p1.x << " ; " << segmentStorage.getElementByIdx(k).p1.y << " ) :";
+        cout << "( " << segmentStorage.getElementByIdx(k).p2.x << " ; " << segmentStorage.getElementByIdx(k).p2.y << " ) " << endl;
+    }
+};
+void outputPoints(const SegmentList segmentStorage)
+{
+    for (size_t k = 0; k < segmentStorage.getSize(); ++k) {
+        cout << "( " << segmentStorage.getElementByIdx(k).p1.x << " ; " << segmentStorage.getElementByIdx(k).p1.y << " ) :";
+        cout << "( " << segmentStorage.getElementByIdx(k).p2.x << " ; " << segmentStorage.getElementByIdx(k).p2.y << " ) " << endl;
+    }
+};
+*/
 //void OutputPoints(Array<Point>& pointStorage)
 //{
 //    Array<Point>::Marker m = pointStorage.init();
@@ -94,7 +93,6 @@
 //        ++m;
 //    }
 //}
-//
 //int main(int argc, char* argv[])
 //{
 //    setlocale(LC_ALL, "Russian");
@@ -247,28 +245,39 @@
 //
 //    for (UniDict<ParamType, double>::Marker mark = objProperties.init(); mark != objProperties.afterEnd(); mark++)
 //    {
-//        cout << (*mark).che << " : " << (*mark).cht << endl;
+//        cout << (*mark).key << " : " << (*mark).val << endl;
 //    }
 //  
 //   
 //    return 0;
 //}
-#include "TreeDict.h"
 
 int main()
 {
-	TreeDict<int, int> Dict;
-	Dict.add(1, 8);
+   /* TreeDict<int, int> Dict;
+    Dict.add(7, 5);
+    Dict.add(8, -1);
+    Dict.add(9, 0);
 
-	Dict.add(2, 9);
-	Dict.add(3, 1);
-	Dict.add(4, 6);
-	Dict.add(5, 14);
-	Dict.add(6, 28);
-	Dict.add(7, 5);
-	Dict.add(8, -1);
-	Dict.add(9, 0);
-	int a = Dict.getHeight();
+    BasicInterface bi;
 
-	return 0;
-}
+    bi.addObject(OT_SEGMENT);
+    bi.addObject(OT_POINT);
+    bi.addObject(OT_POINT);*/
+
+    Array<double> arr;
+    
+    for (int i = 0; i < 8; i++)
+    {
+        arr.add(i);
+    }
+
+    Array<double>::Marker ma = arr.init();
+    while (ma.canMoveNext())
+    {
+        cout << *ma << endl;
+    }
+   
+
+    return 0;
+};

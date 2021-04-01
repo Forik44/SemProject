@@ -1,19 +1,20 @@
 #pragma once
 #include "Array.h"
-template<typename  Chemu, typename Chto> class UniDict
+template<typename  Key, typename Value> class UniDict
 {
 private:
-    struct Para {
-        Chemu che;
-        Chto cht;
+    struct Para 
+    {
+        Key key;
+        Value val;
     };
     Array<Para> m_storage;
     size_t size;
     friend class Marker;
 public:
 	UniDict();
-    void add(Chemu che, Chto cht);
-    Chto& operator[](Chemu che);
+    void add(Key key, Value val);
+    Value& operator[](Key key);
     class Marker
     {
     private:
@@ -36,20 +37,19 @@ public:
         };
         void operator++(int)
         {
-            /*mark.Elem++;
-            mark.Idx++;*/
+            mark++;
         };
         bool operator==(const Marker& secondMarker) const
         {
-            return /*(this->mark.Elem == secondMarker.mark.Elem && this->mark.Idx == secondMarker.mark.Idx)*/false;
+            return mark == secondMarker.mark;
         };
         bool operator!=(const Marker& secondMarker) const
         {
-            return /*!(*this == secondMarker)*/false;
+            return mark != secondMarker.mark;
         }
         bool canMoveNext()
         {
-            return (mark.Idx < mark.markerSize);
+            return mark != m_storage.afterEnd();
         };
     };
     Marker init()
@@ -78,37 +78,35 @@ public:
     {
         return m_storage.removeElementByIdx(idx);
     }
-    Chemu getChemuByIdx(size_t idx)
+    Key getChemuByIdx(size_t idx)///////////////////////////////////////////////////////////////////////
     {
-       /* return m_storage[idx].Chemu;*/
-        Chemu che;
-        return che;
+        Key key;
+        return key;
     }
 };
 
-template<typename  Chemu, typename Chto> UniDict<Chemu, Chto>::UniDict()
+template<typename  Key, typename Value> UniDict<Key, Value>::UniDict()
 {
-   /* size = 0;
-    m_storage = nullptr;*/
+    size = 0;
 };
-template<typename  Chemu, typename Chto> void UniDict<Chemu, Chto>::add(Chemu che, Chto cht)
+template<typename  Key, typename Value> void UniDict<Key, Value>::add(Key key, Value val)
 {
 	Para newPara;
-	newPara.che = che;
-	newPara.cht = cht;
+	newPara.key = key;
+	newPara.val = val;
     size++;
 	m_storage.add(newPara);
 }
-//template<typename  Chemu, typename Chto> Chto& UniDict<Chemu, Chto>::operator[](Chemu che)
-//{
-//	Array<Para>::Marker m = m_storage.init();
-//	for (; m != m_storage.afterEnd(); m++)
-//	{
-//		if ((*m).che == che)
-//		{
-//			return (*m).chto;
-//		}
-//	}
-//	return -1;
-//}
+template<typename Key, typename Value> Value& UniDict<Key, Value>::operator[](Key key)
+{
+	Array<Para> Marker:: m = m_storage.init();
+	for (; m != m_storage.afterEnd(); m++)
+	{
+		if ((*m).key == key)
+		{
+			return (*m).value;
+		}
+	}
+	return -1;
+}
 

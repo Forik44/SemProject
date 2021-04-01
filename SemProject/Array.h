@@ -65,10 +65,8 @@ public:
         void setMarkerSize(size_t size)
         {
             mark.markerSize = size;
-        }
-        
+        }  
     };
-  
     Marker init()
     {
         Marker ma;
@@ -95,6 +93,7 @@ public:
     };
     friend class Marker;
 };
+
 
 template<typename ArrayElement> Array<ArrayElement>::Array()
 {
@@ -136,9 +135,9 @@ template<typename ArrayElement> void Array<ArrayElement>::add(ArrayElement val2a
         tmp[size] = val2add;
         delete[] data;
         data = tmp;
-        size++;
-        
+        size++;     
     }
+    
 };
 template<typename ArrayElement> ArrayElement& Array<ArrayElement>::operator[](size_t idx)
 {
@@ -182,5 +181,11 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
 
 
 
-
+template<typename ArrayElement>  Array<ArrayElement>& Array<ArrayElement>::operator=(const Array<ArrayElement>& drob)
+{
+    data = drob.data;
+    size = drob.size;
+    
+    return *this;
+}
 
