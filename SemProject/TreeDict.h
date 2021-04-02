@@ -16,7 +16,7 @@ private:
     size_t size;
     Node* m_root;
 
-    /* size_t getHeightR(Node* tmp)const
+     size_t getHeightR(Node* tmp)const
      {
          int a = 0, b = 0;
          if (tmp->left != nullptr)
@@ -36,7 +36,7 @@ private:
          else
              return b;
 
-     }*/
+     }
 public:
     TreeDict()
     {
@@ -49,19 +49,26 @@ public:
     {
         return size;
     };
-    /*size_t getHeight()const
+    size_t getHeight()const
     {
         int a = 0, b = 0;
         Node* tmp = m_root;
-        if (tmp->left != nullptr)
-            a = getHeightR(tmp->left);
-        if (tmp->right != nullptr)
-            b = getHeightR(tmp->right);
+        if (tmp != nullptr) {
+            if (tmp->left != nullptr && tmp->right != nullptr)
+            {
+                if (tmp->left != nullptr)
+                    a = getHeightR(tmp->left);
+                if (tmp->right != nullptr)
+                    b = getHeightR(tmp->right);
+            }
+            else return 1;
+        }
+        else return 0;
         if (a > b)
             return a++;
         else
             return b++;
-    }*/
+    }
 };
 
 template<typename Key, typename Value> Value& TreeDict<Key, Value>::operator[](Key key)
