@@ -19,7 +19,7 @@ public:
     void add(ArrayElement val2add);
     ArrayElement& operator[](size_t idx);
     const ArrayElement& operator[](size_t idx)const;
-    Array<ArrayElement>& operator=(const Array<ArrayElement>& drob);
+
     bool removeElementByIdx(size_t idx);
    /* removeByMarker(const Marker&);*/
     size_t getSize() const
@@ -65,7 +65,16 @@ public:
         {
             mark.markerSize = size;
         }  
-    };
+    }; 
+    Array& operator= (const Array& arr)
+    {
+        for (size_t i = 0; i < arr.getSize(); i++)
+        {
+            data[i] = arr.data[i];
+        }
+        size = arr.size;
+        return *this;
+    }
     Marker init()
     {
         Marker ma;
@@ -180,11 +189,5 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
 
 
 
-template<typename ArrayElement>  Array<ArrayElement>& Array<ArrayElement>::operator=(const Array<ArrayElement>& drob)
-{
-    data = drob.data;
-    size = drob.size;
-    
-    return *this;
-}
+
 
