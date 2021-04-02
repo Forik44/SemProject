@@ -50,7 +50,6 @@ ID  BasicInterface::addRequirement(const Array<ID>& ide, ReqType rt) {
     case RT_PARALLEL:
         break;
     case RT_ORTHO:
-		
         break;
     case RT_COINCIDE:
         break;
@@ -59,7 +58,7 @@ ID  BasicInterface::addRequirement(const Array<ID>& ide, ReqType rt) {
     case RT_DISTANCE:
         break;
     }
-	solveReqs();
+	
     return id;
 
 };
@@ -152,7 +151,7 @@ ObjType BasicInterface::identifyObjTypeByID(ID id)
     while (sm != m_segments.afterEnd())
     {
         if ((*sm).key == id)
-            return OT_CIRCLE;
+            return OT_SEGMENT;
         sm++;
     }
     return OT_ERROR;
@@ -253,28 +252,81 @@ double BasicInterface::ReqOrtho(ID idSegement1, ID idSegement2)
 
     return abs(A1 * A2 + B1 * B2);
 };
-double  BasicInterface::partDerivative(Array<double>& arr, int varNumber, ID id1, ID id2)
+double  BasicInterface::partOrthoDerivative(Array<double>& arr, int varNumber, ID id1, ID id2)
 {
     if (arr.getSize() <= varNumber)
         return 0;
-    double delta = 0.00000000000001;
+
+    double delta = 1e-10;
     double var = arr[varNumber];
-    double y1 = ReqOrtho(id1, id2);
-    if (y1 == -1)
+
+    double req1 = ReqOrtho(id1, id2);
+    if (req1 == -1)
         return 0;
+
     arr[varNumber] = var + delta;
     setX(arr);
-    double y2 = ReqOrtho(id1, id2);
-    if (y2 == -1)
-        return 0;
-    arr[varNumber] = var;
-    return (y2 - y1) / delta;
-}
-double BasicInterface::calcError() 
-{
 
-    return 1;
+    double req2 = ReqOrtho(id1, id2);
+    if (req2 == -1)
+        return 0;
+
+    arr[varNumber] = var;
+    setX(arr);
+
+    return (req2 - req1) / delta;
 }
+void BasicInterface::solveOrtho(Array<double>& arr, ID id1, ID id2)
+{
+    double secondOrtho, firstOrtho = ReqOrtho(id1, id2);
+    double lambda = 0.1;
+    std::cout << "ReqOrtho before: " << firstOrtho << std::endl;
+
+    while (firstOrtho > 0.01)
+    {
+        Array<double> devArr, newArr;
+        firstOrtho = ReqOrtho(id1, id2);
+        system("cls");
+        for (Array<double>::Marker m = arr.init(); m.canMoveNext(); m++)
+        {
+            std::cout << *m << std::endl;
+        };
+
+        int i = 0;
+        for (Array<double>::Marker m = arr.init(); m.canMoveNext(); m++, i++)
+        {
+            devArr.add(partOrthoDerivative(arr, i, id1, id2));   //Составляем вектор производных
+        };
+
+        i = 0;
+        for (Array<double>::Marker m = arr.init(); m.canMoveNext(); m++, i++)
+        {
+            newArr.add(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
+        };
+
+        setX(newArr);
+
+        secondOrtho = ReqOrtho(id1, id2);
+       
+        if (secondOrtho > firstOrtho)   //Если ситуация не улучшилась
+        {
+            setX(arr);
+            lambda = lambda / 10;
+        }
+        else
+        {
+            firstOrtho = secondOrtho;
+            i = 0;
+            for (Array<double>::Marker m = arr.init(); m.canMoveNext(); m++, i++)
+            {
+                arr[i] = newArr[i];
+            };
+        }
+    }
+
+    std::cout << "ReqOrtho after: " << ReqOrtho(id1, id2) << std::endl;
+}
+
 bool BasicInterface::solveReqs() 
 {
     UniDict<ID, Requirement>::Marker reqMark = m_requirements.init();

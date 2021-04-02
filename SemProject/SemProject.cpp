@@ -36,6 +36,17 @@ std::ostream& operator<<(std::ostream& ost, enum ParamType& p)
     cout << ParamTypesNames[p];
     return ost;
 }
+std::ostream& operator<<(std::ostream& ost, enum ObjType& obj)
+{
+    string ObjTypesNames[] {
+    "OT_ERROR",
+    "OT_POINT",
+    "OT_SEGMENT",
+    "OT_CIRCLE"
+    };
+    cout << ObjTypesNames[obj];
+    return ost;
+}
 //
 //Point p1, p2;
 //std::cout << p1 << "   " << p2 << std::endl;
@@ -254,7 +265,7 @@ void outputPoints(const SegmentList segmentStorage)
 
 int main()
 {
-   /* TreeDict<int, int> Dict;
+    TreeDict<int, int> Dict;
     Dict.add(7, 5);
     Dict.add(8, -1);
     Dict.add(9, 0);
@@ -262,22 +273,35 @@ int main()
     BasicInterface bi;
 
     bi.addObject(OT_SEGMENT);
-    bi.addObject(OT_POINT);
-    bi.addObject(OT_POINT);*/
+    bi.addObject(OT_SEGMENT);
 
     Array<double> arr;
     
-    for (int i = 0; i < 8; i++)
+    arr.add(0);
+    arr.add(0);
+    arr.add(3);
+    arr.add(1);
+    arr.add(0);
+    arr.add(0); 
+    arr.add(0); 
+    arr.add(3);
+
+
+    bi.setX(arr);
+    ID id1, id2;
+    id1.setID(0);
+    id2.setID(1);
+   
+    bi.solveOrtho(arr, id1, id2);
+    arr = bi.getX();
+    Array<double>::Marker mark = arr.init();
+    while (mark.canMoveNext())
     {
-        arr.add(i);
+        cout << *mark << endl;
+        mark++;
     }
 
-    Array<double>::Marker ma = arr.init();
-    while (ma.canMoveNext())
-    {
-        cout << *ma << endl;
-    }
-   
+    
 
     return 0;
 };
