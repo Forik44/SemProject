@@ -266,11 +266,9 @@ void outputPoints(const SegmentList segmentStorage)
 int main()
 {
     TreeDict<int, int> Dict;
-    Dict.add(1, 5);
-    Dict.add(2, 9);
-    Dict.add(3, 1);
-    Dict.add(4, -1);
-    Dict.add(5, -6);
+    Dict.add(1, 9);
+    Dict.add(2, 7);
+    Dict.add(3, 8);
     cout << Dict.getHeight();
 
     BasicInterface bi;

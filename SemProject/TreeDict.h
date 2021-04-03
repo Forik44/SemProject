@@ -1,5 +1,5 @@
 #pragma once
-#include <cmath>
+#include <math.h>
 
 template<typename Key, typename Value> class TreeDict
 {
@@ -143,33 +143,37 @@ template<typename Key, typename Value> Value& TreeDict<Key, Value>::operator[](K
 
 template<typename Key, typename Value> bool TreeDict<Key, Value>::checkRotate(Node* current)
 {
-    return math::abs(getHeight(current->left) - getHeight(current->right)) < 2;
+    return abs(getHeight(current->left) - getHeight(current->right)) < 2;
 }
 
 template<typename Key, typename Value> void TreeDict<Key, Value>::leadRotate(Node* current)
 {
     while (current != m_root)
     {
-        std::cout << m_root->data.value;
+ 
         if (checkRotate(current) == 1)
             current = current->prev;
         else
         {
             DoRotate(current);
+            current = current->prev->prev;
         }
     }
 }
 template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node* current)
 {
     Node* tmp = current;
+    
     if (getHeight(current->left) > getHeight(current->right))
     {
         if (getHeight(current->left->left) > getHeight(current->left->right))
         {
+            
             current->prev->left = current->left;
             tmp->left->prev = tmp->prev;
             tmp->left->right = tmp;
             tmp->prev = tmp->left;
+            tmp->left = nullptr;
         }
         else
         {
@@ -182,6 +186,7 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node*
             tmp->left->prev = tmp->prev;
             tmp->left->right = tmp;
             tmp->prev = tmp->left;
+            tmp->left = nullptr;
         }
     }
     else
@@ -192,6 +197,7 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node*
             tmp->right->prev = tmp->prev;
             tmp->right->left = tmp;
             tmp->prev = tmp->right;
+            tmp->left = nullptr;
         }
         else 
         {
@@ -204,6 +210,7 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node*
             tmp->right->prev = tmp->prev;
             tmp->right->left = tmp;
             tmp->prev = tmp->right;
+            tmp->left = nullptr;
         }
     }
 }
