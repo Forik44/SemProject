@@ -1,5 +1,5 @@
 ﻿#include "TreeDict.h"
-#include "Basicinterface.h"
+#include "basicinterface.h"
 #include <iostream>
 #include <locale>
 
@@ -265,42 +265,13 @@ void outputPoints(const SegmentList segmentStorage)
 
 int main()
 {
-    TreeDict<int, int> Dict;
+    /*TreeDict<int, int> Dict;
     Dict.add(1, 9);
     Dict.add(2, 7);
     Dict.add(3, 8);
-    cout << Dict.getHeight();
+    cout << Dict.getHeight();*/
 
-    BasicInterface bi;
-
-    bi.addObject(OT_SEGMENT);
-    bi.addObject(OT_SEGMENT);
-
-    Array<double> arr;
-    
-  /*  arr.add(0);
-    arr.add(0);
-    arr.add(3);
-    arr.add(1);
-    arr.add(0);
-    arr.add(0); 
-    arr.add(0); 
-    arr.add(3);
-
-
-    bi.setX(arr);
-    ID id1, id2;
-    id1.setID(0);
-    id2.setID(1);
-   
-    bi.solveOrtho(id1, id2);
-    arr = bi.getX();
-    Array<double>::Marker mark = arr.init();
-    while (mark.canMoveNext())
-    {
-        cout << *mark << endl;
-        mark++;
-    }*/
+  
 
     
 

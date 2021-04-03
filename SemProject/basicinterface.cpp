@@ -289,19 +289,19 @@ void BasicInterface::solveOrtho(ID id1, ID id2)
         Array<double> devArr, newArr;
         firstOrtho = ReqOrtho(id1, id2);
         system("cls");
-        for (Array<double>::Marker m = arr.init(); m.canMoveNext(); m++)
+        for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++)
         {
             std::cout << *m << std::endl;
         };
 
         int i = 0;
-        for (Array<double>::Marker m = arr.init(); m.canMoveNext(); m++, i++)
+        for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
         {
             devArr.add(partOrthoDerivative(i, id1, id2));   //Составляем вектор производных
         };
 
         i = 0;
-        for (Array<double>::Marker m = arr.init(); m.canMoveNext(); m++, i++)
+        for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
         {
             newArr.add(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
         };
