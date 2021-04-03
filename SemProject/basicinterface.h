@@ -34,7 +34,7 @@ public:
     UniDict<ParamType, double> queryObjProperties(ID);
     ObjType identifyObjTypeByID(ID);
     bool removeRequirement(ID);
-    void solveOrtho(Array<double>& arr, ID id1, ID id2);
+    void solveOrtho(ID id1, ID id2);
     Array<double> getX();
     void setX(const Array<double>& x);
 private:
@@ -45,7 +45,7 @@ private:
     UniDict<ID, Requirement> m_requirements;
 
     double ReqOrtho(ID idSegement1, ID idSegement2);
-    double partOrthoDerivative(Array<double>& arr, int varNumber, ID id1, ID id2);
+    double partOrthoDerivative(int varNumber, ID id1, ID id2);
 	//Array<double> getX();
 	//void setX(const Array<double>&x);
 	bool solveReqs();

@@ -252,8 +252,9 @@ double BasicInterface::ReqOrtho(ID idSegement1, ID idSegement2)
 
     return abs(A1 * A2 + B1 * B2);
 };
-double  BasicInterface::partOrthoDerivative(Array<double>& arr, int varNumber, ID id1, ID id2)
+double  BasicInterface::partOrthoDerivative(int varNumber, ID id1, ID id2)
 {
+    Array<double> arr = getX();
     if (arr.getSize() <= varNumber)
         return 0;
 
@@ -276,8 +277,9 @@ double  BasicInterface::partOrthoDerivative(Array<double>& arr, int varNumber, I
 
     return (req2 - req1) / delta;
 }
-void BasicInterface::solveOrtho(Array<double>& arr, ID id1, ID id2)
+void BasicInterface::solveOrtho(ID id1, ID id2)
 {
+    Array<double> arr = getX();
     double secondOrtho, firstOrtho = ReqOrtho(id1, id2);
     double lambda = 0.1;
     std::cout << "ReqOrtho before: " << firstOrtho << std::endl;
@@ -295,7 +297,7 @@ void BasicInterface::solveOrtho(Array<double>& arr, ID id1, ID id2)
         int i = 0;
         for (Array<double>::Marker m = arr.init(); m.canMoveNext(); m++, i++)
         {
-            devArr.add(partOrthoDerivative(arr, i, id1, id2));   //Составляем вектор производных
+            devArr.add(partOrthoDerivative(i, id1, id2));   //Составляем вектор производных
         };
 
         i = 0;

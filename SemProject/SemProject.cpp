@@ -292,7 +292,7 @@ int main()
     id1.setID(0);
     id2.setID(1);
    
-    bi.solveOrtho(arr, id1, id2);
+    bi.solveOrtho(id1, id2);
     arr = bi.getX();
     Array<double>::Marker mark = arr.init();
     while (mark.canMoveNext())
