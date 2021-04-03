@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 template<typename Key, typename Value> class TreeDict
 {
@@ -37,12 +38,37 @@ private:
              return b;
 
      }
+     size_t getHeight(Node* current)const
+     {
+         int a = 0, b = 0;
+         Node* tmp = current;
+         if (tmp != nullptr) {
+             if (tmp->left != nullptr || tmp->right != nullptr)
+             {
+                 if (tmp->left != nullptr)
+                     a = getHeightR(tmp->left);
+                 if (tmp->right != nullptr)
+                     b = getHeightR(tmp->right);
+             }
+             else return 1;
+         }
+         else return 0;
+         if (a > b)
+             return a++;
+         else
+             return b++;
+     }
+     bool checkRotate(Node* current);
+     void leadRotate(Node* current);
+     void DoRotate(Node* current);
 public:
     TreeDict()
     {
         size = 0;
         m_root = nullptr;
     }
+    
+    //v
     void add(Key key, Value val);
     Value& operator[](Key key);
     size_t getSize()const
@@ -54,7 +80,7 @@ public:
         int a = 0, b = 0;
         Node* tmp = m_root;
         if (tmp != nullptr) {
-            if (tmp->left != nullptr && tmp->right != nullptr)
+            if (tmp->left != nullptr || tmp->right != nullptr)
             {
                 if (tmp->left != nullptr)
                     a = getHeightR(tmp->left);
@@ -115,6 +141,73 @@ template<typename Key, typename Value> Value& TreeDict<Key, Value>::operator[](K
     }
 }
 
+template<typename Key, typename Value> bool TreeDict<Key, Value>::checkRotate(Node* current)
+{
+    return math::abs(getHeight(current->left) - getHeight(current->right)) < 2;
+}
+
+template<typename Key, typename Value> void TreeDict<Key, Value>::leadRotate(Node* current)
+{
+    while (current != m_root)
+    {
+        std::cout << m_root->data.value;
+        if (checkRotate(current) == 1)
+            current = current->prev;
+        else
+        {
+            DoRotate(current);
+        }
+    }
+}
+template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node* current)
+{
+    Node* tmp = current;
+    if (getHeight(current->left) > getHeight(current->right))
+    {
+        if (getHeight(current->left->left) > getHeight(current->left->right))
+        {
+            current->prev->left = current->left;
+            tmp->left->prev = tmp->prev;
+            tmp->left->right = tmp;
+            tmp->prev = tmp->left;
+        }
+        else
+        {
+            Node* tmpLeft = current->left;
+            current->left = current->left->right;
+            tmpLeft->right->prev = tmpLeft->prev;
+            tmpLeft->right->left = tmpLeft;
+            tmpLeft->prev = tmpLeft->right;
+            current->prev->left = current->left;
+            tmp->left->prev = tmp->prev;
+            tmp->left->right = tmp;
+            tmp->prev = tmp->left;
+        }
+    }
+    else
+    {
+        if (getHeight(current->right->right) > getHeight(current->right->left))
+        {
+            current->prev->right = current->right;
+            tmp->right->prev = tmp->prev;
+            tmp->right->left = tmp;
+            tmp->prev = tmp->right;
+        }
+        else 
+        {
+            Node* tmpRight = current->right;
+            current->right = current->right->left;
+            tmpRight->left->prev = tmpRight->prev;
+            tmpRight->left->right = tmpRight;
+            tmpRight->prev = tmpRight->left;
+            current->prev->right = current->right;
+            tmp->right->prev = tmp->prev;
+            tmp->right->left = tmp;
+            tmp->prev = tmp->right;
+        }
+    }
+}
+
 template<typename Key, typename Value> void TreeDict<Key, Value>::add(Key key, Value value)
 {
     size++;
@@ -139,9 +232,9 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::add(Key key, V
         if (cur->data.key == key)
             return;
 
-        if (key < cur->data.key)
+        if (key > cur->data.key)
             next = &cur->left;
-        else if (key > cur->data.key)
+        else if (key < cur->data.key)
             next = &cur->right;
 
         if (*next == nullptr)
@@ -154,10 +247,11 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::add(Key key, V
             p.value = value;
             tmp->data = p;
             *next = tmp;
+            leadRotate(tmp);
             return;
         }
-
         cur = *next;
+        
     }
 
 }
