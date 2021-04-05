@@ -1,6 +1,7 @@
 #pragma once
 
-#include "stdlib.h"
+#include <cstdlib>
+#include <cmath>
 #include "Array.h"
 
 enum ObjType{

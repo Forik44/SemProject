@@ -27,9 +27,7 @@ public:
         };
         const Para& operator*() const
         {
-            Marker m;
-            m.mark = m_storage.init();
-            return (*m.mark);
+            return *mark;
         };
         void operator++()
         {
@@ -49,7 +47,7 @@ public:
         }
         bool canMoveNext()
         {
-            return mark != m_storage.afterEnd();
+            return false; //mark != m_storage.afterEnd();
         };
     };
     Marker init()
@@ -99,7 +97,7 @@ template<typename  Key, typename Value> void UniDict<Key, Value>::add(Key key, V
 }
 template<typename Key, typename Value> Value& UniDict<Key, Value>::operator[](Key key)
 {
-	Array<Para> Marker:: m = m_storage.init();
+    typename Array<Para>::Marker m = m_storage.init();
 	for (; m != m_storage.afterEnd(); m++)
 	{
 		if ((*m).key == key)
