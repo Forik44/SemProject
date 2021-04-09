@@ -1,9 +1,10 @@
 #pragma once
 #include <math.h>
-
+#include "Array.h"
 template<typename Key, typename Value> class TreeDict
 {
 private:
+    friend class Marker;
     struct Para
     {
         Key key;
@@ -16,9 +17,10 @@ private:
     };
     size_t size;
     Node* m_root;
-
-     size_t getHeightR(Node* tmp)const
-     {
+    Array<Para> m_storage;
+    
+    size_t getHeightR(Node* tmp)const
+    {
          int a = 0, b = 0;
          if (tmp->left != nullptr)
          {
@@ -37,7 +39,7 @@ private:
          else
              return b;
 
-     }
+    }
      size_t getHeight(Node* current)const
      {
          int a = 0, b = 0;
@@ -61,6 +63,15 @@ private:
      bool checkRotate(Node* current);
      void leadRotate(Node* current);
      void DoRotate(Node* current);
+     void setStorage(Node* m_root, int counter)
+     {
+         Node* tmp = m_root;
+         if (tmp == nullptr) return;
+         setStorage(tmp->left, counter);
+         m_storage.add(tmp->data);
+         counter++;
+         setStorage(tmp->right, counter);
+     }
 public:
     TreeDict()
     {
@@ -75,9 +86,9 @@ public:
     {
     private:
         typename Array<Para>::Marker mark;
-        Array<Para> m_storage;
+        
     public:
-        friend class UniDict;
+        friend class TreeDict;
         Para& operator*()
         {
             return (*mark);
@@ -102,15 +113,6 @@ public:
         {
             return mark != secondMarker.mark;
         }
-        void setStorage(Node* m_root, int counter)
-        {
-            Node* tmp = m_root;
-            if (tmp == nullptr) return;
-            setStorage(tmp->right);
-            m_storage[counter] = tmp;
-            counter++;
-            setStorage(tmp->left);
-        }
         bool canMoveNext()
         {
             return false; //mark != m_storage.afterEnd();
@@ -119,7 +121,7 @@ public:
     Marker init()
     {
         Marker m;
-        m.setStorage(m_root, 0);
+        setStorage(m_root, 0);
         m.mark = m_storage.init();
         return m;
     };
@@ -132,7 +134,7 @@ public:
     Marker initAfterAddingNewElement()
     {
         Marker ma;
-        m.setStorage(m_root);
+        ma.setStorage(m_root);
         ma.mark = m_storage.initAfterAddingNewElement();
         return ma;
     };
@@ -208,7 +210,7 @@ template<typename Key, typename Value> Value& TreeDict<Key, Value>::operator[](K
 
 template<typename Key, typename Value> bool TreeDict<Key, Value>::checkRotate(Node* current)
 {
-    return abs(getHeight(current->left) - getHeight(current->right)) < 2;
+    return fabs(getHeight(current->left) - getHeight(current->right)) < 2;
 }
 
 template<typename Key, typename Value> void TreeDict<Key, Value>::leadRotate(Node* current)
@@ -216,7 +218,7 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::leadRotate(Nod
     while (current != m_root)
     {
  
-        if (checkRotate(current) == 1)
+        if (checkRotate(current) < 2)
             current = current->prev;
         else
         {
@@ -305,9 +307,9 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::add(Key key, V
             return;
 
         if (key > cur->data.key)
-            next = &cur->left;
-        else if (key < cur->data.key)
             next = &cur->right;
+        else if (key < cur->data.key)
+            next = &cur->left;
 
         if (*next == nullptr)
         {
