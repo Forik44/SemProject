@@ -71,6 +71,71 @@ public:
     //v
     void add(Key key, Value val);
     Value& operator[](Key key);
+    class Marker
+    {
+    private:
+        typename Array<Para>::Marker mark;
+        Array<Para> m_storage;
+    public:
+        friend class UniDict;
+        Para& operator*()
+        {
+            return (*mark);
+        };
+        const Para& operator*() const
+        {
+            return *mark;
+        };
+        void operator++()
+        {
+            mark++;
+        };
+        void operator++(int)
+        {
+            mark++;
+        };
+        bool operator==(const Marker& secondMarker) const
+        {
+            return mark == secondMarker.mark;
+        };
+        bool operator!=(const Marker& secondMarker) const
+        {
+            return mark != secondMarker.mark;
+        }
+        void setStorage(Node* m_root, int counter)
+        {
+            Node* tmp = m_root;
+            if (tmp == nullptr) return;
+            setStorage(tmp->right);
+            m_storage[counter] = tmp;
+            counter++;
+            setStorage(tmp->left);
+        }
+        bool canMoveNext()
+        {
+            return false; //mark != m_storage.afterEnd();
+        };
+    };
+    Marker init()
+    {
+        Marker m;
+        m.setStorage(m_root, 0);
+        m.mark = m_storage.init();
+        return m;
+    };
+    Marker afterEnd()
+    {
+        Marker m;
+        m.mark = m_storage.afterEnd();
+        return m;
+    };
+    Marker initAfterAddingNewElement()
+    {
+        Marker ma;
+        m.setStorage(m_root);
+        ma.mark = m_storage.initAfterAddingNewElement();
+        return ma;
+    };
     size_t getSize()const
     {
         return size;
