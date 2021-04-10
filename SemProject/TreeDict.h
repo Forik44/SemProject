@@ -14,6 +14,34 @@ private:
     {
         Node* left, * right, * prev;
         Para data;
+        Node* getNextNode()
+        {
+            Node* tmp = this;
+            if (tmp->right != nullptr)
+            {
+                tmp = tmp->right;
+                while (tmp->left != nullptr)
+                {
+                    tmp = tmp->left;
+                }
+                return tmp;
+            }
+            else
+            {
+                while(tmp->prev != nullptr)
+                {
+                    if (tmp == tmp->prev->right)
+                    {
+                        tmp = tmp->prev;
+                    }
+                    else
+                    {
+                        return tmp;
+                    }
+                }
+                return nullptr;
+            }
+        }
     };
     size_t size;
     Node* m_root;
