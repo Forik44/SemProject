@@ -139,20 +139,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="basicinterface.cpp" />
-    <ClCompile Include="objects.cpp" />
-    <ClCompile Include="SemProject.cpp" />
-    <ClCompile Include="Tests.cpp" />
+    <ClCompile Include="src\basicinterface.cpp" />
+    <ClCompile Include="src\objects.cpp" />
+    <ClCompile Include="src\SemProject.cpp" />
+    <ClCompile Include="src\Tests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Array.h" />
-    <ClInclude Include="basicinterface.h" />
-    <ClInclude Include="Dict.h" />
-    <ClInclude Include="List.h" />
-    <ClInclude Include="PSDrawer.h" />
-    <ClInclude Include="Tests.h" />
-    <ClInclude Include="objects.h" />
-    <ClInclude Include="TreeDict.h" />
+    <ClInclude Include="include\Array.h" />
+    <ClInclude Include="include\basicinterface.h" />
+    <ClInclude Include="include\Dict.h" />
+    <ClInclude Include="include\List.h" />
+    <ClInclude Include="include\PSDrawer.h" />
+    <ClInclude Include="include\Tests.h" />
+    <ClInclude Include="include\objects.h" />
+    <ClInclude Include="include\TreeDict.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

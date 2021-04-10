@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "List.h"
+#include "..\include\List.h"
 
 bool testListAdd(){
-
+    return 1;
 }
 bool testListIteration(){
     List<int> li;

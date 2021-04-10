@@ -1,5 +1,5 @@
-﻿#include "TreeDict.h"
-#include "basicinterface.h"
+﻿#include "..\include\TreeDict.h"
+#include "..\include\basicinterface.h"
 #include <iostream>
 #include <locale>
 
