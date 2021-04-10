@@ -17,9 +17,8 @@ private:
     };
     size_t size;
     Node* m_root;
-    Array<Para> m_storage;
     
-    size_t getHeightR(Node* tmp)const
+     size_t getHeightR(Node* tmp)const
     {
          int a = 0, b = 0;
          if (tmp->left != nullptr)
@@ -79,30 +78,31 @@ public:
         m_root = nullptr;
     }
     
-    //v
     void add(Key key, Value val);
     Value& operator[](Key key);
+
     class Marker
     {
     private:
-        typename Array<Para>::Marker mark;
+        Node* mark;
+        Node* getNextNode();
     public:
         friend class UniDict;
         Para& operator*()
         {
-            return (*mark);
+            return (*mark).data;
         };
         const Para& operator*() const
         {
-            return *mark;
+            return (*mark).data;
         };
         void operator++()
         {
-            mark++;
+            mark = getNextNode();
         };
         void operator++(int)
         {
-            mark++;
+            mark = getNextNode();
         };
         bool operator==(const Marker& secondMarker) const
         {
@@ -114,7 +114,13 @@ public:
         }
         bool canMoveNext()
         {
-            return false; //mark != m_storage.afterEnd();
+            return getNextNode() != nullptr;
+        };
+        Marker& afterEnd()
+        {
+            Marker m;
+            m.mark = nullptr;
+            return m;
         };
     };
     Marker init()
@@ -126,8 +132,8 @@ public:
             tmp = tmp->left;
         }
         m.setMarkerSize(size);
-        m.mark.Elem = tmp;
-        m.mark.Idx = 0;
+        m.mark = tmp;
+ 
         return m;
     };
     Marker afterEnd()
