@@ -86,9 +86,8 @@ public:
     {
     private:
         typename Array<Para>::Marker mark;
-        
     public:
-        friend class TreeDict;
+        friend class UniDict;
         Para& operator*()
         {
             return (*mark);
@@ -121,20 +120,32 @@ public:
     Marker init()
     {
         Marker m;
-        setStorage(m_root, 0);
-        m.mark = m_storage.init();
+        Node* tmp = m_root;
+        while (tmp->left != nullptr)
+        {
+            tmp = tmp->left;
+        }
+        m.setMarkerSize(size);
+        m.mark.Elem = tmp;
+        m.mark.Idx = 0;
         return m;
     };
     Marker afterEnd()
     {
         Marker m;
-        m.mark = m_storage.afterEnd();
-        return m;
+        m.setMarkerSize(size);
+        Node tmp* = m_root;
+        while (tmp->left != nullptr)
+        {
+            tmp = tmp->right;
+        }
+        m.mark.Elem = tmp;
+        m.mark.Idx = m.mark.markerSize;
+        return ma;
     };
     Marker initAfterAddingNewElement()
     {
         Marker ma;
-        ma.setStorage(m_root);
         ma.mark = m_storage.initAfterAddingNewElement();
         return ma;
     };
