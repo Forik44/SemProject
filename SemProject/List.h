@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdlib>
 
 template<typename ListElement> class List
 {
@@ -18,12 +19,13 @@ public:
     class Marker {
     private:
         Node* marker;
+        Node* getNext()const{
+            if (marker == nullptr ) throw 42;
+            return marker->next;
+        }
     public:
         friend class List;
-        bool canMoveNext()
-        {
-            return marker;
-        };
+        Marker():marker(nullptr){}
         ListElement& getElem()
         {
             return marker->data;
@@ -32,9 +34,15 @@ public:
         {
             return marker->data;
         };
-        void moveNext()
-        {
-            marker = marker->next;
+        bool operator==(const Marker& secondMarker) const{
+            return marker == secondMarker.marker;
+        }
+        void operator++(){
+
+            marker = getNext();
+        };
+        void operator++(int){
+            marker = getNext();
         };
 
     };
@@ -44,6 +52,9 @@ public:
         Mark.marker = first;
         return Mark;
     };
+    Marker afterEnd(){
+        return Marker();
+    }
     void add(ListElement val2add);
     const ListElement& getElementByIdx(size_t Num) const;
     ListElement& getElementByIdx(size_t Num);

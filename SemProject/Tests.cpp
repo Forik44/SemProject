@@ -1,5 +1,26 @@
+#include <iostream>
 
-//
+#include "List.h"
+
+bool testListAdd(){
+
+}
+bool testListIteration(){
+    List<int> li;
+    li.add(1);
+    li.add(2);
+    li.add(3);
+
+    List<int>::Marker marker = li.init();
+    int k = 1;
+    while ( ! (marker == li.afterEnd()) ){
+        if ( marker.getElem() != k ) return false;
+        ++k;
+        ++marker;
+    }
+    return true;
+}
+
 //#include "Tests.h"
 //
 //
@@ -48,10 +69,12 @@
 //    return false;
 //}
 //
-//void runAllTests()
-//{
+void runAllTests()
+{
 //    std::cout << "testPointArrayCreation() " << (testPointArrayCreation() ? "passed" : "failed") << std::endl;
 //    std::cout << "testPointArraySize() " << (testPointArraySize() ? "passed" : "failed") << std::endl;
 //    std::cout << "testPointArrayAccess1() " << (testPointArrayAccess1() ? "passed" : "failed") << std::endl;
 //    std::cout << "testPointArrayAccessN() " << (testPointArrayAccessN() ? "passed" : "failed") << std::endl;
-//}
+    std::cout << "testListIteration() " << (testListIteration() ? "passed" : "failed") << std::endl;
+}
+
