@@ -18,42 +18,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SemProject.cpp">
+    <ClCompile Include="src\basicinterface.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Tests.cpp">
+    <ClCompile Include="src\objects.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="basicinterface.cpp">
+    <ClCompile Include="src\SemProject.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="objects.cpp">
+    <ClCompile Include="src\Tests.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Tests.h">
+    <ClInclude Include="include\Array.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="objects.h">
+    <ClInclude Include="include\basicinterface.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dict.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="include\List.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects.h">
       <Filter>Файлы заголовков\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Array.h">
+    <ClInclude Include="include\PSDrawer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="basicinterface.h">
+    <ClInclude Include="include\Tests.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="List.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Dict.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="TreeDict.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="PSDrawer.h">
+    <ClInclude Include="include\TreeDict.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
