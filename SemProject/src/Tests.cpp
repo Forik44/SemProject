@@ -20,6 +20,53 @@ bool testListIteration(){
     }
     return true;
 }
+bool testStackSize(){
+    Stack<int> sta;
+    sta.push(1);
+    sta.push(2);
+    sta.push(3);
+    if ( sta.size() != 3 ) return false;
+    sta.pop();
+    if ( sta.size() != 2 ) return false;
+    sta.pop();
+    if ( sta.size() != 1 ) return false;
+    sta.pop();
+    if ( sta.size() != 0 ) return false;
+    return true;
+}
+
+bool testStackCheck(){
+    Stack<int> sta;
+    sta.push(1);
+    if ( sta.check() != 1 ) return false;
+    sta.push(42);
+    if ( sta.check() != 42 ) return false;
+    sta.push(333);
+    if ( sta.check() != 333 ) return false;
+    sta.pop();
+    if ( sta.check() != 42 ) return false;
+    sta.pop();
+    if ( sta.check() != 1 ) return false;
+    sta.pop();
+    try {
+        int xfail = sta.check();
+        return false;
+    }  catch () {
+
+    }
+    return true;
+}
+
+bool testStackPopEmpty(){
+    Stack<int> sta;
+    sta.push(1);
+    sta.push(2);
+    sta.push(3);
+    sta.pop();
+    return true;
+}
+
+
 
 //#include "Tests.h"
 //
