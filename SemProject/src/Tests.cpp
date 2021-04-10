@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include "..\include\List.h"
+#include "List.h"
+#include "Stack.h"
 
 bool testListAdd(){
     return 1;
