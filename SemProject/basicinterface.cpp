@@ -231,7 +231,7 @@ void BasicInterface::setX(const Array<double>& X) {
 
 
 
-double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance = 0)
+double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance)
 {
     ObjType ot1, ot2;
     ot1 = identifyObjTypeByID(id1);
@@ -383,7 +383,7 @@ double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance = 0)
     std::cout << "ERROR: ReqValue\n";
     return -1;
 };
-double  BasicInterface::partDerivative(int varNumber, ID id1, ID id2, ReqType rt, double distance = 0)
+double  BasicInterface::partDerivative(int varNumber, ID id1, ID id2, ReqType rt, double distance)
 {
     Array<double> arr = getX();
 
@@ -415,7 +415,7 @@ double  BasicInterface::partDerivative(int varNumber, ID id1, ID id2, ReqType rt
 
     return (req2 - req1) / delta;
 }
-void BasicInterface::solveReq(ID id1, ID id2, ReqType rt, double distance = 0)
+void BasicInterface::solveReq(ID id1, ID id2, ReqType rt, double distance)
 {
     Array<double> arr = getX();
 

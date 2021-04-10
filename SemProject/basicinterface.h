@@ -34,7 +34,7 @@ public:
     UniDict<ParamType, double> queryObjProperties(ID);
     ObjType identifyObjTypeByID(ID);
     bool removeRequirement(ID);
-    void solveReq(ID id1, ID id2, ReqType rt, double distance = 0);
+    void solveReq(ID id1, ID id2, ReqType rt, double distance=0);
     void setX(const Array<double>& x);
     Array<double> getX();
  
@@ -45,8 +45,8 @@ private:
     UniDict<ID, Segment> m_segments;
     UniDict<ID, Requirement> m_requirements;
 
-    double ReqValue(ID idSegement1, ID idSegement2, ReqType rt, double distance);
-    double partDerivative(int varNumber, ID id1, ID id2, ReqType rt, double distance = 0);
+    double ReqValue(ID idSegement1, ID idSegement2, ReqType rt, double distance=0);
+    double partDerivative(int varNumber, ID id1, ID id2, ReqType rt, double distance=0);
 	//Array<double> getX();
 	//void setX(const Array<double>&x);
 	bool solveReqs();

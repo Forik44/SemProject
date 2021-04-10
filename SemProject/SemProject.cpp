@@ -306,7 +306,7 @@ int main()
     id2.setID(1);
     
     bi.setX(x);
-    bi.solveReq(id1, id2);
+    bi.solveReq(id1, id2, RT_PARALLEL);
 
     
 
