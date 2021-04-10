@@ -1,6 +1,7 @@
 #ifndef PSDRAWER_H
 #define PSDRAWER_H
 #include <fstream>
+#include <iostream>
 class PSDrawer {
 
     public:

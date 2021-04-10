@@ -14,6 +14,34 @@ private:
     {
         Node* left, * right, * prev;
         Para data;
+        Node* getNextNode()
+        {
+            Node* tmp = this;
+            if (tmp->right != nullptr)
+            {
+                tmp = tmp->right;
+                while (tmp->left != nullptr)
+                {
+                    tmp = tmp->left;
+                }
+                return tmp;
+            }
+            else
+            {
+                while(tmp->prev != nullptr)
+                {
+                    if (tmp == tmp->prev->right)
+                    {
+                        tmp = tmp->prev;
+                    }
+                    else
+                    {
+                        return tmp;
+                    }
+                }
+                return nullptr;
+            }
+        }
     };
     size_t size;
     Node* m_root;
@@ -129,19 +157,6 @@ public:
         m.mark.Elem = tmp;
         m.mark.Idx = 0;
         return m;
-    };
-    Marker afterEnd()
-    {
-        Marker m;
-        m.setMarkerSize(size);
-        Node tmp* = m_root;
-        while (tmp->left != nullptr)
-        {
-            tmp = tmp->right;
-        }
-        m.mark.Elem = tmp;
-        m.mark.Idx = m.mark.markerSize;
-        return ma;
     };
     Marker initAfterAddingNewElement()
     {
