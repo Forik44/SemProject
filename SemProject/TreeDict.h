@@ -1,6 +1,6 @@
 #pragma once
 #include <math.h>
-#include "Array.h"
+
 template<typename Key, typename Value> class TreeDict
 {
 private:
@@ -62,15 +62,7 @@ private:
      bool checkRotate(Node* current);
      void leadRotate(Node* current);
      void DoRotate(Node* current);
-     void setStorage(Node* m_root, int counter)
-     {
-         Node* tmp = m_root;
-         if (tmp == nullptr) return;
-         setStorage(tmp->left, counter);
-         m_storage.add(tmp->data);
-         counter++;
-         setStorage(tmp->right, counter);
-     }
+    
 public:
     TreeDict()
     {
@@ -116,12 +108,6 @@ public:
         {
             return getNextNode() != nullptr;
         };
-        Marker& afterEnd()
-        {
-            Marker m;
-            m.mark = nullptr;
-            return m;
-        };
     };
     Marker init()
     {
@@ -136,24 +122,11 @@ public:
  
         return m;
     };
-    Marker afterEnd()
+    Marker& afterEnd()
     {
         Marker m;
-        m.setMarkerSize(size);
-        Node tmp* = m_root;
-        while (tmp->left != nullptr)
-        {
-            tmp = tmp->right;
-        }
-        m.mark.Elem = tmp;
-        m.mark.Idx = m.mark.markerSize;
-        return ma;
-    };
-    Marker initAfterAddingNewElement()
-    {
-        Marker ma;
-        ma.mark = m_storage.initAfterAddingNewElement();
-        return ma;
+        m.mark = nullptr;
+        return m;
     };
     size_t getSize()const
     {
