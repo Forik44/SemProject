@@ -14,34 +14,6 @@ private:
     {
         Node* left, * right, * prev;
         Para data;
-        Node* getNextNode()
-        {
-            Node* tmp = this;
-            if (tmp->right != nullptr)
-            {
-                tmp = tmp->right;
-                while (tmp->left != nullptr)
-                {
-                    tmp = tmp->left;
-                }
-                return tmp;
-            }
-            else
-            {
-                while(tmp->prev != nullptr)
-                {
-                    if (tmp == tmp->prev->right)
-                    {
-                        tmp = tmp->prev;
-                    }
-                    else
-                    {
-                        return tmp;
-                    }
-                }
-                return nullptr;
-            }
-        }
     };
     size_t size;
     Node* m_root;
@@ -105,9 +77,37 @@ public:
     {
     private:
         Node* mark;
-        Node* getNextNode();
+        Node* getNextNode()
+        {
+            Node* tmp = this->mark;
+            if (tmp->right != nullptr)
+            {
+                tmp = tmp->right;
+                while (tmp->left != nullptr)
+                {
+                    tmp = tmp->left;
+                }
+                return tmp;
+            }
+            else
+            {
+                while (tmp->prev != nullptr)
+                {
+                    if (tmp == tmp->prev->right)
+                    {
+                        tmp = tmp->prev;
+                    }
+                    else
+                    {
+                        tmp = tmp->prev;
+                        return tmp;
+                    }
+                }
+                return nullptr;
+            }
+        }
     public:
-        friend class UniDict;
+        friend class TreeDict;
         Para& operator*()
         {
             return (*mark).data;
@@ -145,12 +145,11 @@ public:
         {
             tmp = tmp->left;
         }
-        m.setMarkerSize(size);
         m.mark = tmp;
  
         return m;
     };
-    Marker& afterEnd()
+    Marker afterEnd()
     {
         Marker m;
         m.mark = nullptr;

@@ -270,6 +270,7 @@ int main()
     Dict.add(2, 7);
     Dict.add(3, 8);
     cout << Dict.getHeight();*/
+
     TreeDict<double, double> test;
     test.add(13, 1);
     test.add(88, 2);
@@ -278,35 +279,35 @@ int main()
     test.add(1, 5);
     test.add(0, 6);
     test.add(-88, 7);
-    TreeDict<double,double>::Marker mark= test.init();
+    TreeDict<double,double>::Marker mark = test.init();
     while (mark != test.afterEnd())
     {
         cout << (*mark).key << " ";
         mark++;
     }
 
-    BasicInterface bi;
-    bi.addObject(OT_SEGMENT);
-    bi.addObject(OT_SEGMENT);
-    
-    Array<double> x;
-    x.add(0);
-    x.add(1);
-    x.add(0);
-    x.add(0);
+    //BasicInterface bi;
+    //bi.addObject(OT_SEGMENT);
+    //bi.addObject(OT_SEGMENT);
+    //
+    //Array<double> x;
+    //x.add(0);
+    //x.add(1);
+    //x.add(0);
+    //x.add(0);
 
-    x.add(1);
-    x.add(1);
-    x.add(0);
-    x.add(-1);
+    //x.add(1);
+    //x.add(1);
+    //x.add(0);
+    //x.add(-1);
 
 
-    ID id1, id2;
-    id1.setID(0);
-    id2.setID(1);
-    
-    bi.setX(x);
-    bi.solveReq(id1, id2, RT_PARALLEL);
+    //ID id1, id2;
+    //id1.setID(0);
+    //id2.setID(1);
+    //
+    //bi.setX(x);
+    //bi.solveReq(id1, id2, RT_PARALLEL);
 
     
 

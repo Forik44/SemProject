@@ -87,6 +87,7 @@ template<typename  Key, typename Value> UniDict<Key, Value>::UniDict()
 {
     size = 0;
 };
+
 template<typename  Key, typename Value> void UniDict<Key, Value>::add(Key key, Value val)
 {
 	Para newPara;
