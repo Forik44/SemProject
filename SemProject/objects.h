@@ -82,46 +82,7 @@ public:
 
 
 
-struct ReqParallel
-{
-    double error()
-    {
-      /*  BasicInterface* iface;
-        ID id1, id2;
-        Array<> props1 = iface->queryObjProperties(id1);
-        Array<> props1 = iface->queryObjProperties(id2);*/
 
-        Segment l1, l2;
-        double A1 = l1.p1.x - l1.p2.x;
-        double B1 = l1.p1.y - l1.p2.y;
-        double length = sqrt(A1 * A1 + B1 * B1);
-        A1 = A1 / length;
-        B1 = B1 / length;
-
-        double A2 = l2.p1.x - l2.p2.x;
-        double B2 = l2.p1.y - l2.p2.y;
-        length = sqrt(A2 * A2 + B2 * B2);
-        A2 = A2 / length;
-        B2 = B2 / length;
-
-        return abs(abs(A1) - abs(A2) + abs(B1) - abs(B2));
-    }
-};
-
-struct ReqOrtho
-{
-    double error()
-    {
-        Segment l1, l2;
-        double A1 = l1.p1.x - l1.p2.x;
-        double B1 = l1.p1.y - l1.p2.y;
-        double A2 = l2.p1.x - l2.p2.x;
-        double B2 = l2.p1.y - l2.p2.y;
-
-        return abs(A1 * A2 + B1 * B2);
-        
-    }
-};
 
 struct ReqDist
 {

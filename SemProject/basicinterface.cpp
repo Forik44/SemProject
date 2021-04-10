@@ -228,76 +228,218 @@ void BasicInterface::setX(const Array<double>& X) {
         segmentMarker++;
     }
 }
-double BasicInterface::ReqOrtho(ID idSegement1, ID idSegement2)
+
+
+
+double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance = 0)
 {
-    UniDict<ID, Segment>::Marker mark;
+    ObjType ot1, ot2;
+    ot1 = identifyObjTypeByID(id1);
+    ot2 = identifyObjTypeByID(id2);
 
-    if ((identifyObjTypeByID(idSegement1) != OT_SEGMENT) || (identifyObjTypeByID(idSegement2) != OT_SEGMENT))
-        return -1;
-    
-    mark = m_segments.init();
-    while ((*mark).key != idSegement1)
-        mark++;
-    Segment& l1 = (*mark).val;
+    if (rt == RT_PARALLEL)
+    {
+        if ((ot1 != OT_SEGMENT) || (ot2 != OT_SEGMENT))
+            return -1;
 
-    mark = m_segments.init();
-    while ((*mark).key != idSegement2)
-        mark++;
-    Segment& l2 = (*mark).val;
+        UniDict<ID, Segment>::Marker mark;
+        mark = m_segments.init();
+        while ((*mark).key != id1)
+            mark++;
+        Segment& l1 = (*mark).val;
 
-    double A1 = l1.p1.x - l1.p2.x;
-    double B1 = l1.p1.y - l1.p2.y;
-    double A2 = l2.p1.x - l2.p2.x;
-    double B2 = l2.p1.y - l2.p2.y;
+        mark = m_segments.init();
+        while ((*mark).key != id2)
+            mark++;
+        Segment& l2 = (*mark).val;
 
-    return abs(A1 * A2 + B1 * B2);
+        double A1 = l1.p1.x - l1.p2.x;
+        double B1 = l1.p1.y - l1.p2.y;
+        double length = sqrt(A1 * A1 + B1 * B1);
+        A1 = A1 / length;
+        B1 = B1 / length;
+
+        double A2 = l2.p1.x - l2.p2.x;
+        double B2 = l2.p1.y - l2.p2.y;
+        length = sqrt(A2 * A2 + B2 * B2);
+        A2 = A2 / length;
+        B2 = B2 / length;
+
+        return abs(abs(A1) - abs(A2) + abs(B1) - abs(B2));
+    }
+    else if (rt == RT_ORTHO)
+    {
+
+        if ((ot1 != OT_SEGMENT) || (ot2 != OT_SEGMENT))
+            return -1;
+
+
+        UniDict<ID, Segment>::Marker mark;
+        mark = m_segments.init();
+        while ((*mark).key != id1)
+            mark++;
+        Segment& l1 = (*mark).val;
+
+        mark = m_segments.init();
+        while ((*mark).key != id2)
+            mark++;
+        Segment& l2 = (*mark).val;
+
+        double A1 = l1.p1.x - l1.p2.x;
+        double B1 = l1.p1.y - l1.p2.y;
+        double A2 = l2.p1.x - l2.p2.x;
+        double B2 = l2.p1.y - l2.p2.y;
+
+        return abs(A1 * A2 + B1 * B2);
+    }
+    else if (rt == RT_DISTANCE)
+    {
+        if ((ot1 == OT_POINT) && (ot2 == OT_POINT)) //2 points
+        {
+            UniDict<ID, Point>::Marker mark;
+            mark = m_points.init();
+            while ((*mark).key != id1)
+                mark++;
+            Point& p1 = (*mark).val;
+
+            mark = m_points.init();
+            while ((*mark).key != id2)
+                mark++;
+            Point& p2 = (*mark).val;
+
+            return abs(distance - sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
+        }
+        else if ((ot1 == OT_POINT) && (ot2 == OT_SEGMENT)) //point and line
+        {
+            UniDict<ID, Point>::Marker mark1;
+            mark1 = m_points.init();
+            while ((*mark1).key != id1)
+                mark1++;
+            Point& p = (*mark1).val;
+
+            UniDict<ID, Segment>::Marker mark2;
+            mark2 = m_segments.init();
+            while ((*mark2).key != id2)
+                mark2++;
+            Segment& l = (*mark2).val;
+           
+            double A = l.p2.y - l.p1.y;
+            double B = l.p1.x - l.p2.x;
+            double C = l.p2.x * l.p1.y - l.p1.x * l.p2.y;
+
+            return abs(distance - abs(A * p.x + B * p.y + C) / sqrt(A * A + B * B));
+        }
+        else if ((ot2 == OT_POINT) && (ot1 == OT_SEGMENT)) //point and line
+        {
+            
+            UniDict<ID, Point>::Marker mark1;
+            mark1 = m_points.init();
+            while ((*mark1).key != id2)
+                mark1++;
+            Point& p = (*mark1).val;
+
+            UniDict<ID, Segment>::Marker mark2;
+            mark2 = m_segments.init();
+            while ((*mark2).key != id1)
+                mark2++;
+            Segment& l = (*mark2).val;
+
+
+            double A = l.p2.y - l.p1.y;
+            double B = l.p1.x - l.p2.x;
+            double C = l.p2.x * l.p1.y - l.p1.x * l.p2.y;
+            return abs(distance - abs(A * p.x + B * p.y + C) / sqrt(A * A + B * B));
+        }
+        else if ((ot2 == OT_SEGMENT) && (ot1 == OT_SEGMENT)) //2 lines 
+        {
+            UniDict<ID, Segment>::Marker mark;
+            mark = m_segments.init();
+            while ((*mark).key != id1)
+                mark++;
+            Segment& l1 = (*mark).val;
+
+            mark = m_segments.init();
+            while ((*mark).key != id2)
+                mark++;
+            Segment& l2 = (*mark).val;
+
+            if (ReqValue(id1, id2, RT_PARALLEL) <= 0.01)
+            {
+                double A1 = l1.p2.y - l1.p1.y;
+                double B1 = l1.p1.x - l1.p2.x;
+                double C1 = l1.p2.x * l1.p1.y - l1.p1.x * l1.p2.y;
+
+                return abs(distance - abs(A1 * l2.p1.x + B1 * l2.p1.y + C1) / sqrt(A1 * A1 + B1 * B1));
+            }
+            else
+            {
+                std::cout << "ERROR: Not parallel\n";
+                return -1;
+            }
+                
+        }
+    }
+
+    std::cout << "ERROR: ReqValue\n";
+    return -1;
 };
-double  BasicInterface::partOrthoDerivative(int varNumber, ID id1, ID id2)
+double  BasicInterface::partDerivative(int varNumber, ID id1, ID id2, ReqType rt, double distance = 0)
 {
     Array<double> arr = getX();
+
     if (arr.getSize() <= varNumber)
         return 0;
 
     double delta = 1e-10;
     double var = arr[varNumber];
 
-    double req1 = ReqOrtho(id1, id2);
+    double req1 = ReqValue(id1, id2, rt, distance);
     if (req1 == -1)
+    {
+        std::cout << "req1 error\n";
         return 0;
+    }
 
     arr[varNumber] = var + delta;
     setX(arr);
 
-    double req2 = ReqOrtho(id1, id2);
+    double req2 = ReqValue(id1, id2, rt, distance);
     if (req2 == -1)
+    {
+        std::cout << "req2 error\n";
         return 0;
+    }
 
     arr[varNumber] = var;
     setX(arr);
 
     return (req2 - req1) / delta;
 }
-void BasicInterface::solveOrtho(ID id1, ID id2)
+void BasicInterface::solveReq(ID id1, ID id2, ReqType rt, double distance = 0)
 {
     Array<double> arr = getX();
-    double secondOrtho, firstOrtho = ReqOrtho(id1, id2);
-    double lambda = 0.1;
-    std::cout << "ReqOrtho before: " << firstOrtho << std::endl;
 
-    while (firstOrtho > 0.01)
+    double secondReqValue, firstReqValue = ReqValue(id1, id2, rt, distance);
+
+    std::cout << "Req value before: " << firstReqValue << std::endl;
+
+    for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++)
+    {
+        std::cout << *m << std::endl;
+    }
+
+    double lambda = 0.1;
+
+    while (firstReqValue > 0.01)
     {
         Array<double> devArr, newArr;
-        firstOrtho = ReqOrtho(id1, id2);
-        system("cls");
-        for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++)
-        {
-            std::cout << *m << std::endl;
-        };
-
+        
+        firstReqValue = ReqValue(id1, id2, rt, distance);
+       
         int i = 0;
         for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
         {
-            devArr.add(partOrthoDerivative(i, id1, id2));   //Составляем вектор производных
+            devArr.add(partDerivative(i, id1, id2, rt, distance));   //Составляем вектор производных
         };
 
         i = 0;
@@ -308,25 +450,29 @@ void BasicInterface::solveOrtho(ID id1, ID id2)
 
         setX(newArr);
 
-        secondOrtho = ReqOrtho(id1, id2);
+        secondReqValue = ReqValue(id1, id2, rt, distance);
        
-        if (secondOrtho > firstOrtho)   //Если ситуация не улучшилась
+        if (secondReqValue > firstReqValue)   //Если ситуация не улучшилась
         {
             setX(arr);
             lambda = lambda / 10;
         }
         else
         {
-            firstOrtho = secondOrtho;
+            firstReqValue = secondReqValue;
             i = 0;
-            for (Array<double>::Marker m = arr.init(); m.canMoveNext(); m++, i++)
+            for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
             {
                 arr[i] = newArr[i];
             };
         }
     }
 
-    std::cout << "ReqOrtho after: " << ReqOrtho(id1, id2) << std::endl;
+    std::cout << "Req value after: " << firstReqValue << std::endl;
+    for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++)
+    {
+        std::cout << *m << std::endl;
+    }
 }
 
 bool BasicInterface::solveReqs() 
