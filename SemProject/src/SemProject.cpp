@@ -18,6 +18,7 @@ std::ostream& operator<<(std::ostream& ost, const Point& p)
     ost << '(' << p.x << ',' << p.y << ')';
     return ost;
 }
+
 std::ostream& operator<<(std::ostream& ost, enum ParamType& p)
 {
     string ParamTypesNames[] { 
@@ -37,6 +38,7 @@ std::ostream& operator<<(std::ostream& ost, enum ParamType& p)
     cout << ParamTypesNames[p];
     return ost;
 }
+
 std::ostream& operator<<(std::ostream& ost, enum ObjType& obj)
 {
     string ObjTypesNames[] {
@@ -48,6 +50,7 @@ std::ostream& operator<<(std::ostream& ost, enum ObjType& obj)
     cout << ObjTypesNames[obj];
     return ost;
 }
+
 //
 //Point p1, p2;
 //std::cout << p1 << "   " << p2 << std::endl;

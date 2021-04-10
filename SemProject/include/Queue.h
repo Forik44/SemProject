@@ -12,13 +12,19 @@ public:
 	~Queue();
 	void push(Element val2add);
 	Element pull();
+	size_t getSize()
+	{
+		return size;
+	};
 
 };
+
 template<typename Element> Queue<Element>::Queue()
 {
 	size = 0;
 	list_storage = nullptr;
 };
+
 template<typename Element> Queue<Element>::Queue(const Queue<Element>& original)
 {
 	size = original.size;
@@ -28,6 +34,7 @@ template<typename Element> Queue<Element>::Queue(const Queue<Element>& original)
 		list_storage = original.list_storage;
 
 };
+
 template<typename Element> Queue<Element>::~Queue()
 {
 	while (list_storage.getSize() != 0)
@@ -35,11 +42,13 @@ template<typename Element> Queue<Element>::~Queue()
 		list_storage.removeElementByIdx(0);
 	}
 };
+
 template<typename Element> void Queue<Element>::push(Element val2add)
 {
 	list_storage.add(val2add);
 	size++;
-}
+};
+
 template<typename Element> Element Queue<Element>::pull()
 {
 	if (size == 0)
@@ -47,4 +56,4 @@ template<typename Element> Element Queue<Element>::pull()
 	list_storage.getElementByIdx(0);
 	list_storage.removeElementByIdx(0);
 	size--;
-}
+};

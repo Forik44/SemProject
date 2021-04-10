@@ -10,7 +10,8 @@ BasicInterface::BasicInterface()
 ID  BasicInterface::addObject(ObjType ot)
 {
     ID id = ID::generateID();
-    switch (ot) {
+    switch (ot) 
+    {
     case OT_POINT:
         m_points.add(id,Point());
         break;
@@ -23,30 +24,40 @@ ID  BasicInterface::addObject(ObjType ot)
     }
     return id;
 };
-bool BasicInterface::removeObject(ID id) {
-    for (size_t k = 0; k < m_points.getSize(); ++k) {
-        if (m_points.getChemuByIdx(k) == id) {
+
+bool BasicInterface::removeObject(ID id) 
+{
+    for (size_t k = 0; k < m_points.getSize(); ++k) 
+    {
+        if (m_points.getChemuByIdx(k) == id) 
+        {
             m_points.removeElementByIdx(k);
             return true;
         }
     }
-    for (size_t k = 0; k < m_segments.getSize(); ++k) {
-        if (m_segments.getChemuByIdx(k) == id) {
+    for (size_t k = 0; k < m_segments.getSize(); ++k) 
+    {
+        if (m_segments.getChemuByIdx(k) == id) 
+        {
             m_segments.removeElementByIdx(k);
             return true;
         }
     }
-    for (size_t k = 0; k < m_circles.getSize(); ++k) {
-        if (m_circles.getChemuByIdx(k) == id) {
+    for (size_t k = 0; k < m_circles.getSize(); ++k) 
+    {
+        if (m_circles.getChemuByIdx(k) == id) 
+        {
             m_circles.removeElementByIdx(k);
             return true;
         }
     }
     return false;
 };
-ID  BasicInterface::addRequirement(const Array<ID>& ide, ReqType rt) {
+ID  BasicInterface::addRequirement(const Array<ID>& ide, ReqType rt) 
+{
     ID id = ID::generateID();
-    switch (rt) {
+    switch (rt) 
+    {
     case RT_PARALLEL:
         break;
     case RT_ORTHO:
@@ -128,7 +139,6 @@ UniDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
         arr.add(PT_ERROR, -1);
         return arr;
     }
-
     }
 }
 ObjType BasicInterface::identifyObjTypeByID(ID id)
@@ -156,8 +166,8 @@ ObjType BasicInterface::identifyObjTypeByID(ID id)
     }
     return OT_ERROR;
 }
-Array<double> BasicInterface::getX() {
-	
+Array<double> BasicInterface::getX() 
+{
     Array<double> res;
 	
     UniDict<ID, Point>::Marker pointMarker = m_points.init();
@@ -189,7 +199,8 @@ Array<double> BasicInterface::getX() {
 
 	return res;
 }
-void BasicInterface::setX(const Array<double>& X) {
+void BasicInterface::setX(const Array<double>& X) 
+{
     size_t i = 0;
     UniDict<ID, Point>::Marker pointMarker = m_points.init();
      
@@ -269,10 +280,8 @@ double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance)
     }
     else if (rt == RT_ORTHO)
     {
-
         if ((ot1 != OT_SEGMENT) || (ot2 != OT_SEGMENT))
             return -1;
-
 
         UniDict<ID, Segment>::Marker mark;
         mark = m_segments.init();
@@ -331,7 +340,6 @@ double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance)
         }
         else if ((ot2 == OT_POINT) && (ot1 == OT_SEGMENT)) //point and line
         {
-            
             UniDict<ID, Point>::Marker mark1;
             mark1 = m_points.init();
             while ((*mark1).key != id2)
@@ -379,7 +387,6 @@ double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance)
                 
         }
     }
-
     std::cout << "ERROR: ReqValue\n";
     return -1;
 };
@@ -429,7 +436,6 @@ void BasicInterface::solveReq(ID id1, ID id2, ReqType rt, double distance)
     }
 
     double lambda = 0.1;
-
     while (firstReqValue > 0.01)
     {
         Array<double> devArr, newArr;
@@ -484,16 +490,14 @@ bool BasicInterface::solveReqs()
         if ((*reqMark).val.type == RT_ORTHO)
         {
             Array<ID>::Marker m = (*reqMark).val.objs.init();
-            while (m != (*reqMark).val.objs.afterEnd())/////////////////
+            while (m != (*reqMark).val.objs.afterEnd())
             {
                 ID id1, id2;
                 id1 = *m;
                 m++;
                 id2 = *m;
-                ////////////////////////////////
             }
         }
-       
        
         reqMark++;
     }

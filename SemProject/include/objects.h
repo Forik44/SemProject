@@ -1,5 +1,4 @@
 #pragma once
-
 #include <cstdlib>
 #include <cmath>
 #include "Array.h"
@@ -19,7 +18,6 @@ enum ReqType{
     RT_DISTANCE
 };
 
-
 struct Point
 {
     //Colors color;
@@ -36,17 +34,14 @@ struct Segment
 
 struct Circle
 {
-    //Colors color;
     Point center;
     double r;
 };
 
-
-//Проба пера
 class ID{
-private: //Проба пера
+private:
     static int m_counterID;
-    int m_id;//Проба пера
+    int m_id;
 public:
     ID()
     {

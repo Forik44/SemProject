@@ -1,11 +1,11 @@
 #include <iostream>
-
 #include "List.h"
 #include "Stack.h"
 
 bool testListAdd(){
     return 1;
 }
+
 bool testListIteration(){
     List<int> li;
     li.add(1);
@@ -21,6 +21,7 @@ bool testListIteration(){
     }
     return true;
 }
+
 bool testStackSize(){
     Stack<int> sta;
     sta.push(1);
