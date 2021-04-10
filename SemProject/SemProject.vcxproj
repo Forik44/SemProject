@@ -152,13 +152,13 @@
     <ClInclude Include="include\Dict.h" />
     <ClInclude Include="include\Errors.h" />
     <ClInclude Include="include\List.h" />
+    <ClInclude Include="include\OneSizeArray.h" />
     <ClInclude Include="include\PSDrawer.h" />
     <ClInclude Include="include\Queue.h" />
     <ClInclude Include="include\Stack.h" />
     <ClInclude Include="include\Tests.h" />
     <ClInclude Include="include\objects.h" />
     <ClInclude Include="include\TreeDict.h" />
-    <ClInclude Include="OneSizeArray.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

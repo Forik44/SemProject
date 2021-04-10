@@ -68,7 +68,7 @@
     <ClInclude Include="include\Errors.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="OneSizeArray.h">
+    <ClInclude Include="include\OneSizeArray.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
