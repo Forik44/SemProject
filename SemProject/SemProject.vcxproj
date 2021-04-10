@@ -149,6 +149,7 @@
     <ClInclude Include="basicinterface.h" />
     <ClInclude Include="Dict.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="PSDrawer.h" />
     <ClInclude Include="Tests.h" />
     <ClInclude Include="objects.h" />
     <ClInclude Include="TreeDict.h" />

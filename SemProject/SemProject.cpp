@@ -270,6 +270,20 @@ int main()
     Dict.add(2, 7);
     Dict.add(3, 8);
     cout << Dict.getHeight();*/
+    TreeDict<double, double> test;
+    test.add(13, 1);
+    test.add(88, 2);
+    test.add(-11, 3);
+    test.add(3, 4);
+    test.add(1, 5);
+    test.add(0, 6);
+    test.add(-88, 7);
+    TreeDict<double,double>::Marker mark= test.init();
+    while (mark != test.afterEnd())
+    {
+        cout << (*mark).key << " ";
+        mark++;
+    }
 
     BasicInterface bi;
     bi.addObject(OT_SEGMENT);
