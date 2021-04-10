@@ -30,6 +30,9 @@
     <ClCompile Include="src\Tests.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\testing.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Array.h">
@@ -56,10 +59,10 @@
     <ClInclude Include="include\TreeDict.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Queue.h">
+    <ClInclude Include="include\Queue.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Stack.h">
+    <ClInclude Include="include\Stack.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
