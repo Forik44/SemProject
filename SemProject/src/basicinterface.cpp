@@ -1,5 +1,5 @@
 #pragma once
-#include "..\include\basicinterface.h"
+#include "basicinterface.h"
 #include <iostream>
 
 BasicInterface::BasicInterface()

@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\poi12\source\repos\SemProject\SemProject\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,6 +150,7 @@
     <ClInclude Include="include\Array.h" />
     <ClInclude Include="include\basicinterface.h" />
     <ClInclude Include="include\Dict.h" />
+    <ClInclude Include="include\Errors.h" />
     <ClInclude Include="include\List.h" />
     <ClInclude Include="include\PSDrawer.h" />
     <ClInclude Include="include\Queue.h" />

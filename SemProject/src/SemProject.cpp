@@ -1,5 +1,6 @@
-﻿#include "..\include\TreeDict.h"
-#include "..\include\basicinterface.h"
+﻿#include "TreeDict.h"
+#include "basicinterface.h"
+#include "PSDrawer.h"
 #include <iostream>
 #include <locale>
 
@@ -265,6 +266,17 @@ void outputPoints(const SegmentList segmentStorage)
 
 int main()
 {
+    try {
+        PSDrawer test("test.ps");
+        test.drawLine(100.0, 20.0, 100.0, 400.0);
+        test.drawPoint(200.0, 200.0);
+        test.drawCircle(200.0, 200.0, 100.0);
+    }  catch (errors& A) {
+        std::cout << A.message;
+    }
+
+
+
     /*TreeDict<int, int> Dict;
     Dict.add(1, 9);
     Dict.add(2, 7);

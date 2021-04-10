@@ -26,13 +26,13 @@ bool testStackSize(){
     sta.push(1);
     sta.push(2);
     sta.push(3);
-    if ( sta.size() != 3 ) return false;
+    if ( sta.getSize() != 3 ) return false;     //было sta.size()
     sta.pop();
-    if ( sta.size() != 2 ) return false;
+    if ( sta.getSize() != 2 ) return false;     //было sta.size()
     sta.pop();
-    if ( sta.size() != 1 ) return false;
+    if ( sta.getSize() != 1 ) return false;     //было sta.size()
     sta.pop();
-    if ( sta.size() != 0 ) return false;
+    if ( sta.getSize() != 0 ) return false;     //было sta.size()
     return true;
 }
 
@@ -52,8 +52,8 @@ bool testStackCheck(){
     try {
         int xfail = sta.check();
         return false;
-    }  catch () {
-
+    }  catch (...) {             //Добавил ...  
+    
     }
     return true;
 }
