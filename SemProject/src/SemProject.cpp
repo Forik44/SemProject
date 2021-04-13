@@ -269,62 +269,31 @@ void outputPoints(const SegmentList segmentStorage)
 
 int main()
 {
-    try {
+    /*try {
         PSDrawer test("test.ps");
         test.drawLine(100.0, 20.0, 100.0, 400.0);
         test.drawPoint(200.0, 200.0);
         test.drawCircle(200.0, 200.0, 100.0);
     }  catch (errors& A) {
         std::cout << A.message;
-    }
+    }*/
 
 
+    BasicInterface bi;
 
-    /*TreeDict<int, int> Dict;
-    Dict.add(1, 9);
-    Dict.add(2, 7);
-    Dict.add(3, 8);
-    cout << Dict.getHeight();*/
-
-    TreeDict<double, double> test;
-    test.add(13, 1);
-    test.add(88, 2);
-    test.add(-11, 3);
-    test.add(3, 4);
-    test.add(1, 5);
-    test.add(0, 6);
-    test.add(-88, 7);
-    TreeDict<double,double>::Marker mark = test.init();
-    while (mark != test.afterEnd())
+    Array<ID> idArr;
+    ID id;
+    for (int i = 0; i < 2; i++)
     {
-        cout << (*mark).key << " ";
-        mark++;
+        id = bi.addObject(OT_SEGMENT);
+        idArr.add(id);
     }
 
-    //BasicInterface bi;
-    //bi.addObject(OT_SEGMENT);
-    //bi.addObject(OT_SEGMENT);
-    //
-    //Array<double> x;
-    //x.add(0);
-    //x.add(1);
-    //x.add(0);
-    //x.add(0);
+    ID reqID1 = bi.addRequirement(idArr, RT_ORTHO);
+    bi.showRequirements();
 
-    //x.add(1);
-    //x.add(1);
-    //x.add(0);
-    //x.add(-1);
-
-
-    //ID id1, id2;
-    //id1.setID(0);
-    //id2.setID(1);
-    //
-    //bi.setX(x);
-    //bi.solveReq(id1, id2, RT_PARALLEL);
-
-    
-
+    bi.removeObjectByID(id);
+    bi.showRequirements();
+   
     return 0;
 };

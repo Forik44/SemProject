@@ -68,9 +68,14 @@ public:
     }; 
     Array& operator= (const Array& arr)
     {
+        
+        for (size_t i = 0; i < size; i++)
+        {
+            removeElementByIdx(i);
+        }
         for (size_t i = 0; i < arr.getSize(); i++)
         {
-            data[i] = arr.data[i];
+            add(arr[i]);
         }
         size = arr.size;
         return *this;
@@ -163,27 +168,34 @@ template<typename ArrayElement> const ArrayElement& Array<ArrayElement>::operato
 };
 template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(size_t idx)
 {
-    if (size <= idx)
-        return 0;
+    if ((size <= idx) || (idx < 0))
+        return false;
+    else if (size == 1)
+    {
+        delete[] data;
+        data = nullptr;
+        size--;
+        return true;
+    }
     else
     {
-        bool isFound = false;
         ArrayElement* tmp = new ArrayElement[size - 1];
+
+        int k = 0;
         for (size_t i = 0; i < size; i++)
         {
-            if (idx == i)
-                isFound = true;
-            if (!isFound)
-                tmp[i] = data[i];
-            else
+            if (idx != i)
             {
-                tmp[i] = data[i + 1];
+                tmp[k] = data[i];
+                k++;
             }
-        };
+
+        };      
+
         delete[] data;
         data = tmp;
         size--;
-        return isFound;
+        return true;
     }
 };
 

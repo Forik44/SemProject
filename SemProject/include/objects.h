@@ -61,6 +61,10 @@ public:
     {
         m_id = id;
     }
+    int getID()
+    {
+        return m_id;
+    }
     bool operator ==(const ID& other)
     {
         return (other.m_id == this->m_id);//Проба пера

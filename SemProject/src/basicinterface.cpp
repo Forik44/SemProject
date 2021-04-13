@@ -13,76 +13,150 @@ ID  BasicInterface::addObject(ObjType ot)
     switch (ot) 
     {
     case OT_POINT:
-        m_points.add(id,Point());
+        Point p;
+        p.x = 1;
+        p.y = 1;
+        m_points.add(id, p);
         break;
     case OT_SEGMENT:
-        m_segments.add(id,Segment());
+        Segment s;
+        s.p1.x = 1;
+        s.p1.y = 1;
+        s.p2.x = 2;
+        s.p2.y = 2;
+        m_segments.add(id, s);
         break;
     case OT_CIRCLE:
-        m_circles.add(id,Circle());
+        Circle c;
+        c.center.x = 1;
+        c.center.y = 1;
+        c.r = 1;
+        m_circles.add(id, c);
         break;
     }
     return id;
 };
-
-bool BasicInterface::removeObject(ID id) 
+bool BasicInterface::removeObjectByID(ID id)
 {
-    for (size_t k = 0; k < m_points.getSize(); ++k) 
+    ObjType ot = identifyObjTypeByID(id);
+
+    switch (ot)
     {
-        if (m_points.getChemuByIdx(k) == id) 
-        {
-            m_points.removeElementByIdx(k);
-            return true;
-        }
+    case OT_CIRCLE:
+        m_circles.removeElementByKey(id);
+        break;
+    case OT_POINT:
+        m_points.removeElementByKey(id);
+        break;
+    case OT_SEGMENT:
+        m_segments.removeElementByKey(id);
+        break;
+    case OT_ERROR:
+        return false;
     }
-    for (size_t k = 0; k < m_segments.getSize(); ++k) 
+
+    int i = 0;
+    Array<ID> arrID;
+    for (UniDict<ID, Requirement>::Marker m1 = m_requirements.init(); m1 != m_requirements.afterEnd(); m1++, i++)
     {
-        if (m_segments.getChemuByIdx(k) == id) 
+        for (Array<ID>::Marker m2 = (*m1).val.objs.init(); m2 != (*m1).val.objs.afterEnd(); m2++)
         {
-            m_segments.removeElementByIdx(k);
-            return true;
+            if ((*m2) == id)
+            {
+                arrID.add((*m1).key);
+                break;
+            }
         }
-    }
-    for (size_t k = 0; k < m_circles.getSize(); ++k) 
+    };
+
+    for (int i = 0; i < arrID.getSize(); i++)
     {
-        if (m_circles.getChemuByIdx(k) == id) 
-        {
-            m_circles.removeElementByIdx(k);
-            return true;
-        }
+        m_requirements.removeElementByKey(arrID[i]);
     }
+
     return false;
 };
-ID  BasicInterface::addRequirement(const Array<ID>& ide, ReqType rt) 
+bool BasicInterface::removeRequirementByID(ID id)
 {
-    ID id = ID::generateID();
-    switch (rt) 
+    return m_requirements.removeElementByKey(id);
+};
+ID  BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, double dist) 
+{
+    switch (rt)     //Проверка на валидность требований
     {
     case RT_PARALLEL:
+        for (int i = 0; i < idArr.getSize(); i++)
+        {
+            ID id = idArr[i];
+            if (identifyObjTypeByID(id) != OT_SEGMENT)
+            {
+                std::cout << "Invalid param type for this requirement: RT_PARALLEL\n";
+                throw;
+            }   
+        }
         break;
     case RT_ORTHO:
+        for (int i = 0; i < idArr.getSize(); i++)
+        {
+            if (identifyObjTypeByID(idArr[i]) != OT_SEGMENT)
+            {
+                std::cout << "Invalid param type for this requirement: RT_ORTHO\n";
+                throw;
+            }
+        }
         break;
     case RT_COINCIDE:
+        std::cout << "RT_COINCIDE hasn't added yet\n";
+        throw;
         break;
     case RT_GROUP:
+        std::cout << "RT_GROUP hasn't added yet\n";
+        throw;
         break;
     case RT_DISTANCE:
+        for (int i = 0; i < idArr.getSize(); i++)
+        {
+            if (!((identifyObjTypeByID(idArr[i]) == OT_SEGMENT) || (identifyObjTypeByID(idArr[i]) == OT_POINT)))
+            {
+                std::cout << "Invalid param type for this requirement: RT_DISTANCE\n";
+                throw;
+            }
+        }
+        
         break;
     }
-	
+
+    ID id1, id;
+    Requirement req;
+    req.objs = idArr;
+    req.type = rt;
+    id = id1.generateID();
+    m_requirements.add(id, req);
     return id;
 
 };
-//bool BasicInterface::removeRequirement(ID id) {
-//
-//    for (size_t k = 0; k < m_requirements.getSize();++k) {
-//        if (m_requirements.getChemuByIdx(k) == id) {
-//            m_requirements.removeElementByIdx(k);
-//            return true;
-//        }
-//    }
-//    return false;
-//};
+void  BasicInterface::showRequirements()
+{
+    if (m_requirements.getSize() == 0)
+    {
+        std::cout << "No requirements\n";
+        return;
+    }
+
+    for (UniDict<ID, Requirement>::Marker mark = m_requirements.init(); mark != m_requirements.afterEnd(); mark++)
+    {
+        std::cout << "Requirement ID: " << (*mark).key.getID() << std::endl;
+        std::cout << "Requirement type: " << (*mark).val.type << std::endl;
+        std::cout << "Objects ID: ";
+        for (Array<ID>::Marker m = (*mark).val.objs.init(); m != (*mark).val.objs.afterEnd(); m++)
+        {
+            std::cout << (*m).getID() << " ";
+        }
+        std::cout << "\n";
+    }
+    
+
+};
 UniDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
 {
     switch (identifyObjTypeByID(id))
@@ -239,9 +313,6 @@ void BasicInterface::setX(const Array<double>& X)
         segmentMarker++;
     }
 }
-
-
-
 double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance)
 {
     ObjType ot1, ot2;
@@ -484,22 +555,8 @@ void BasicInterface::solveReq(ID id1, ID id2, ReqType rt, double distance)
 bool BasicInterface::solveReqs() 
 {
     UniDict<ID, Requirement>::Marker reqMark = m_requirements.init();
-    while (reqMark != m_requirements.afterEnd())
-    {
-       
-        if ((*reqMark).val.type == RT_ORTHO)
-        {
-            Array<ID>::Marker m = (*reqMark).val.objs.init();
-            while (m != (*reqMark).val.objs.afterEnd())
-            {
-                ID id1, id2;
-                id1 = *m;
-                m++;
-                id2 = *m;
-            }
-        }
-       
-        reqMark++;
-    }
+    
+
+
     return 1;
 }

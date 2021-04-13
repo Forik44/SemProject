@@ -72,15 +72,19 @@ public:
     {
         return m_storage.getSize();
     }
-    bool removeElementByIdx(size_t idx)
+    bool removeElementByKey(Key k)
     {
-        return m_storage.removeElementByIdx(idx);
-    }
-    Key getChemuByIdx(size_t idx)///////////////////////////////////////////////////////////////////////
-    {
-        Key key;
-        return key;
-    }
+        for (int i = 0; i < m_storage.getSize(); i++)
+        {
+            if ((m_storage[i]).key == k)
+            {
+                m_storage.removeElementByIdx(i);
+                return true;
+            }
+        }
+        return false;
+    };
+   
 };
 
 template<typename  Key, typename Value> UniDict<Key, Value>::UniDict()

@@ -27,16 +27,15 @@ class BasicInterface
 public:
     BasicInterface();
     ID addObject(ObjType);
-   /* ID addObject(ObjType, const Array<Parameter>&);*/
-    bool removeObject(ID);
+    bool removeObjectByID(ID);
   /*  bool changeObjectProperty(ID);*/
-    ID  addRequirement(const Array<ID>&, ReqType);
+    ID addRequirement(const Array<ID>&, ReqType, double dist = 0);
     UniDict<ParamType, double> queryObjProperties(ID);
     ObjType identifyObjTypeByID(ID);
-    bool removeRequirement(ID);
+    void showRequirements();    //Нужно для теста
+    bool removeRequirementByID(ID);
     void solveReq(ID id1, ID id2, ReqType rt, double distance=0);
-    void setX(const Array<double>& x);
-    Array<double> getX();
+   
  
 private:
 
@@ -47,8 +46,8 @@ private:
 
     double ReqValue(ID idSegement1, ID idSegement2, ReqType rt, double distance=0);
     double partDerivative(int varNumber, ID id1, ID id2, ReqType rt, double distance=0);
-	//Array<double> getX();
-	//void setX(const Array<double>&x);
+	Array<double> getX();
+	void setX(const Array<double>&x);
 	bool solveReqs();
 
 
