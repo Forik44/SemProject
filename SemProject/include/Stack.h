@@ -17,6 +17,34 @@ public:
 		First = nullptr;
 		size = 0;
 	}
+	~Stack()
+	{
+		for (Node* tmp = First; tmp; tmp = First)
+		{
+			First = tmp->next;
+			delete tmp;
+		}
+	}
+	Stack& operator=(const Stack& original)
+	{
+		Data* arr = new Data[original.size];
+
+		int i = 0;
+		for (Node* ptr = original.First; ptr; ptr = ptr->next,i++)
+		{
+			arr[i] = ptr->data;
+		};
+
+		for (i--; i >= 0; i--)
+		{
+			push(arr[i]);
+		}
+		size = original.size;
+
+
+		delete[] arr;
+		return *this;
+	}
 	const size_t getSize()
 	{
 		return size;

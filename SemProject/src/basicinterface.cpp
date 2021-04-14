@@ -14,22 +14,22 @@ ID  BasicInterface::addObject(ObjType ot)
     {
     case OT_POINT:
         Point p;
-        p.x = 1;
-        p.y = 1;
+        p.x = rand() % 5;
+        p.y = rand() % 5;
         m_points.add(id, p);
         break;
     case OT_SEGMENT:
         Segment s;
-        s.p1.x = 1;
-        s.p1.y = 1;
-        s.p2.x = 2;
-        s.p2.y = 2;
+        s.p1.x = rand() % 5;
+        s.p1.y = rand() % 5;
+        s.p2.x = rand() % 5;
+        s.p2.y = rand() % 5;
         m_segments.add(id, s);
         break;
     case OT_CIRCLE:
         Circle c;
-        c.center.x = 1;
-        c.center.y = 1;
+        c.center.x = rand() % 5;
+        c.center.y = rand() % 5;
         c.r = 1;
         m_circles.add(id, c);
         break;
@@ -313,7 +313,7 @@ void BasicInterface::setX(const Array<double>& X)
         segmentMarker++;
     }
 }
-double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance)
+double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double distance)
 {
     ObjType ot1, ot2;
     ot1 = identifyObjTypeByID(id1);
@@ -335,19 +335,16 @@ double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance)
             mark++;
         Segment& l2 = (*mark).val;
 
-        double A1 = l1.p1.x - l1.p2.x;
-        double B1 = l1.p1.y - l1.p2.y;
-        double length = sqrt(A1 * A1 + B1 * B1);
-        A1 = A1 / length;
-        B1 = B1 / length;
 
-        double A2 = l2.p1.x - l2.p2.x;
-        double B2 = l2.p1.y - l2.p2.y;
-        length = sqrt(A2 * A2 + B2 * B2);
-        A2 = A2 / length;
-        B2 = B2 / length;
+        double length;
 
-        return abs(abs(A1) - abs(A2) + abs(B1) - abs(B2));
+        double X1 = l1.p1.x - l1.p2.x;
+        double Y1 = l1.p1.y - l1.p2.y;
+
+        double X2 = l2.p1.x - l2.p2.x;
+        double Y2 = l2.p1.y - l2.p2.y;
+       
+        return abs(X1 * Y2 - X2 * Y1);
     }
     else if (rt == RT_ORTHO)
     {
@@ -442,7 +439,7 @@ double BasicInterface::ReqValue(ID id1, ID id2, ReqType rt, double distance)
                 mark++;
             Segment& l2 = (*mark).val;
 
-            if (ReqValue(id1, id2, RT_PARALLEL) <= 0.01)
+            if (particularErrValue(id1, id2, RT_PARALLEL) <= 0.01)
             {
                 double A1 = l1.p2.y - l1.p1.y;
                 double B1 = l1.p1.x - l1.p2.x;
@@ -471,7 +468,7 @@ double  BasicInterface::partDerivative(int varNumber, ID id1, ID id2, ReqType rt
     double delta = 1e-10;
     double var = arr[varNumber];
 
-    double req1 = ReqValue(id1, id2, rt, distance);
+    double req1 = particularErrValue(id1, id2, rt, distance);
     if (req1 == -1)
     {
         std::cout << "req1 error\n";
@@ -481,7 +478,7 @@ double  BasicInterface::partDerivative(int varNumber, ID id1, ID id2, ReqType rt
     arr[varNumber] = var + delta;
     setX(arr);
 
-    double req2 = ReqValue(id1, id2, rt, distance);
+    double req2 = particularErrValue(id1, id2, rt, distance);
     if (req2 == -1)
     {
         std::cout << "req2 error\n";
@@ -493,25 +490,20 @@ double  BasicInterface::partDerivative(int varNumber, ID id1, ID id2, ReqType rt
 
     return (req2 - req1) / delta;
 }
-void BasicInterface::solveReq(ID id1, ID id2, ReqType rt, double distance)
+void BasicInterface::solveParticularReq(ID id1, ID id2, ReqType rt, double distance)
 {
     Array<double> arr = getX();
 
-    double secondReqValue, firstReqValue = ReqValue(id1, id2, rt, distance);
+    double secondReqValue, firstReqValue = particularErrValue(id1, id2, rt, distance);
 
     std::cout << "Req value before: " << firstReqValue << std::endl;
 
-    for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++)
-    {
-        std::cout << *m << std::endl;
-    }
-
     double lambda = 0.1;
-    while (firstReqValue > 0.01)
+    while (firstReqValue > 0.0001)
     {
         Array<double> devArr, newArr;
         
-        firstReqValue = ReqValue(id1, id2, rt, distance);
+        firstReqValue = particularErrValue(id1, id2, rt, distance);
        
         int i = 0;
         for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
@@ -527,7 +519,7 @@ void BasicInterface::solveReq(ID id1, ID id2, ReqType rt, double distance)
 
         setX(newArr);
 
-        secondReqValue = ReqValue(id1, id2, rt, distance);
+        secondReqValue = particularErrValue(id1, id2, rt, distance);
        
         if (secondReqValue > firstReqValue)   //Если ситуация не улучшилась
         {
@@ -546,17 +538,104 @@ void BasicInterface::solveReq(ID id1, ID id2, ReqType rt, double distance)
     }
 
     std::cout << "Req value after: " << firstReqValue << std::endl;
-    for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++)
-    {
-        std::cout << *m << std::endl;
-    }
 }
 
-bool BasicInterface::solveReqs() 
+
+double BasicInterface::complexErrValue()
 {
-    UniDict<ID, Requirement>::Marker reqMark = m_requirements.init();
-    
+    double complexError = 0;
 
+    for (UniDict<ID, Requirement>::Marker reqMark = m_requirements.init(); reqMark != m_requirements.afterEnd(); reqMark++)
+    {
+        ReqType rt = (*reqMark).val.type;
+        Array<ID> idArr = (*reqMark).val.objs;
+        for (int i = 1; i < idArr.getSize(); i++)
+        {
+            complexError += particularErrValue(idArr[0], idArr[i], rt);
+        }
+    }
 
-    return 1;
+    return complexError;
+};
+bool BasicInterface::solveComplexReq() 
+{
+    Array<double> arr = getX();
+
+    double secondReqValue, firstReqValue = complexErrValue();
+
+    std::cout << "Req value before: " << firstReqValue << std::endl;
+
+    double lambda = 0.1;
+    while (firstReqValue > 1e-7)
+    {
+        Array<double> devArr, newArr;
+
+        firstReqValue = complexErrValue();
+
+        int i = 0;
+        for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+        {
+            devArr.add(complexPartDerivative(i));   //Составляем вектор производных 
+        };
+
+        i = 0;
+        for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+        {
+            newArr.add(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
+        };
+
+        setX(newArr);
+
+        secondReqValue = complexErrValue();
+
+        if (secondReqValue > firstReqValue)   //Если ситуация не улучшилась
+        {
+            setX(arr);
+            lambda = lambda / 2;
+        }
+        else
+        {
+            firstReqValue = secondReqValue;
+            i = 0;
+            for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+            {
+                arr[i] = newArr[i];
+            };
+        }
+    }
+
+    std::cout << "Req value after: " << firstReqValue << std::endl;
+    return true;
+}
+double  BasicInterface::complexPartDerivative(int varNumber)
+{
+    Array<double> arr = getX();
+
+    if (arr.getSize() <= varNumber)
+        return 0;
+
+    double delta = 1e-5;
+    double var = arr[varNumber];
+
+    double req1 = complexErrValue();
+    if (req1 == -1)
+    {
+        std::cout << "ERROR: complexPartDerivative(req1)\n";
+        return 0;
+    }
+
+    arr[varNumber] = var + delta;
+    setX(arr);
+
+    double req2 = complexErrValue();
+    if (req2 == -1)
+    {
+        std::cout << "ERROR: complexPartDerivative(req2)\n";
+        return 0;
+    }
+
+    arr[varNumber] = var;
+    setX(arr);
+
+    return (req2 - req1) / delta;
 }

@@ -34,8 +34,8 @@ public:
     ObjType identifyObjTypeByID(ID);
     void showRequirements();    //Нужно для теста
     bool removeRequirementByID(ID);
-    void solveReq(ID id1, ID id2, ReqType rt, double distance=0);
-   
+    bool solveComplexReq();
+    void solveParticularReq(ID id1, ID id2, ReqType rt, double distance = 0);
  
 private:
 
@@ -44,11 +44,12 @@ private:
     UniDict<ID, Segment> m_segments;
     UniDict<ID, Requirement> m_requirements;
 
-    double ReqValue(ID idSegement1, ID idSegement2, ReqType rt, double distance=0);
+    double particularErrValue(ID idSegement1, ID idSegement2, ReqType rt, double distance=0);
+    double complexErrValue();
     double partDerivative(int varNumber, ID id1, ID id2, ReqType rt, double distance=0);
 	Array<double> getX();
 	void setX(const Array<double>&x);
-	bool solveReqs();
+    double complexPartDerivative(int varNumber);
 
 
 };

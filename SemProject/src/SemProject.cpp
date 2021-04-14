@@ -3,6 +3,7 @@
 #include "PSDrawer.h"
 #include <iostream>
 #include <locale>
+#include "Stack.h"
 
 using namespace std;
 
@@ -281,19 +282,43 @@ int main()
 
     BasicInterface bi;
 
-    Array<ID> idArr;
-    ID id;
-    for (int i = 0; i < 2; i++)
+    Array<ID> arr;
+    
+    ID id1, id2, id3;
+
+    id1 = bi.addObject(OT_SEGMENT);
+    id2 = bi.addObject(OT_SEGMENT);
+    id3 = bi.addObject(OT_SEGMENT);
+
+    arr.add(id1);
+    arr.add(id2);
+    arr.add(id3);
+
+    bi.addRequirement(arr, RT_PARALLEL);
+
+  
+    bi.solveComplexReq();
+
+
+    for (int i = 0; i < arr.getSize(); i++)
     {
-        id = bi.addObject(OT_SEGMENT);
-        idArr.add(id);
+        UniDict<ParamType, double> obj = bi.queryObjProperties(arr[i]);
+
+        for (UniDict<ParamType, double> ::Marker m = obj.init(); m != obj.afterEnd(); m++)
+        {
+            ParamType pt = (*m).key;
+            cout << pt << " " << (*m).val << endl;
+        }
+
     }
 
-    ID reqID1 = bi.addRequirement(idArr, RT_ORTHO);
-    bi.showRequirements();
+    
 
-    bi.removeObjectByID(id);
-    bi.showRequirements();
    
+
+  
+   
+
+
     return 0;
 };
