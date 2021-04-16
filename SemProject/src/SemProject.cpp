@@ -4,6 +4,7 @@
 #include <iostream>
 #include <locale>
 #include "Stack.h"
+#include "OneSizeArray.h"
 
 using namespace std;
 
@@ -280,7 +281,7 @@ int main()
     }*/
 
 
-    BasicInterface bi;
+    /*BasicInterface bi;
 
     Array<ID> arr;
     
@@ -310,7 +311,23 @@ int main()
             cout << pt << " " << (*m).val << endl;
         }
 
+    }*/
+
+    OneSizeArray<double> tmp(6);
+    OneSizeArray<double> tmp2(6);
+    for (size_t i = 0; i < 6; i++)
+    {
+        tmp[i] = i*2;
+        tmp2[i] = i * 2+2;
     }
+    OneSizeArray<double> tmp3 = tmp + 0.5 * tmp2;
+    OneSizeArray<double>::Marker mark = tmp3.init();
+    while (mark != tmp3.afterEnd())
+    {
+        cout << *mark << ' ';
+        mark++;
+    }
+
 
     
 

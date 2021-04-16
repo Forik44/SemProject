@@ -3,7 +3,7 @@
 template<typename ArrayElement> class OneSizeArray
 {
 private:
-    const size_t m_size;
+    size_t size;
     ArrayElement* data;
     struct marker
     {
@@ -20,13 +20,13 @@ public:
     bool removeElementByIdx(size_t idx);
     size_t getSize() const
     {
-        return m_size;
+        return size;
     };
     class Marker
     {
         marker mark;
     public:
-        friend class Array;
+        friend OneSizeArray;
         ArrayElement& operator*()
         {
             return *mark.Elem;
@@ -62,14 +62,45 @@ public:
             mark.markerSize = size;
         }
     };
-    OneSizeArray& operator= (const Array& arr)
+    OneSizeArray& operator= (const OneSizeArray& arr)
     {
+        if (this->getSize() != arr.getSize())
+        {
+           throw -1;
+        }
         for (size_t i = 0; i < arr.getSize(); i++)
         {
             data[i] = arr.data[i];
         }
-        size = arr.size;
         return *this;
+    }
+    friend OneSizeArray operator*(const double coefficient , const OneSizeArray& arr)
+    {
+        OneSizeArray<ArrayElement> tmp(arr.getSize());
+        for (size_t i = 0; i < arr.getSize(); i++)
+        {
+            tmp[i] = coefficient * arr[i];
+        }
+        return tmp;
+    }
+    friend OneSizeArray operator+(const OneSizeArray& arr1, const OneSizeArray& arr2)
+    {
+        if (arr1.getSize() != arr2.getSize())
+        {
+            throw -1;
+        }
+        OneSizeArray<ArrayElement> tmp1(arr1.getSize());
+        for (size_t i = 0; i < arr1.getSize(); i++)
+        {
+            tmp1[i] = arr1[i] + arr2[i];
+        }
+        return tmp1;
+    }
+    void setElementByIdx(size_t idx, ArrayElement val2add)
+    {
+        if (idx >= size)
+            throw -1;
+        data[idx] = val2add;
     }
     Marker init()
     {
@@ -92,27 +123,32 @@ public:
 
 template<typename ArrayElement> OneSizeArray<ArrayElement>::OneSizeArray(size_t size)
 {
-    m_size = size;
-    data = nullptr;
+    this->size = size;
+    data = new ArrayElement(size);
+    for (size_t i = 0; i < size; i++)
+    {
+        data[i] = 0;
+    }
 };
 
 template<typename ArrayElement> OneSizeArray<ArrayElement>::OneSizeArray(const OneSizeArray<ArrayElement>& original)
 {
-    size = original.m_size;
+    size = original.size;
     if (size == 0)
         data = nullptr;
     else
     {
-        data = new ArrayElement[m_size];
-        for (size_t k = 0; k < m_size; ++k)
+        data = new ArrayElement[size];
+        for (size_t k = 0; k < size; ++k)
             data[k] = original.data[k];
     }
 };
 
 template<typename ArrayElement> OneSizeArray<ArrayElement>::~OneSizeArray()
 {
-    if (data != nullptr)
-        delete[] data;
+   /* if (data != nullptr)
+        delete data;*/
+   
 };
 
 template<typename ArrayElement> ArrayElement& OneSizeArray<ArrayElement>::operator[](size_t idx)
