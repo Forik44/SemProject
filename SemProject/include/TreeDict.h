@@ -314,7 +314,14 @@ template<typename Key, typename Value> Value& TreeDict<Key, Value>::operator[](K
 }
 template<typename Key, typename Value> bool TreeDict<Key, Value>::checkRotate(Node* current)
 {
-    return fabs(getHeight(current->left) - getHeight(current->right)) < 2;
+    int a = getHeight(current->left);
+    int b = getHeight(current->right);
+    int c;
+    if (a - b < 0)
+        c = -a + b;
+    else
+        c = a - b;
+    return c < 2;
 }
 template<typename Key, typename Value> void TreeDict<Key, Value>::leadRotate(Node* current)
 {
@@ -338,48 +345,54 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node*
         if (getHeight(current->left->left) > getHeight(current->left->right))
         {
             
-            current->prev->left = current->left;
-            tmp->left->prev = tmp->prev;
-            tmp->left->right = tmp;
-            tmp->prev = tmp->left;
-            tmp->left = nullptr;
+            Node* tmpLeft = current->left;
+            current->left = current->left->left;
+            current->left->prev = current;
+            current->left->left = tmpLeft;
+            current->left->prev = current->left;
+            current->left->left->left = nullptr;
         }
         else
         {
-            Node* tmpLeft = current->left;
+           
             current->left = current->left->right;
-            tmpLeft->right->prev = tmpLeft->prev;
-            tmpLeft->right->left = tmpLeft;
-            tmpLeft->prev = tmpLeft->right;
-            current->prev->left = current->left;
-            tmp->left->prev = tmp->prev;
-            tmp->left->right = tmp;
-            tmp->prev = tmp->left;
-            tmp->left = nullptr;
+            current->left->prev->right = nullptr;
+            current->left->left = current->left->prev;
+            current->left->left->prev = current->left;
+            current->left->prev = current;
+            Node* tmpLeft = current->left;
+            current->left = current->left->left;
+            current->left->prev = current;
+            current->left->left = tmpLeft;
+            current->left->left->prev = current->left;
+            current->left->left->left = nullptr;
         }
     }
     else
     {
         if (getHeight(current->right->right) > getHeight(current->right->left))
         {
-            current->prev->right = current->right;
-            tmp->right->prev = tmp->prev;
-            tmp->right->left = tmp;
-            tmp->prev = tmp->right;
-            tmp->left = nullptr;
+            Node* tmpRight = current->right;
+            current->right = current->right->right;
+            current->right->prev = current;
+            current->right->right = tmpRight;
+            current->right->prev = current->right;
+            current->right->right->right = nullptr;
         }
         else 
         {
-            Node* tmpRight = current->right;
+           
             current->right = current->right->left;
-            tmpRight->left->prev = tmpRight->prev;
-            tmpRight->left->right = tmpRight;
-            tmpRight->prev = tmpRight->left;
-            current->prev->right = current->right;
-            tmp->right->prev = tmp->prev;
-            tmp->right->left = tmp;
-            tmp->prev = tmp->right;
-            tmp->left = nullptr;
+            current->right->prev->left = nullptr;
+            current->right->right = current->right->prev;
+            current->right->right->prev = current->right;
+            current->right->prev = current;
+            Node* tmpRight = current->right;
+            current->right = current->right->right;
+            current->right->prev = current;
+            current->right->right = tmpRight;
+            current->right->right->prev = current->right;
+            current->right->right->right = nullptr;
         }
     }
 }

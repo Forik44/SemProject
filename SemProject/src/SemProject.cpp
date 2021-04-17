@@ -270,7 +270,7 @@ void outputPoints(const SegmentList segmentStorage)
 //    return 0;
 //}
 
-int main()
+
 int main(int argc, char* argv[])
 {
     setlocale(LC_ALL, "Russian");
