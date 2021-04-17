@@ -67,15 +67,19 @@ public:
     }
     bool operator ==(const ID& other)
     {
-        return (other.m_id == this->m_id);//Проба пера
+        return (other.m_id == this->m_id);
     }
     bool operator !=(const ID& other)
     {
-        return !(other.m_id == this->m_id);//Проба пера
+        return !(other.m_id == this->m_id);
     }
     bool operator < (const ID& other)
     {
         return (other.m_id < this->m_id);
+    }
+    bool operator > (const ID& other)
+    {
+        return (other.m_id > this->m_id);
     }
 };
 

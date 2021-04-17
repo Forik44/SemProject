@@ -27,12 +27,6 @@
     <ClCompile Include="src\SemProject.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="src\testing.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Array.h">
@@ -51,9 +45,6 @@
       <Filter>Файлы заголовков\Objects</Filter>
     </ClInclude>
     <ClInclude Include="include\PSDrawer.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Tests.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="include\TreeDict.h">

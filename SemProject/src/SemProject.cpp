@@ -4,6 +4,7 @@
 #include <iostream>
 #include <locale>
 #include "Stack.h"
+#include "Array.h"
 
 using namespace std;
 
@@ -133,7 +134,7 @@ void outputPoints(const SegmentList segmentStorage)
 //                    cin >> x;
 //                    cout << "y: ";
 //                    cin >> y;
-//                    //Добавляем точку p1
+//  
 //
 //                }
 //                else if (obj == 's')
@@ -283,22 +284,14 @@ int main()
     BasicInterface bi;
 
     Array<ID> arr;
-    
-    ID id1, id2, id3;
 
-    id1 = bi.addObject(OT_SEGMENT);
-    id2 = bi.addObject(OT_SEGMENT);
-    id3 = bi.addObject(OT_SEGMENT);
-
-    arr.add(id1);
-    arr.add(id2);
-    arr.add(id3);
+    arr.add(bi.addObject(OT_SEGMENT));
+    arr.add(bi.addObject(OT_SEGMENT));
+   //arr.add(bi.addObject(OT_SEGMENT));
 
     bi.addRequirement(arr, RT_PARALLEL);
-
   
     bi.solveComplexReq();
-
 
     for (int i = 0; i < arr.getSize(); i++)
     {
@@ -312,7 +305,7 @@ int main()
 
     }
 
-    
+
 
    
 

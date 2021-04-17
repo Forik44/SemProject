@@ -539,8 +539,6 @@ void BasicInterface::solveParticularReq(ID id1, ID id2, ReqType rt, double dista
 
     std::cout << "Req value after: " << firstReqValue << std::endl;
 }
-
-
 double BasicInterface::complexErrValue()
 {
     double complexError = 0;
@@ -587,7 +585,7 @@ bool BasicInterface::solveComplexReq()
         setX(newArr);
 
         secondReqValue = complexErrValue();
-
+        std::cout << secondReqValue << " " << firstReqValue << "\n";
         if (secondReqValue > firstReqValue)   //Если ситуация не улучшилась
         {
             setX(arr);

@@ -17,62 +17,59 @@ private:
     };
     size_t size;
     Node* m_root;
-    
-     size_t getHeightR(Node* tmp)const
+    size_t getHeightR(Node* tmp)const
     {
-         int a = 0, b = 0;
-         if (tmp->left != nullptr)
-         {
-             a = getHeightR(tmp->left);
-             a++;
-         }
-         if (tmp->right != nullptr)
-         {
-             b = getHeightR(tmp->right);
-             b++;
-         }
-         if (a == 0 && b == 0)
-             return 1;
-         if (a > b)
-             return a;
-         else
-             return b;
+        int a = 0, b = 0;
+        if (tmp->left != nullptr)
+        {
+            a = getHeightR(tmp->left);
+            a++;
+        }
+        if (tmp->right != nullptr)
+        {
+            b = getHeightR(tmp->right);
+            b++;
+        }
+        if (a == 0 && b == 0)
+            return 1;
+        if (a > b)
+            return a;
+        else
+            return b;
 
     }
-     size_t getHeight(Node* current)const
-     {
-         int a = 0, b = 0;
-         Node* tmp = current;
-         if (tmp != nullptr) {
-             if (tmp->left != nullptr || tmp->right != nullptr)
-             {
-                 if (tmp->left != nullptr)
-                     a = getHeightR(tmp->left);
-                 if (tmp->right != nullptr)
-                     b = getHeightR(tmp->right);
-             }
-             else return 1;
-         }
-         else return 0;
-         if (a > b)
-             return a++;
-         else
-             return b++;
-     }
-     bool checkRotate(Node* current);
-     void leadRotate(Node* current);
-     void DoRotate(Node* current);
-    
+    size_t getHeight(Node* current)const
+    {
+        int a = 0, b = 0;
+        Node* tmp = current;
+        if (tmp != nullptr) {
+            if (tmp->left != nullptr || tmp->right != nullptr)
+            {
+                if (tmp->left != nullptr)
+                    a = getHeightR(tmp->left);
+                if (tmp->right != nullptr)
+                    b = getHeightR(tmp->right);
+            }
+            else return 1;
+        }
+        else return 0;
+        if (a > b)
+            return a++;
+        else
+            return b++;
+    }
+    bool checkRotate(Node* current);
+    void leadRotate(Node* current);
+    void DoRotate(Node* current);
+
 public:
     TreeDict()
     {
         size = 0;
         m_root = nullptr;
     }
-    
     void add(Key key, Value val);
     Value& operator[](Key key);
-
     class Marker
     {
     private:
@@ -141,12 +138,15 @@ public:
     {
         Marker m;
         Node* tmp = m_root;
-        while (tmp->left != nullptr)
-        {
-            tmp = tmp->left;
-        }
+
+        if (tmp)
+            while (tmp->left != nullptr)
+            {
+                tmp = tmp->left;
+            };
+       
         m.mark = tmp;
- 
+
         return m;
     };
     Marker afterEnd()
@@ -174,68 +174,153 @@ public:
             else return 1;
         }
         else return 0;
+
         if (a > b)
             return a++;
         else
             return b++;
     }
+    bool removeElementByKey(Key key);
 };
 
-template<typename Key, typename Value> Value& TreeDict<Key, Value>::operator[](Key key)
-{
-    if (!m_root)
-    {
-        Node* tmp = new Node;
-        tmp->left = tmp->right = tmp->prev = nullptr;
-        Para p;
-        p.key = key;
-        tmp->data = p;
-        m_root = tmp;
 
-        return m_root->data.value;
+template<typename Key, typename Value> bool TreeDict<Key, Value>::removeElementByKey(Key key)
+{
+    Node* ptr = m_root;
+    while (ptr)
+    {
+        if (key > ptr->data.key)
+            ptr = ptr->right;
+        else if (key < ptr->data.key)
+            ptr = ptr->left;
+        else
+        {
+            Node** tmp;
+            Node* newNode;
+
+            if (ptr->right)
+            {
+                for (newNode = ptr->right; newNode->left; newNode = newNode->left);
+
+                if (newNode->prev == ptr)
+                    tmp = &(ptr->right);
+                else
+                    tmp = &(newNode->prev->left);
+
+                (*tmp) = newNode->right;
+                if (newNode->right)
+                {
+                    tmp = &(newNode->right->prev);
+                    (*tmp) = newNode->prev;
+                }
+
+
+                tmp = &(newNode->right);
+                (*tmp) = ptr->right;
+                if (ptr->right)
+                {
+                    tmp = &(ptr->right->prev);
+                    (*tmp) = newNode;
+                }
+                
+
+                tmp = &(newNode->left);
+                (*tmp) = ptr->left;
+                if (ptr->left)
+                {
+                    tmp = &(ptr->left->prev);
+                    (*tmp) = newNode;
+                }
+
+
+                tmp = &(newNode->prev);
+                (*tmp) = ptr->prev;
+            }
+            else if (ptr->left)
+            {
+                newNode = ptr->left;
+                tmp = &(newNode->prev);
+                (*tmp) = ptr->prev;
+            }
+            else
+            {
+                newNode = nullptr;
+            }
+            
+            
+            if (ptr->prev)
+            {
+                if (key < ptr->prev->data.key)
+                    tmp = &(ptr->prev->left);
+                else
+                    tmp = &(ptr->prev->right);
+
+                (*tmp) = newNode;
+            }
+
+
+            delete ptr;
+            size--;
+
+
+            //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ Балансировка/////////////////////////////\\
+
+            if (size == 0)
+                m_root = nullptr;
+
+            return true;
+
+        }
+        
     }
 
-    Node* cur = m_root;
+    return false;
+}
+template<typename Key, typename Value> Value& TreeDict<Key, Value>::operator[](Key key)
+{
     Node** next = nullptr;
+    Node* cur = m_root;
 
-    while (cur != nullptr)
+    for (; cur; cur = *next)
     {
-        if (cur->data.key == key)
-            return cur->data.value;
-
         if (key < cur->data.key)
             next = &cur->left;
         else if (key > cur->data.key)
             next = &cur->right;
+        else
+            return cur->data.value;
 
         if (*next == nullptr)
-        {
-            Node* tmp = new Node;
-            tmp->prev = cur;
-            tmp->left = tmp->right = nullptr;
-            Para p;
-            p.key = key;
-            tmp->data = p;
-
-            *next = tmp;
-            return (*next)->data.value;
-        }
-
-        cur = *next;
+            break;
     }
-}
 
+    Node* tmp = new Node;
+    tmp->left = tmp->right  = nullptr;
+    tmp->data.key = key;
+    size++;
+
+    if (!m_root)
+    {
+        tmp->prev = nullptr;
+        m_root = tmp;
+    }
+    else 
+    {     
+        tmp->prev = cur;
+        *next = tmp;
+    }
+
+    return tmp->data.value;
+}
 template<typename Key, typename Value> bool TreeDict<Key, Value>::checkRotate(Node* current)
 {
     return fabs(getHeight(current->left) - getHeight(current->right)) < 2;
 }
-
 template<typename Key, typename Value> void TreeDict<Key, Value>::leadRotate(Node* current)
 {
     while (current != m_root)
     {
- 
-        if (checkRotate(current) < 2)
+        if (checkRotate(current))
             current = current->prev;
         else
         {
@@ -298,51 +383,40 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node*
         }
     }
 }
-
 template<typename Key, typename Value> void TreeDict<Key, Value>::add(Key key, Value value)
 {
     size++;
+    Node* tmp = new Node;
+    tmp->left = tmp->right = nullptr;
+    tmp->data.key = key;
+    tmp->data.value = value;
+    
     if (!m_root)
     {
-        Node* tmp = new Node;
-        tmp->left = tmp->right = tmp->prev = nullptr;
-        Para p;
-        p.key = key;
-        p.value = value;
-        tmp->data = p;
+        tmp->prev = nullptr;
         m_root = tmp;
-
         return;
     }
 
-    Node* cur = m_root;
+    
     Node** next = nullptr;
 
-    while (cur != nullptr)
+    for (Node* cur = m_root; cur; cur = *next)
     {
-        if (cur->data.key == key)
-            return;
-
         if (key > cur->data.key)
             next = &cur->right;
         else if (key < cur->data.key)
             next = &cur->left;
+        else
+            return;
 
         if (*next == nullptr)
         {
-            Node* tmp = new Node;
-            tmp->left = tmp->right = nullptr;
             tmp->prev = cur;
-            Para p;
-            p.key = key;
-            p.value = value;
-            tmp->data = p;
             *next = tmp;
             leadRotate(tmp);
             return;
         }
-        cur = *next;
-        
     }
 
 }
