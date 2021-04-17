@@ -5,6 +5,7 @@
 #include <locale>
 #include "Stack.h"
 #include "Array.h"
+#include "OneSizeArray.h"
 
 using namespace std;
 
@@ -270,17 +271,9 @@ void outputPoints(const SegmentList segmentStorage)
 //}
 
 int main()
+int main(int argc, char* argv[])
 {
-    /*try {
-        PSDrawer test("test.ps");
-        test.drawLine(100.0, 20.0, 100.0, 400.0);
-        test.drawPoint(200.0, 200.0);
-        test.drawCircle(200.0, 200.0, 100.0);
-    }  catch (errors& A) {
-        std::cout << A.message;
-    }*/
-
-
+    setlocale(LC_ALL, "Russian");
     BasicInterface bi;
 
     Array<ID> arr;
@@ -304,6 +297,70 @@ int main()
         }
 
     }
+    try {
+        while (false) {
+            cout << "Что вы хотите сделать?\n";
+            cout << "Добавить объект(a)\nПоказать идентификаторы объектов(l)\nОтобразить состояниие рисунка(d)\nДобавить требование(r)\nВыйти из программы(x)\n";
+            char startLetter = cin.get();
+            system("cls");
+            switch (startLetter) {
+            case 'a': {// добавить объект
+                char obj = cin.get();
+                cout << "Какое тип объекта вы хотите добавить?" << endl;
+                cout << "Точка (p)\nОтрезок (s)\nКруг (с)\n";
+                obj = cin.get();
+                if (obj == 'p')
+                {
+                    int x, y;
+                    cout << "Введите координаты точки:" << endl;
+                    cout << "x: ";
+                    cin >> x;
+                    cout << "y: ";
+                    cin >> y;
+                    //Добавляем точку p1
+
+                }
+                else if (obj == 's')
+                {
+                    int x1, x2, y1, y2;
+                    cout << "Введите координаты 2-ух точек:" << endl;
+                    cout << "Первая точка:" << endl;
+                    cout << "x: ";
+                    cin >> x1;
+                    cout << "y: ";
+                    cin >> y1;
+                    cout << "Вторая точка:" << endl;
+                    cout << "x: ";
+                    cin >> x2;
+                    cout << "y: ";
+                    cin >> y2;
+                    //Добавляем p1 и p2
+                    //Добавляем сегмент
+                }
+                else if (obj == 'c')
+                {
+                    int R, x, y;
+                    cout << "Введите координаты центра: " << endl;
+                    cout << "x: ";
+                    cin >> x;
+                    cout << "y: ";
+                    cin >> y;
+                    cout << "Введите радиус окружности: " << endl;
+                    cout << "R: ";
+                    cin >> R;
+                    //Добавляем точку P
+                    //Добавляем окружность с центром в точке P радиуса R
+                }
+                else
+                    cout << "Unknown command" << endl;
+                break;
+            }
+            case 'l': {// показать идентификаторы объектов
+                
+                break;
+            }
+            case 'd': { // " отобразить " состояниие рисунка
+            }
 
 
 
@@ -312,6 +369,76 @@ int main()
   
    
 
+            case 'r': {// добавить требование
+                char rq;
+                cout << "Какое требование вы хотите добавить?" << endl;
+                cout << "Параллельность (p)\nОртогональность (о)\nЗафиксировать расстояние между объектами (d)\nГруппировка (g)\nСовмещение (c)\n";
+                cin >> rq;
+                if (rq == 'p')
+                {
+                    size_t ID1, ID2;
+                    cout << "Введите идентификаторы двух прямых:" << endl;
+                    cout << "Первая прямая: ";
+                    cin >> ID1;
+                    //Проверка что заданный ID принадлежит прямой 
+                    cout << "Вторая прямая: ";
+                    cin >> ID2;
+                    //Проверка что заданный ID принадлежит прямой 
+                    //Добавление свойства
+                }
+                else if (rq == 'o')
+                {
+                    size_t ID1, ID2;
+                    cout << "Введите идентификаторы двух прямых:" << endl;
+                    cout << "Первая прямая: ";
+                    cin >> ID1;
+                    //Проверка что заданный ID принадлежит прямой 
+                    cout << "Вторая прямая: ";
+                    cin >> ID2;
+                    //Проверка что заданный ID принадлежит прямой 
+                    //Добавление свойства
+                }
+                else if (rq == 'd')
+                {
+                    size_t ID1, ID2;
+                    cout << "Введите идентификаторы двух объъектов:" << endl;
+                    cout << "Первая объект: ";
+                    cin >> ID1;
+                    //Проверка что заданный ID принадлежит какому-то объекту 
+                    cout << "Второй объект: ";
+                    cin >> ID2;
+                    //Проверка что заданный ID принадлежит какому-то объекту
+                    //Добавление свойства
+                }
+                else if (rq == 'g')
+                {
+                    size_t amount;
+                    cout << "Введите количество объектов:";
+                    cin >> amount;
+                    size_t* IDs = new size_t[amount];
+                    for (size_t i = 0; i < amount; i++)
+                    {
+                        cout << "Введите " << i + 1 << " объект: ";
+                        cin >> IDs[i];
+                    }
+                }
+                else if (rq == 'c')
+                {
 
+                }
+                else
+                    cout << "Unknown command" << endl;
+                break;
+            }
+            case 'x': // выйти из программы 
+            {
+                break;
+            }
+            }
+        }
+    }
+    catch (...) {
+        std::cout << "Achtung!!!" << std::endl;
+    }
     return 0;
-};
+}
