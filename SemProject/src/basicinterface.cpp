@@ -1,7 +1,7 @@
 #pragma once
 #include "basicinterface.h"
 #include <iostream>
-
+#include "ParallelReq.h"
 BasicInterface::BasicInterface()
 {
 
@@ -57,6 +57,7 @@ bool BasicInterface::removeObjectByID(ID id)
 
     int i = 0;
     Array<ID> arrID;
+    /*
     for (UniDict<ID, Requirement>::Marker m1 = m_requirements.init(); m1 != m_requirements.afterEnd(); m1++, i++)
     {
         for (Array<ID>::Marker m2 = (*m1).val.objs.init(); m2 != (*m1).val.objs.afterEnd(); m2++)
@@ -68,7 +69,7 @@ bool BasicInterface::removeObjectByID(ID id)
             }
         }
     };
-
+    */
     for (int i = 0; i < arrID.getSize(); i++)
     {
         m_requirements.removeElementByKey(arrID[i]);
@@ -84,7 +85,10 @@ ID  BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, double di
 {
     switch (rt)     //Проверка на валидность требований
     {
-    case RT_PARALLEL:
+    case RT_PARALLEL:{
+        ParallelReq *p = new ParallelReq(&m_segments,idArr[0],idArr[1]);
+
+
         for (int i = 0; i < idArr.getSize(); i++)
         {
             ID id = idArr[i];
@@ -95,6 +99,7 @@ ID  BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, double di
             }   
         }
         break;
+    }
     case RT_ORTHO:
         for (int i = 0; i < idArr.getSize(); i++)
         {
@@ -127,11 +132,12 @@ ID  BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, double di
     }
 
     ID id1, id;
-    Requirement req;
+/*    Requirement req;
     req.objs = idArr;
     req.type = rt;
+*/
     id = id1.generateID();
-    m_requirements.add(id, req);
+    //m_requirements.add(id, req);
     return id;
 
 };
@@ -142,7 +148,7 @@ void  BasicInterface::showRequirements()
         std::cout << "No requirements\n";
         return;
     }
-
+/*
     for (UniDict<ID, Requirement>::Marker mark = m_requirements.init(); mark != m_requirements.afterEnd(); mark++)
     {
         std::cout << "Requirement ID: " << (*mark).key.getID() << std::endl;
@@ -154,7 +160,7 @@ void  BasicInterface::showRequirements()
         }
         std::cout << "\n";
     }
-    
+*/
 
 };
 UniDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
@@ -544,7 +550,7 @@ void BasicInterface::solveParticularReq(ID id1, ID id2, ReqType rt, double dista
 double BasicInterface::complexErrValue()
 {
     double complexError = 0;
-
+    /*
     for (UniDict<ID, Requirement>::Marker reqMark = m_requirements.init(); reqMark != m_requirements.afterEnd(); reqMark++)
     {
         ReqType rt = (*reqMark).val.type;
@@ -554,6 +560,12 @@ double BasicInterface::complexErrValue()
             complexError += particularErrValue(idArr[0], idArr[i], rt);
         }
     }
+    *//*
+    for (UniDict<ID, Requirement>::Marker reqMark = m_requirements.init(); reqMark != m_requirements.afterEnd(); reqMark++)
+    {
+        complexError += (*reqMark).getError();
+     }
+*/
 
     return complexError;
 };

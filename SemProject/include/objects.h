@@ -13,6 +13,9 @@ enum ObjType{
 enum ReqType{
     RT_PARALLEL,
     RT_ORTHO,
+    RT_VERTICAL,
+    RT_HORIZONTAL,
+    RT_TANGENT,
     RT_COINCIDE,
     RT_GROUP,
     RT_DISTANCE
@@ -121,6 +124,28 @@ struct Requirement
 {
     ReqType type;
     Array<ID> objs;
+    double getEror();
+};
+
+struct ParallelRequirement
+{
+    ReqType type;
+    Array<ID> objs;
+    double getEror();
+};
+
+struct OrthoRequirement
+{
+    ReqType type;
+    Array<ID> objs;
+    double getEror();
+};
+
+struct VerticalRequirement
+{
+    ReqType type;
+    Array<ID> objs;
+    double getEror();
 };
 
 

@@ -4,6 +4,7 @@
 #include "Array.h"
 #include "List.h"
 #include "Dict.h"
+#include "IReq.h"
 
 enum ParamType
 {
@@ -42,7 +43,7 @@ private:
     UniDict<ID, Point> m_points;
     UniDict<ID, Circle> m_circles;
     UniDict<ID, Segment> m_segments;
-    UniDict<ID, Requirement> m_requirements;
+    UniDict<ID, IReq*> m_requirements;
 
     double particularErrValue(ID idSegement1, ID idSegement2, ReqType rt, double distance=0);
     double complexErrValue();
