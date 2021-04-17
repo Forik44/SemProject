@@ -123,6 +123,7 @@ ID  BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, double di
         {
             if (!((identifyObjTypeByID(idArr[i]) == OT_SEGMENT) || (identifyObjTypeByID(idArr[i]) == OT_POINT)))
             {
+                //TODO Проверить, если два отрезка, то они должны быть параллельны
                 std::cout << "Invalid param type for this requirement: RT_DISTANCE\n";
                 throw;
             }
