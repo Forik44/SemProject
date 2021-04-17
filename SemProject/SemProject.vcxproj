@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="src\basicinterface.cpp" />
     <ClCompile Include="src\objects.cpp" />
+    <ClCompile Include="src\ParallelReq.cpp" />
     <ClCompile Include="src\SemProject.cpp" />
     <ClCompile Include="src\testing.cpp" />
     <ClCompile Include="src\Tests.cpp" />
@@ -151,8 +152,10 @@
     <ClInclude Include="include\basicinterface.h" />
     <ClInclude Include="include\Dict.h" />
     <ClInclude Include="include\Errors.h" />
+    <ClInclude Include="include\IReq.h" />
     <ClInclude Include="include\List.h" />
     <ClInclude Include="include\OneSizeArray.h" />
+    <ClInclude Include="include\ParallelReq.h" />
     <ClInclude Include="include\PSDrawer.h" />
     <ClInclude Include="include\Queue.h" />
     <ClInclude Include="include\Stack.h" />
