@@ -338,19 +338,24 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::leadRotate(Nod
 }
 template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node* current)
 {
-    Node* tmp = current;
+   
     
     if (getHeight(current->left) > getHeight(current->right))
     {
         if (getHeight(current->left->left) > getHeight(current->left->right))
         {
-            
-            Node* tmpLeft = current->left;
+            Node* tmp = current;
+            current->prev->left = current->left;
+            tmp->left->prev = tmp->prev;
+            tmp->left->right = tmp;
+            tmp->prev = tmp->left;
+            tmp->left = nullptr;
+            /*Node* tmpLeft = current->left;
             current->left = current->left->left;
             current->left->prev = current;
             current->left->left = tmpLeft;
-            current->left->prev = current->left;
-            current->left->left->left = nullptr;
+            current->left->left->prev = current->left;
+            current->left->left->left = nullptr;*/
         }
         else
         {
@@ -360,24 +365,35 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node*
             current->left->left = current->left->prev;
             current->left->left->prev = current->left;
             current->left->prev = current;
-            Node* tmpLeft = current->left;
-            current->left = current->left->left;
+            current->prev->left = current->left;
+            Node* tmp = current;
+            tmp->left->prev = tmp->prev;
+            tmp->left->right = tmp;
+            tmp->prev = tmp->left;
+            tmp->left = nullptr;
+            /*current->left = current->left->left;
             current->left->prev = current;
             current->left->left = tmpLeft;
             current->left->left->prev = current->left;
-            current->left->left->left = nullptr;
+            current->left->left->left = nullptr;*/
         }
     }
     else
     {
         if (getHeight(current->right->right) > getHeight(current->right->left))
         {
-            Node* tmpRight = current->right;
+            Node* tmp = current;
+            current->prev->right = current->right;
+            tmp->right->prev = tmp->prev;
+            tmp->right->left = tmp;
+            tmp->prev = tmp->right;
+            tmp->right = nullptr;
+            /*Node* tmpRight = current->right;
             current->right = current->right->right;
             current->right->prev = current;
             current->right->right = tmpRight;
-            current->right->prev = current->right;
-            current->right->right->right = nullptr;
+            current->right->right->prev = current->right;
+            current->right->right->right = nullptr;*/
         }
         else 
         {
@@ -387,12 +403,17 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node*
             current->right->right = current->right->prev;
             current->right->right->prev = current->right;
             current->right->prev = current;
-            Node* tmpRight = current->right;
-            current->right = current->right->right;
+            current->prev->right = current->right;
+            Node* tmp = current;
+            tmp->right->prev = tmp->prev;
+            tmp->right->left = tmp;
+            tmp->prev = tmp->right;
+            tmp->right = nullptr;
+            /*current->right = current->right->right;
             current->right->prev = current;
             current->right->right = tmpRight;
             current->right->right->prev = current->right;
-            current->right->right->right = nullptr;
+            current->right->right->right = nullptr;*/
         }
     }
 }

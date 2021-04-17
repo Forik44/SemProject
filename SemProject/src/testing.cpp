@@ -8,15 +8,15 @@ int main(){
 	int N = 20;
 	for (int i = 0; i < N; i++)
 	{
-		tree.add(rand(), i);
+		tree.add(i, rand());
 	}
 
 	for (TreeDict<int, int>::Marker m = tree.init(); m != tree.afterEnd(); m++)
 	{
 		std::cout << (*m).key << " " << (*m).value << std::endl;
 	}
-	
-	tree.removeElementByKey(3);
+	std::cout << '\n';
+	tree.removeElementByKey(2);
 	for (TreeDict<int, int>::Marker m = tree.init(); m != tree.afterEnd(); m++)
 	{
 		std::cout << (*m).key << " " << (*m).value << std::endl;
