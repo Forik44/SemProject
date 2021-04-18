@@ -1,9 +1,9 @@
 #include "Tests.h"
 #include <iostream>
 #include "TreeDict.h"
-
+#include "PSDrawer.h"
 int main(){
-
+	testdraw();
 	TreeDict<int, int> tree;
 	int N = 20;
 	for (int i = 0; i < N; i++)
