@@ -16,6 +16,9 @@
     <Filter Include="Файлы заголовков\Objects">
       <UniqueIdentifier>{586f1ee2-70d8-4282-a1a4-95f5ff8724ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\Requirements">
+      <UniqueIdentifier>{ed49bbc2-146c-43a3-ad55-336e3291e4eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\basicinterface.cpp">
@@ -25,24 +28,6 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="src\SemProject.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tests.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="src\testing.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ParallelReq.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="DistanceSegmentsReq.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="DistancePointSegmentsReq.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="DistacePointsReq.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,20 +65,32 @@
     <ClInclude Include="include\OneSizeArray.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="include\IReq.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="include\ParallelReq.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="DistanceSegmentsReq.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="DistancePointSegmentReq.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Requirements</Filter>
     </ClInclude>
     <ClInclude Include="DistacePointsReq.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Requirements</Filter>
+    </ClInclude>
+    <ClInclude Include="DistancePointSegmentReq.h">
+      <Filter>Файлы заголовков\Requirements</Filter>
+    </ClInclude>
+    <ClInclude Include="DistanceSegmentsReq.h">
+      <Filter>Файлы заголовков\Requirements</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IReq.h">
+      <Filter>Файлы заголовков\Requirements</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OrthoReq.h">
+      <Filter>Файлы заголовков\Requirements</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DistacePointsReq.h">
+      <Filter>Файлы заголовков\Requirements</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DistancePointSegmentReq.h">
+      <Filter>Файлы заголовков\Requirements</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DistanceSegmentsReq.h">
+      <Filter>Файлы заголовков\Requirements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -29,15 +29,13 @@ public:
     BasicInterface();
     ID addObject(ObjType);
     bool removeObjectByID(ID);
-  /*  bool changeObjectProperty(ID);*/
-    ID addRequirement(const Array<ID>&, ReqType, double dist = 0);
     UniDict<ParamType, double> queryObjProperties(ID);
     ObjType identifyObjTypeByID(ID);
     void showRequirements();    //Нужно для теста
     bool removeRequirementByID(ID);
     bool solveComplexReq();
     void solveParticularReq(ID id1, ID id2, ReqType rt, double distance = 0);
- 
+    Array<ID>& addRequirement(const Array<ID>& idArr, ReqType rt, double distance = 0);
 private:
 
     UniDict<ID, Point> m_points;

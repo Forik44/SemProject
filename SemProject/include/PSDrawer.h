@@ -201,22 +201,22 @@ void PSDrawer::addObj(ID id, BasicInterface bi)
 	}
 }
 
-
-void testdraw() {
-	try {
-		//PSDrawer test("test.ps",400,400,-150,-150); 
-		PSDrawer test("test.ps");
-		test.addCircle(200.0, 200.0, 90.0);
-		test.addCircle(-200.0, 200.0, 100.0);
-		test.addCircle(-50, -50, 50);
-		test.addPoint(200.0, 200.0);
-		test.addLine(100, 100, 200.0, 200.0);
-	}
-	catch (errors& A) {
-		std::cout << A.message;
-	}
-
-}
+//
+//void testdraw() {
+//	try {
+//		//PSDrawer test("test.ps",400,400,-150,-150); 
+//		PSDrawer test("test.ps");
+//		test.addCircle(200.0, 200.0, 90.0);
+//		test.addCircle(-200.0, 200.0, 100.0);
+//		test.addCircle(-50, -50, 50);
+//		test.addPoint(200.0, 200.0);
+//		test.addLine(100, 100, 200.0, 200.0);
+//	}
+//	catch (errors& A) {
+//		std::cout << A.message;
+//	}
+//
+//}
 
 
 

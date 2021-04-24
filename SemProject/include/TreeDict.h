@@ -64,10 +64,46 @@ private:
     void DoRotateRoot(Node* current);
 
 public:
+    Node* copyBranch(Node* original, Node* prev)
+    {
+        if (!original)
+            return nullptr;
+
+        Node* newNode = new Node;
+        newNode->data = original->data;
+        newNode->prev = prev;
+        newNode->right = copyBranch(original->right, newNode);
+        newNode->left = copyBranch(original->left, newNode);
+       
+        return newNode;
+    }
+    void removeBranch(Node* node)
+    {
+        if (!node)
+            return;
+        removeBranch(node->left);
+        removeBranch(node->right);
+        delete node;
+    };
     TreeDict()
     {
         size = 0;
         m_root = nullptr;
+    }
+   ~TreeDict()
+    {
+        removeBranch(m_root);
+    }
+    TreeDict(const TreeDict& original)
+    {
+        size = original.size;
+        m_root = copyBranch(original.m_root, nullptr);
+    }
+    TreeDict& operator= (const TreeDict& original)
+    {
+        size = original.size;
+        m_root = copyBranch(original.m_root, nullptr);
+        return *this;
     }
     void add(Key key, Value val);
     Value& operator[](Key key);

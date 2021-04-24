@@ -12,9 +12,22 @@ private:
     size_t size;
     friend class Marker;
 public:
-	UniDict();
+    UniDict()
+    {
+        size = 0;
+    };
+    UniDict(const UniDict& original)
+    {
+        m_storage = original.m_storage;
+        size = original.size;
+    }
     void add(Key key, Value val);
     Value& operator[](Key key);
+    UniDict& operator=(const UniDict& original)
+    {
+        m_storage = original.m_storage;
+        size = original.size;
+    }
     class Marker
     {
     private:
@@ -87,11 +100,6 @@ public:
    
 };
 
-template<typename  Key, typename Value> UniDict<Key, Value>::UniDict()
-{
-    size = 0;
-};
-
 template<typename  Key, typename Value> void UniDict<Key, Value>::add(Key key, Value val)
 {
 	Para newPara;
@@ -110,6 +118,16 @@ template<typename Key, typename Value> Value& UniDict<Key, Value>::operator[](Ke
 			return (*m).val;
 		}
 	}
-	/////////////////////////////////////////////////////Обработка ошибки///////////////////////////////////////////////////////////////
+
+    Value val = 0;
+    add(key, val);
+
+    for (typename Array<Para>::Marker m = m_storage.init(); m != m_storage.afterEnd(); m++)
+    {
+        if ((*m).key == key)
+        {
+            return (*m).val;
+        }
+    }
 }
 

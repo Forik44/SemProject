@@ -1,12 +1,16 @@
 #pragma once
-#include "basicinterface.h"
 #include <iostream>
+
+#include "basicinterface.h"
+
 #include "ParallelReq.h"
+#include "OrthoReq.h"
+#include "DistacePointsReq.h"
+#include "DistancePointSegmentReq.h"
+#include "DistanceSegmentsReq.h"
+
 BasicInterface::BasicInterface()
-{
-
-};
-
+{};
 ID  BasicInterface::addObject(ObjType ot)
 {
     ID id = ID::generateID();
@@ -14,23 +18,23 @@ ID  BasicInterface::addObject(ObjType ot)
     {
     case OT_POINT:
         Point p;
-        p.x = rand() % 5;
-        p.y = rand() % 5;
+        p.x = rand() % 100;
+        p.y = rand() % 100;
         m_points.add(id, p);
         break;
     case OT_SEGMENT:
         Segment s;
-        s.p1.x = rand() % 5;
-        s.p1.y = rand() % 5;
-        s.p2.x = rand() % 5;
-        s.p2.y = rand() % 5;
+        s.p1.x = rand() % 100;
+        s.p1.y = rand() % 100;
+        s.p2.x = rand() % 100;
+        s.p2.y = rand() % 100;
         m_segments.add(id, s);
         break;
     case OT_CIRCLE:
         Circle c;
-        c.center.x = rand() % 5;
-        c.center.y = rand() % 5;
-        c.r = 1;
+        c.center.x = rand() % 100;
+        c.center.y = rand() % 100;
+        c.r = rand() % 100;
         m_circles.add(id, c);
         break;
     }
@@ -79,90 +83,136 @@ bool BasicInterface::removeObjectByID(ID id)
 };
 bool BasicInterface::removeRequirementByID(ID id)
 {
+    ///////////////////////////////////////////////////////////”далить выделенную под Req пам€ть/////////////////////////////////////////////////////////
     return m_requirements.removeElementByKey(id);
 };
-ID  BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, double dist) 
+Array<ID>&  BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, double dist)
 {
-    switch (rt)     //ѕроверка на валидность требований
+    ID id;
+    Array<ID> reqIds;
+    bool segmentWasFound = 0, pointWasFound = 0, circleWasFound = 0;
+    
+    for (int i = 0; i < idArr.getSize(); i++)
     {
-    case RT_PARALLEL:{
-        ParallelReq *p = new ParallelReq(&m_segments,idArr[0],idArr[1]);
-
-
-        for (int i = 0; i < idArr.getSize(); i++)
+        ObjType ot = identifyObjTypeByID(idArr[i]);
+        switch (ot)
         {
-            ID id = idArr[i];
-            if (identifyObjTypeByID(id) != OT_SEGMENT)
-            {
-                std::cout << "Invalid param type for this requirement: RT_PARALLEL\n";
-                throw;
-            }   
+        case OT_POINT:
+            pointWasFound = true;
+            break;
+        case OT_SEGMENT:
+            segmentWasFound = true;
+            break;
+        case OT_CIRCLE:
+            circleWasFound = true;
+            break;
+        default:
+            throw;
+            break;
         }
+    }
+
+    switch (rt)    
+    {
+    case RT_PARALLEL:
+    {
+        if (pointWasFound || circleWasFound)
+        {
+            std::cout << "RT_PARALLEL: invalid parameter\n";
+            throw;
+        }
+            
+        for (int i = 0; i < idArr.getSize()-1; i++)
+        {
+            ParallelReq* req = new ParallelReq(&m_segments, idArr[i], idArr[i + 1]);
+            id = ID::generateID();
+            reqIds.add(id);
+            m_requirements.add(id, req);
+        }
+
         break;
     }
     case RT_ORTHO:
-        for (int i = 0; i < idArr.getSize(); i++)
+    {
+        if (pointWasFound || circleWasFound)
         {
-            if (identifyObjTypeByID(idArr[i]) != OT_SEGMENT)
-            {
-                std::cout << "Invalid param type for this requirement: RT_ORTHO\n";
-                throw;
-            }
+            std::cout << "RT_ORTHO: invalid parameter\n";
+            throw;
         }
+
+        for (int i = 0; i < idArr.getSize() - 1; i++)
+        {
+            OrthoReq* req = new OrthoReq(&m_segments, idArr[i], idArr[i + 1]);
+            id = ID::generateID();
+            reqIds.add(id);
+            m_requirements.add(id, req);
+        }
+
         break;
+    }
     case RT_COINCIDE:
-        std::cout << "RT_COINCIDE hasn't added yet\n";
+        std::cout << "RT_COINCIDE: hasn't added yet\n";
         throw;
         break;
     case RT_GROUP:
-        std::cout << "RT_GROUP hasn't added yet\n";
+        std::cout << "RT_GROUP: hasn't added yet\n";
         throw;
         break;
     case RT_DISTANCE:
-        for (int i = 0; i < idArr.getSize(); i++)
+    {
+        if (circleWasFound)
         {
-            if (!((identifyObjTypeByID(idArr[i]) == OT_SEGMENT) || (identifyObjTypeByID(idArr[i]) == OT_POINT)))
+            std::cout << "RT_DISTANCE: invalid parameter\n";
+            throw;
+        }
+
+        if (!segmentWasFound)
+        {
+            for (int i = 0; i < idArr.getSize() - 1; i++)
             {
-                //TODO ѕроверить, если два отрезка, то они должны быть параллельны
-                std::cout << "Invalid param type for this requirement: RT_DISTANCE\n";
-                throw;
+                DistancePointsReq* req = new DistancePointsReq(&m_points, idArr[i], idArr[i + 1], dist);
+                id = ID::generateID();
+                reqIds.add(id);
+                m_requirements.add(id, req);
             }
         }
-        
-        break;
-    }
-
-    ID id1, id;
-/*    Requirement req;
-    req.objs = idArr;
-    req.type = rt;
-*/
-    id = id1.generateID();
-    //m_requirements.add(id, req);
-    return id;
-
-};
-void  BasicInterface::showRequirements()
-{
-    if (m_requirements.getSize() == 0)
-    {
-        std::cout << "No requirements\n";
-        return;
-    }
-/*
-    for (UniDict<ID, Requirement>::Marker mark = m_requirements.init(); mark != m_requirements.afterEnd(); mark++)
-    {
-        std::cout << "Requirement ID: " << (*mark).key.getID() << std::endl;
-        std::cout << "Requirement type: " << (*mark).val.type << std::endl;
-        std::cout << "Objects ID: ";
-        for (Array<ID>::Marker m = (*mark).val.objs.init(); m != (*mark).val.objs.afterEnd(); m++)
+        else if (!pointWasFound)
         {
-            std::cout << (*m).getID() << " ";
+            //TODO ѕроверить, если два отрезка, то они должны быть параллельны
+            for (int i = 0; i < idArr.getSize() - 1; i++)
+            {
+                DistanceSegmentsReq* req = new DistanceSegmentsReq(&m_segments, idArr[i], idArr[i + 1], dist);
+                id = ID::generateID();
+                reqIds.add(id);
+                m_requirements.add(id, req);
+            }
         }
-        std::cout << "\n";
-    }
-*/
+        else
+        {
 
+            for (int i = 0; i < idArr.getSize(); i++)
+            {
+                if (identifyObjTypeByID(idArr[i]) == OT_POINT)
+                    for (int k = 0; k < idArr.getSize(); k++)
+                        if (identifyObjTypeByID(idArr[k]) == OT_SEGMENT)
+                        {
+
+                            DistancePointSegmentReq* req = new DistancePointSegmentReq(&m_points, &m_segments, idArr[i], idArr[k], dist);
+                            id = ID::generateID();
+                            reqIds.add(id);
+                            m_requirements.add(id, req);
+                        }
+   
+            }
+
+        }
+       
+
+       
+    }
+    }
+
+    return reqIds;
 };
 UniDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
 {
@@ -549,23 +599,10 @@ void BasicInterface::solveParticularReq(ID id1, ID id2, ReqType rt, double dista
 double BasicInterface::complexErrValue()
 {
     double complexError = 0;
-    /*
-    for (UniDict<ID, Requirement>::Marker reqMark = m_requirements.init(); reqMark != m_requirements.afterEnd(); reqMark++)
-    {
-        ReqType rt = (*reqMark).val.type;
-        Array<ID> idArr = (*reqMark).val.objs;
-        for (int i = 1; i < idArr.getSize(); i++)
-        {
-            complexError += particularErrValue(idArr[0], idArr[i], rt);
-        }
-    }
-    *//*
-    for (UniDict<ID, Requirement>::Marker reqMark = m_requirements.init(); reqMark != m_requirements.afterEnd(); reqMark++)
-    {
-        complexError += (*reqMark).getError();
-     }
-*/
 
+    for (UniDict<ID, IReq*>::Marker reqMark = m_requirements.init(); reqMark != m_requirements.afterEnd(); reqMark++)
+        complexError += (*reqMark).val->getError();
+    
     return complexError;
 };
 bool BasicInterface::solveComplexReq() 
@@ -577,7 +614,7 @@ bool BasicInterface::solveComplexReq()
     std::cout << "Req value before: " << firstReqValue << std::endl;
 
     double lambda = 0.1;
-    while (firstReqValue > 1e-7)
+    while (firstReqValue > 1e-2)
     {
         Array<double> devArr, newArr;
 

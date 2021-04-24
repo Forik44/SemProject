@@ -15,13 +15,11 @@ enum Colors
     COL_GREEN,
     COL_BLUE
 };
-
 std::ostream& operator<<(std::ostream& ost, const Point& p)
 {
     ost << '(' << p.x << ',' << p.y << ')';
     return ost;
 }
-
 std::ostream& operator<<(std::ostream& ost, enum ParamType& p)
 {
     string ParamTypesNames[] { 
@@ -41,7 +39,6 @@ std::ostream& operator<<(std::ostream& ost, enum ParamType& p)
     cout << ParamTypesNames[p];
     return ost;
 }
-
 std::ostream& operator<<(std::ostream& ost, enum ObjType& obj)
 {
     string ObjTypesNames[] {
@@ -274,29 +271,54 @@ void outputPoints(const SegmentList segmentStorage)
 int main(int argc, char* argv[])
 {
     setlocale(LC_ALL, "Russian");
-    BasicInterface bi;
+    /*BasicInterface bi;
 
     Array<ID> arr;
 
     arr.add(bi.addObject(OT_SEGMENT));
     arr.add(bi.addObject(OT_SEGMENT));
-   //arr.add(bi.addObject(OT_SEGMENT));
-
-    bi.addRequirement(arr, RT_PARALLEL);
-  
-    bi.solveComplexReq();
+   
+    PSDrawer ps("Test.txt");
+   
 
     for (int i = 0; i < arr.getSize(); i++)
     {
         UniDict<ParamType, double> obj = bi.queryObjProperties(arr[i]);
-
+        ps.addObj(arr[i], bi);
         for (UniDict<ParamType, double> ::Marker m = obj.init(); m != obj.afterEnd(); m++)
         {
             ParamType pt = (*m).key;
             cout << pt << " " << (*m).val << endl;
         }
 
-    }
+    }*/
+    BasicInterface bi;
+    Array<ID> arr;
+    
+    ID id1, id2, id3, id4;
+    id1 = bi.addObject(OT_SEGMENT);
+    id2 = bi.addObject(OT_SEGMENT);
+    id3 = bi.addObject(OT_SEGMENT);
+    
+    
+    arr.add(id1);
+    arr.add(id2);
+
+    bi.addRequirement(arr, RT_PARALLEL);
+
+    arr.removeElementByIdx(0);
+    arr.add(id3);
+    bi.addRequirement(arr, RT_ORTHO);
+
+    bi.solveComplexReq();
+   
+    PSDrawer ps("test");
+    ps.addObj(id1, bi);
+    ps.addObj(id2, bi);
+    ps.addObj(id3, bi);
+   
+
+
     try {
         while (false) {
             cout << "Что вы хотите сделать?\n";

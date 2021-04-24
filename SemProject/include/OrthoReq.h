@@ -3,24 +3,23 @@
 #include "IReq.h"
 #include "Dict.h"
 
-class ParallelReq : public BasicReq
+class OrthoReq: public BasicReq
 {
 private:
     UniDict<ID, Segment>* m_storage;
 public:
-    ParallelReq(UniDict<ID, Segment>* storage, ID id1, ID id2) :
+    OrthoReq(UniDict<ID, Segment>* storage, ID id1, ID id2) :
         m_storage(storage),
         BasicReq(id1, id2) {};
     virtual double getError();
 };
 
-double ParallelReq::getError() {
-
+double OrthoReq::getError()
+{
     UniDict<ID, Segment>::Marker mark;
     mark = m_storage->init();
     while ((*mark).key != m_id1)
         mark++;
-
     Segment& l1 = (*mark).val;
 
     mark = m_storage->init();
@@ -28,20 +27,11 @@ double ParallelReq::getError() {
         mark++;
     Segment& l2 = (*mark).val;
 
+    double A1 = l1.p1.x - l1.p2.x;
+    double B1 = l1.p1.y - l1.p2.y;
+    double A2 = l2.p1.x - l2.p2.x;
+    double B2 = l2.p1.y - l2.p2.y;
 
-    double length;
-
-    double X1 = l1.p1.x - l1.p2.x;
-    double Y1 = l1.p1.y - l1.p2.y;
-
-    double X2 = l2.p1.x - l2.p2.x;
-    double Y2 = l2.p1.y - l2.p2.y;
-
-    return abs(X1 * Y2 - X2 * Y1);
+    return abs(A1 * A2 + B1 * B2);
+    
 }
-
-
-
-
-
-

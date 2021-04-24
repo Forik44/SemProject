@@ -86,10 +86,6 @@ public:
     }
 };
 
-
-
-
-
 struct ReqDist
 {
     double error(double dist)
@@ -124,26 +120,6 @@ struct ReqDist
     };
 };
 
-struct Requirement
-{
-    ReqType type;
-    Array<ID> objs;
-    double getEror();
-};
-
-struct ParallelRequirement
-{
-    ReqType type;
-    Array<ID> objs;
-    double getEror();
-};
-
-struct OrthoRequirement
-{
-    ReqType type;
-    Array<ID> objs;
-    double getEror();
-};
 
 struct VerticalRequirement
 {
