@@ -102,14 +102,14 @@ template<typename  Key, typename Value> void UniDict<Key, Value>::add(Key key, V
 }
 template<typename Key, typename Value> Value& UniDict<Key, Value>::operator[](Key key)
 {
-    typename Array<Para>::Marker m = m_storage.init();
-	for (; m != m_storage.afterEnd(); m++)
+    
+	for (typename Array<Para>::Marker m = m_storage.init(); m != m_storage.afterEnd(); m++)
 	{
 		if ((*m).key == key)
 		{
-			return (*m).value;
+			return (*m).val;
 		}
 	}
-	return -1;
+	/////////////////////////////////////////////////////Обработка ошибки///////////////////////////////////////////////////////////////
 }
 

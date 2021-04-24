@@ -140,18 +140,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DistacePointsReq.cpp" />
-    <ClCompile Include="DistancePointSegmentsReq.cpp" />
-    <ClCompile Include="DistanceSegmentsReq.cpp" />
+    <ClCompile Include="src\DistacePointsReq.cpp" />
+    <ClCompile Include="src\DistancePointSegmentsReq.cpp" />
+    <ClCompile Include="src\DistanceSegmentsReq.cpp" />
     <ClCompile Include="src\basicinterface.cpp" />
     <ClCompile Include="src\objects.cpp" />
     <ClCompile Include="src\ParallelReq.cpp" />
     <ClCompile Include="src\SemProject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DistacePointsReq.h" />
-    <ClInclude Include="DistancePointSegmentReq.h" />
-    <ClInclude Include="DistanceSegmentsReq.h" />
+    <ClInclude Include="include\DistacePointsReq.h" />
+    <ClInclude Include="include\DistancePointSegmentReq.h" />
+    <ClInclude Include="include\DistanceSegmentsReq.h" />
     <ClInclude Include="include\Array.h" />
     <ClInclude Include="include\basicinterface.h" />
     <ClInclude Include="include\Dict.h" />

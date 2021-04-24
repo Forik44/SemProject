@@ -1,31 +1,21 @@
 #include "Tests.h"
 #include <iostream>
-#include "TreeDict.h"
+#include "Dict.h"
 #include "PSDrawer.h"
-int main(){
-	/*testdraw();*/
-	TreeDict<int, int> tree;
-	int N = 20;
-	for (int i = 0; i < N; i++)
-	{
-		tree.add(i, i);
-		for (TreeDict<int, int>::Marker m = tree.init(); m != tree.afterEnd(); m++)
-		{
-			std::cout << (*m).key << " " << (*m).value << std::endl;
-		}
-		std::cout << '\n';
-	}
+#include "basicinterface.h"
 
-	for (TreeDict<int, int>::Marker m = tree.init(); m != tree.afterEnd(); m++)
+int main(){
+	testdraw();
+
+	BasicInterface bi;
+	ID id1 = bi.addObject(OT_SEGMENT);
+	ID id2 = bi.addObject(OT_SEGMENT);
+	UniDict<ParamType, double> dict = bi.queryObjProperties(id1);
+	
+	for (UniDict<ParamType, double>::Marker m = dict.init(); m != dict.afterEnd(); m++)
 	{
-		std::cout << (*m).key << " " << (*m).value << std::endl;
-	}
-	std::cout << '\n';
-	tree.removeElementByKey(2);
-	for (TreeDict<int, int>::Marker m = tree.init(); m != tree.afterEnd(); m++)
-	{
-		std::cout << (*m).key << " " << (*m).value << std::endl;
-	}
+		std::cout << (*m).key << " " << (*m).val << std::endl;
+	};
 
 
 	return 0;
