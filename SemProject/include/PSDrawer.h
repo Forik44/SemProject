@@ -38,10 +38,17 @@ public:
 
 	};
 	void addObj(ID id, BasicInterface bi);
-private:
+
+
+	//return to private
 	void addPoint(double x1, double y1) { addCircle(x1, y1, 0.2); }
 	void addCircle(double x1, double y1, double radius);
 	void addLine(double x1, double y1, double x2, double y2);
+
+
+
+private:
+
 	const char* _filename;
 	uint8_t _auto;
 	double _endx, _endy, _startx, _starty;
@@ -206,11 +213,11 @@ void testdraw() {
 	try {
 		//PSDrawer test("test.ps",400,400,-150,-150); 
 		PSDrawer test("test.ps");
-		test.addCircle(200.0, 200.0, 90.0);
-		test.addCircle(-200.0, 200.0, 100.0);
-		test.addCircle(-50, -50, 50);
-		test.addPoint(200.0, 200.0);
-		test.addLine(100, 100, 200.0, 200.0);
+		///test.addCircle(200.0, 200.0, 90.0);
+		//test.addCircle(-200.0, 200.0, 100.0);
+		//test.addCircle(-50, -50, 50);
+		//test.addPoint(200.0, 200.0);
+		//test.addLine(100, 100, 200.0, 200.0);
 	}
 	catch (errors& A) {
 		std::cout << A.message;

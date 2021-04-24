@@ -27,22 +27,16 @@
     <ClCompile Include="src\SemProject.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="src\testing.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="src\ParallelReq.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DistanceSegmentsReq.cpp">
+    <ClCompile Include="src\DistacePointsReq.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DistancePointSegmentsReq.cpp">
+    <ClCompile Include="src\DistancePointSegmentsReq.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DistacePointsReq.cpp">
+    <ClCompile Include="src\DistanceSegmentsReq.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,13 +80,13 @@
     <ClInclude Include="include\ParallelReq.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="DistanceSegmentsReq.h">
+    <ClInclude Include="include\DistanceSegmentsReq.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="DistancePointSegmentReq.h">
+    <ClInclude Include="include\DistancePointSegmentReq.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="DistacePointsReq.h">
+    <ClInclude Include="include\DistacePointsReq.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
