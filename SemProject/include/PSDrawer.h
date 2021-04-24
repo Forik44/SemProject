@@ -1,6 +1,8 @@
 #ifndef PSDRAWER_H
 #define PSDRAWER_H
 #include "Errors.h"
+#include "objects.h"
+#include "basicinterface.h"
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
@@ -35,10 +37,11 @@ public:
 		delete[] _array_line;
 
 	};
+	void addObj(ID id, BasicInterface bi);
+private:
 	void addPoint(double x1, double y1) { addCircle(x1, y1, 0.2); }
 	void addCircle(double x1, double y1, double radius);
 	void addLine(double x1, double y1, double x2, double y2);
-private:
 	const char* _filename;
 	uint8_t _auto;
 	double _endx, _endy, _startx, _starty;
@@ -111,7 +114,6 @@ void PSDrawer::writefile() {
 	system(_temp);
 	delete[] _temp;
 }
-
 void PSDrawer::addCircle(double x1, double y1, double radius)
 {
 	//Calculating the sheet size and coordinate axes
@@ -179,10 +181,25 @@ void PSDrawer::addLine(double x1, double y1, double x2, double y2)
 	}
 
 };
-
-
-
-
+void PSDrawer::addObj(ID id, BasicInterface bi)
+{
+	UniDict<ParamType, double> arr = bi.queryObjProperties(id);
+	
+	switch (bi.identifyObjTypeByID(id))
+	{
+	case OT_CIRCLE:
+		addCircle(arr[PT_CX], arr[PT_CY], arr[PT_R]);
+		break;
+	case OT_POINT:
+		addPoint(arr[PT_PX], arr[PT_PY]);
+		break;
+	case OT_SEGMENT:
+		addLine(arr[PT_P1X], arr[PT_P1Y], arr[PT_P2X], arr[PT_P2Y]);
+		break;
+	case OT_ERROR:
+		throw;
+	}
+}
 
 
 void testdraw() {
@@ -200,6 +217,8 @@ void testdraw() {
 	}
 
 }
+
+
 
 
 #endif

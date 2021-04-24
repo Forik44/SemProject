@@ -5,7 +5,7 @@
 class IReq{
 public:
     virtual double getError() = 0;
-    Array<ID> objectsofReq() const;
+    Array<ID> objectsOfReq() const;
 };
 
 #endif // IREQ_H
