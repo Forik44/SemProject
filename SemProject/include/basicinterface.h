@@ -36,6 +36,7 @@ public:
     bool solveComplexReq();
     void solveParticularReq(ID id1, ID id2, ReqType rt, double distance = 0);
     Array<ID>& addRequirement(const Array<ID>& idArr, ReqType rt, double distance = 0);
+    Array<ID> ReceiveIdObjects();
 private:
 
     UniDict<ID, Point> m_points;

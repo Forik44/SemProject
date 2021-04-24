@@ -292,7 +292,7 @@ int main(int argc, char* argv[])
         }
 
     }*/
-    BasicInterface bi;
+  /*  BasicInterface bi;
     Array<ID> arr;
     
     ID id1, id2, id3, id4;
@@ -317,10 +317,28 @@ int main(int argc, char* argv[])
     ps.addObj(id2, bi);
     ps.addObj(id3, bi);
    
+*/
+    BasicInterface bi;
+    Array<ID> arr;
+
+    ID id1, id2, id3, id4;
+    id1 = bi.addObject(OT_SEGMENT);
+    id2 = bi.addObject(OT_SEGMENT);
+    id3 = bi.addObject(OT_SEGMENT);
 
 
+    arr.add(id1);
+    arr.add(id2);
+
+    bi.addRequirement(arr, RT_PARALLEL);
+
+    arr.removeElementByIdx(0);
+    arr.add(id3);
+    bi.addRequirement(arr, RT_ORTHO);
+
+    bi.solveComplexReq();
     try {
-        while (false) {
+        while (true) {
             cout << "Что вы хотите сделать?\n";
             cout << "Добавить объект(a)\nПоказать идентификаторы объектов(l)\nОтобразить состояниие рисунка(d)\nДобавить требование(r)\nВыйти из программы(x)\n";
             char startLetter = cin.get();
@@ -378,19 +396,22 @@ int main(int argc, char* argv[])
                 break;
             }
             case 'l': {// показать идентификаторы объектов
-                
+                Array<ID> ids = bi.ReceiveIdObjects();
+                for (Array<ID>::Marker mark = ids.init();mark != ids.afterEnd(); mark++)
+                {
+                   /* cout << (*mark) << ',';*/
+                }
                 break;
             }
             case 'd': { // " отобразить " состояниие рисунка
+
+                Array<ID> ids = bi.ReceiveIdObjects();
+                PSDrawer ps("picture");
+                for (Array<ID>::Marker mark = ids.init(); mark != ids.afterEnd(); mark++)
+                {
+                    ps.addObj((*mark), bi);
+                }
             }
-
-
-
-   
-
-  
-   
-
             case 'r': {// добавить требование
                 char rq;
                 cout << "Какое требование вы хотите добавить?" << endl;

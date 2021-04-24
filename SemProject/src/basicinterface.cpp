@@ -1,10 +1,9 @@
 #pragma once
 #include <iostream>
-
 #include "basicinterface.h"
-
 #include "ParallelReq.h"
 #include "OrthoReq.h"
+
 #include "DistancePointSegmentReq.h"
 #include "DistancePointsReq.h"
 #include "DistanceSegments.h"
@@ -686,4 +685,21 @@ double  BasicInterface::complexPartDerivative(int varNumber)
     setX(arr);
 
     return (req2 - req1) / delta;
+}
+Array<ID> BasicInterface::ReceiveIdObjects()
+{
+    Array<ID> IDs;
+    for (UniDict<ID, Point>::Marker mark = m_points.init();mark != m_points.afterEnd(); mark++)
+    {
+        IDs.add((*mark).key);
+    }
+    for (UniDict<ID, Segment>::Marker mark = m_segments.init();mark != m_segments.afterEnd(); mark++)
+    {
+        IDs.add((*mark).key);
+    }
+    for (UniDict<ID, Circle>::Marker mark = m_circles.init();mark != m_circles.afterEnd(); mark++)
+    {
+        IDs.add((*mark).key);
+    }
+    return IDs;
 }
