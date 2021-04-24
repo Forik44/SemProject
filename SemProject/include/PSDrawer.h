@@ -1,4 +1,4 @@
-#ifndef PSDRAWER_H
+п»ї#ifndef PSDRAWER_H
 #define PSDRAWER_H
 #include "Errors.h"
 #include "objects.h"
@@ -10,7 +10,7 @@
 class PSDrawer {
 public:
 	/*
-		(Названия файла, размер по x, по y, начало коориднат по x, по у) Если указано только название файла, то отсальное определиться автоматом
+		(пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ x, пїЅпїЅ y, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ x, пїЅпїЅ пїЅ) пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	*/
 	PSDrawer(const char* filename) : PSDrawer(filename, -1, -1, 0, 0) {};
 	PSDrawer(const char* filename, double sizex, double sizey) : PSDrawer(filename, sizex, sizey, 0, 0) {};
@@ -38,10 +38,17 @@ public:
 
 	};
 	void addObj(ID id, BasicInterface bi);
-private:
+
+
+	//return to private
 	void addPoint(double x1, double y1) { addCircle(x1, y1, 0.2); }
 	void addCircle(double x1, double y1, double radius);
 	void addLine(double x1, double y1, double x2, double y2);
+
+
+
+private:
+
 	const char* _filename;
 	uint8_t _auto;
 	double _endx, _endy, _startx, _starty;

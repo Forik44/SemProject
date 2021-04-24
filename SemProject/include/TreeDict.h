@@ -371,7 +371,7 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::leadRotate(Nod
             DoRotate(current);
             current = current->prev->prev;
         }
-        if (current == m_root)
+     /*   if (current == m_root)
         {
             if (!checkRotate(current))
             {
@@ -379,7 +379,7 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::leadRotate(Nod
                 m_root = current->prev;
                 current = current->prev;
             }
-        }
+        }*/
     }
 }
 template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotateRoot(Node* current)
@@ -420,80 +420,108 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node*
         if (getHeight(current->left->left) > getHeight(current->left->right))
         {
             Node* tmp = current;
-            current->prev->left = current->left;
-            tmp->left->prev = tmp->prev;
-            tmp->left->right = tmp;
-            tmp->prev = tmp->left;
-            tmp->left = nullptr;
-            /*Node* tmpLeft = current->left;
-            current->left = current->left->left;
-            current->left->prev = current;
-            current->left->left = tmpLeft;
-            current->left->left->prev = current->left;
-            current->left->left->left = nullptr;*/
+            Node* tmpRight = current->left->right;
+            if (current->prev->left == current)
+            {
+                current->prev->left = current->left;
+                current->left->right = current;
+                current->left->prev = current->prev;
+                current->prev = current->left;
+                current->left = tmpRight;
+                if (tmpRight != nullptr)
+                tmpRight->prev = current;
+            }
+            else
+            {
+                current->prev->right = current->left;
+                current->left->right = current;
+                current->left->prev = current->prev;
+                current->prev = current->left;
+                current->left = tmpRight;
+                if (tmpRight != nullptr)
+                    tmpRight->prev = current;
+            }
         }
         else
         {
-           
-            current->left = current->left->right;
-            current->left->prev->right = nullptr;
-            current->left->left = current->left->prev;
-            current->left->left->prev = current->left;
-            current->left->prev = current;
-            current->prev->left = current->left;
             Node* tmp = current;
-            tmp->left->prev = tmp->prev;
-            tmp->left->right = tmp;
-            tmp->prev = tmp->left;
-            tmp->left = nullptr;
-            /*current->left = current->left->left;
-            current->left->prev = current;
-            current->left->left = tmpLeft;
-            current->left->left->prev = current->left;
-            current->left->left->left = nullptr;*/
+            Node* tmpRight = current->left->right;
+            if (current->prev->left == current)
+            {
+                current->prev->left = current->left;
+                current->left->right = current;
+                current->left->prev = current->prev;
+                current->prev = current->left;
+                current->left = tmpRight;
+                if (tmpRight != nullptr)
+                    tmpRight->prev = current;
+            }
+            else
+            {
+                current->prev->right = current->left;
+                current->left->right = current;
+                current->left->prev = current->prev;
+                current->prev = current->left;
+                current->left = tmpRight;
+                if (tmpRight != nullptr)
+                    tmpRight->prev = current;
+            }
         }
     }
     else
     {
         if (getHeight(current->right->right) > getHeight(current->right->left))
         {
-            Node* tmpLeft = current->right;
             Node* tmp = current;
-            current->prev->right = current->right;
-            tmp->right->prev = tmp->prev;
-            while (tmpLeft->left != nullptr)
+            Node* tmpLeft = current->right->left;
+            if (current->prev->right == current)
             {
-                tmpLeft = tmpLeft->left;
+                current->prev->right = current->right;
+                current->right->left = current;
+                current->right->prev = current->prev;
+                current->prev = current->right;
+                current->right = tmpLeft;
+                if (tmpLeft != nullptr)
+                    tmpLeft->prev = current;
+                
             }
-            tmpLeft->left = tmp;
-            tmp->prev = tmpLeft;
-            tmp->right = nullptr;
-            /*Node* tmpRight = current->right;
-            current->right = current->right->right;
-            current->right->prev = current;
-            current->right->right = tmpRight;
-            current->right->right->prev = current->right;
-            current->right->right->right = nullptr;*/
+            else
+            {
+                current->prev->left = current->right;
+                current->right->left = current;
+                current->right->prev = current->prev;
+                current->prev = current->right;
+                current->right = tmpLeft;
+                if (tmpLeft != nullptr)
+                    tmpLeft->prev = current;
+            }
         }
         else 
         {
-           
-            current->right = current->right->left;
-            current->right->prev->left = nullptr;
-            current->right->right = current->right->prev;
-            current->right->right->prev = current->right;
-            current->right->prev = current;
-            current->prev->right = current->right;
+
             Node* tmp = current;
-            tmp->right->prev = tmp->prev;
-            tmp->right->left = tmp;
-            tmp->prev = tmp->right;
-            tmp->right = nullptr;
-            /*current->right = current->right->right;
-            current->right->prev = current;
-            current->right->right = tmpRight;
-            current->right->right->prev = current->right;
-            current->right->right->right = nullptr;*/
+            Node* tmpLeft = current->right->left;
+            if (current->prev->right == current)
+            {
+                current->prev->right = current->right;
+                current->right->left = current;
+                current->right->prev = current->prev;
+                current->prev = current->right;
+                current->right = tmpLeft;
+                if (tmpLeft != nullptr)
+                    tmpLeft->prev = current;
+
+            }
+            else
+            {
+                current->prev->left = current->right;
+                current->right->left = current;
+                current->right->prev = current->prev;
+                current->prev = current->right;
+                current->right = tmpLeft;
+                if (tmpLeft != nullptr)
+                    tmpLeft->prev = current;
+            }
         }
     }
 }
@@ -528,7 +556,7 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::add(Key key, V
         {
             tmp->prev = cur;
             *next = tmp;
-            /*leadRotate(tmp);*/
+            leadRotate(tmp);
             return;
         }
     }
