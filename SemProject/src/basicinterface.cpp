@@ -5,9 +5,9 @@
 
 #include "ParallelReq.h"
 #include "OrthoReq.h"
-#include "DistacePointsReq.h"
 #include "DistancePointSegmentReq.h"
-#include "DistanceSegmentsReq.h"
+#include "DistancePointsReq.h"
+#include "DistanceSegments.h"
 
 BasicInterface::BasicInterface()
 {};

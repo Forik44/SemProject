@@ -145,12 +145,9 @@
     <ClCompile Include="src\SemProject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DistacePointsReq.h" />
-    <ClInclude Include="DistancePointSegmentReq.h" />
-    <ClInclude Include="DistanceSegmentsReq.h" />
-    <ClInclude Include="include\DistacePointsReq.h" />
     <ClInclude Include="include\DistancePointSegmentReq.h" />
-    <ClInclude Include="include\DistanceSegmentsReq.h" />
+    <ClInclude Include="include\DistancePointsReq.h" />
+    <ClInclude Include="include\DistanceSegments.h" />
     <ClInclude Include="include\OrthoReq.h" />
     <ClInclude Include="include\Array.h" />
     <ClInclude Include="include\basicinterface.h" />
