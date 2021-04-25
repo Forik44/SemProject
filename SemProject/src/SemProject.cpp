@@ -256,9 +256,9 @@ void outputPoints(const SegmentList segmentStorage)
 //    ID id;
 //    id.setID(1);
 //
-//    UniDict<ParamType, double> objProperties = bi.queryObjProperties(id);
+//    TreeDict<ParamType, double> objProperties = bi.queryObjProperties(id);
 //
-//    for (UniDict<ParamType, double>::Marker mark = objProperties.init(); mark != objProperties.afterEnd(); mark++)
+//    for (TreeDict<ParamType, double>::Marker mark = objProperties.init(); mark != objProperties.afterEnd(); mark++)
 //    {
 //        cout << (*mark).key << " : " << (*mark).val << endl;
 //    }
@@ -283,9 +283,9 @@ int main(int argc, char* argv[])
 
     for (int i = 0; i < arr.getSize(); i++)
     {
-        UniDict<ParamType, double> obj = bi.queryObjProperties(arr[i]);
+        TreeDict<ParamType, double> obj = bi.queryObjProperties(arr[i]);
         ps.addObj(arr[i], bi);
-        for (UniDict<ParamType, double> ::Marker m = obj.init(); m != obj.afterEnd(); m++)
+        for (TreeDict<ParamType, double> ::Marker m = obj.init(); m != obj.afterEnd(); m++)
         {
             ParamType pt = (*m).key;
             cout << pt << " " << (*m).val << endl;
@@ -325,13 +325,14 @@ int main(int argc, char* argv[])
     id1 = bi.addObject(OT_SEGMENT);
     id2 = bi.addObject(OT_SEGMENT);
     id3 = bi.addObject(OT_SEGMENT);
+    id4 = bi.addObject(OT_POINT);
+    
 
 
     arr.add(id1);
     arr.add(id2);
-
+    
     bi.addRequirement(arr, RT_PARALLEL);
-
     arr.removeElementByIdx(0);
     arr.add(id3);
     bi.addRequirement(arr, RT_ORTHO);
@@ -357,7 +358,7 @@ int main(int argc, char* argv[])
                     cin >> x;
                     cout << "y: ";
                     cin >> y;
-                    //Добавляем точку p1
+                    //Добавляем точку
 
                 }
                 else if (obj == 's')

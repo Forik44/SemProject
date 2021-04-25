@@ -6,10 +6,10 @@
 class DistancePointSegmentReq : public BasicReq
 {
 private:
-    UniDict<ID, Segment>* m_storage_segment;
-    UniDict<ID, Point>* m_storage_point;
+    TreeDict<ID, Segment>* m_storage_segment;
+    TreeDict<ID, Point>* m_storage_point;
 public:
-    DistancePointSegmentReq(UniDict<ID, Point>* pointStorage, UniDict<ID, Segment>* segmentStorage, ID pointID, ID segmentID, double distance) :
+    DistancePointSegmentReq(TreeDict<ID, Point>* pointStorage, TreeDict<ID, Segment>* segmentStorage, ID pointID, ID segmentID, double distance) :
         m_storage_segment(segmentStorage),
         m_storage_point(pointStorage),
         dist(distance),
@@ -20,17 +20,17 @@ public:
 
 double DistancePointSegmentReq::getError()
 {
-    UniDict<ID, Point>::Marker mark1;
+    TreeDict<ID, Point>::Marker mark1;
     mark1 = m_storage_point->init();
     while ((*mark1).key != m_id1)
         mark1++;
-    Point& p = (*mark1).val;
+    Point& p = (*mark1).value;
 
-    UniDict<ID, Segment>::Marker mark2;
+    TreeDict<ID, Segment>::Marker mark2;
     mark2 = m_storage_segment->init();
     while ((*mark2).key != m_id2)
         mark2++;
-    Segment& l = (*mark2).val;
+    Segment& l = (*mark2).value;
 
     double A = l.p2.y - l.p1.y;
     double B = l.p1.x - l.p2.x;

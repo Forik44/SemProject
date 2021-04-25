@@ -1,15 +1,17 @@
 0 0 translate
-<</PageSize [73.9772 66.128] /ImagingBBox null>> setpagedevice
+<</PageSize [81.2 66.128] /ImagingBBox null>> setpagedevice
 0.5 setlinewidth
-36.3006 66.128 moveto
-38.6991 0.872006 lineto
-73.9772 27.9989 moveto
-73.0214 54.0011 lineto
 61.9694 55.5466 moveto
 5.03062 53.4534 lineto
+73.9772 27.9989 moveto
+73.0214 54.0011 lineto
+36.3006 66.128 moveto
+38.6991 0.872006 lineto
+81.2 27 moveto
+81 27 0.2 0 360 arc
 0.2 setlinewidth
 -0 -66.128 moveto
 -0 66.128 lineto
--73.9772 -0 moveto
-73.9772 -0 lineto
+-81.2 -0 moveto
+81.2 -0 lineto
 stroke

@@ -6,9 +6,9 @@
 class ParallelReq : public BasicReq
 {
 private:
-    UniDict<ID, Segment>* m_storage;
+    TreeDict<ID, Segment>* m_storage;
 public:
-    ParallelReq(UniDict<ID, Segment>* storage, ID id1, ID id2) :
+    ParallelReq(TreeDict<ID, Segment>* storage, ID id1, ID id2) :
         m_storage(storage),
         BasicReq(id1, id2) {};
     virtual double getError();
@@ -16,18 +16,17 @@ public:
 
 double ParallelReq::getError() {
 
-    UniDict<ID, Segment>::Marker mark;
+    TreeDict<ID, Segment>::Marker mark;
     mark = m_storage->init();
     while ((*mark).key != m_id1)
         mark++;
 
-    Segment& l1 = (*mark).val;
+    Segment& l1 = (*mark).value;
 
     mark = m_storage->init();
     while ((*mark).key != m_id2)
         mark++;
-    Segment& l2 = (*mark).val;
-
+    Segment& l2 = (*mark).value;
 
     double length;
 

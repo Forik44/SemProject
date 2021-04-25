@@ -6,9 +6,9 @@
 class OrthoReq: public BasicReq
 {
 private:
-    UniDict<ID, Segment>* m_storage;
+    TreeDict<ID, Segment>* m_storage;
 public:
-    OrthoReq(UniDict<ID, Segment>* storage, ID id1, ID id2) :
+    OrthoReq(TreeDict<ID, Segment>* storage, ID id1, ID id2) :
         m_storage(storage),
         BasicReq(id1, id2) {};
     virtual double getError();
@@ -16,16 +16,16 @@ public:
 
 double OrthoReq::getError()
 {
-    UniDict<ID, Segment>::Marker mark;
+    TreeDict<ID, Segment>::Marker mark;
     mark = m_storage->init();
     while ((*mark).key != m_id1)
         mark++;
-    Segment& l1 = (*mark).val;
+    Segment& l1 = (*mark).value;
 
     mark = m_storage->init();
     while ((*mark).key != m_id2)
         mark++;
-    Segment& l2 = (*mark).val;
+    Segment& l2 = (*mark).value;
 
     double A1 = l1.p1.x - l1.p2.x;
     double B1 = l1.p1.y - l1.p2.y;

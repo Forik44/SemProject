@@ -5,6 +5,7 @@
 #include "List.h"
 #include "Dict.h"
 #include "IReq.h"
+#include "TreeDict.h"
 
 enum ParamType
 {
@@ -29,7 +30,7 @@ public:
     BasicInterface();
     ID addObject(ObjType);
     bool removeObjectByID(ID);
-    UniDict<ParamType, double> queryObjProperties(ID);
+    TreeDict<ParamType, double> queryObjProperties(ID);
     ObjType identifyObjTypeByID(ID);
     void showRequirements();    //Нужно для теста
     bool removeRequirementByID(ID);
@@ -39,10 +40,10 @@ public:
     Array<ID> ReceiveIdObjects();
 private:
 
-    UniDict<ID, Point> m_points;
-    UniDict<ID, Circle> m_circles;
-    UniDict<ID, Segment> m_segments;
-    UniDict<ID, IReq*> m_requirements;
+    TreeDict<ID, Point> m_points;
+    TreeDict<ID, Circle> m_circles;
+    TreeDict<ID, Segment> m_segments;
+    TreeDict<ID, IReq*> m_requirements;
 
     double particularErrValue(ID idSegement1, ID idSegement2, ReqType rt, double distance=0);
     double complexErrValue();

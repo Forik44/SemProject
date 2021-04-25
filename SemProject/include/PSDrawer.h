@@ -190,7 +190,7 @@ void PSDrawer::addLine(double x1, double y1, double x2, double y2)
 };
 void PSDrawer::addObj(ID id, BasicInterface bi)
 {
-	UniDict<ParamType, double> arr = bi.queryObjProperties(id);
+	TreeDict<ParamType, double> arr = bi.queryObjProperties(id);
 	
 	switch (bi.identifyObjTypeByID(id))
 	{
