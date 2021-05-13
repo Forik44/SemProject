@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <ctime>
 #include "basicinterface.h"
 #include "ParallelReq.h"
 #include "OrthoReq.h"
@@ -13,27 +14,28 @@ BasicInterface::BasicInterface()
 ID  BasicInterface::addObject(ObjType ot)
 {
 	ID id = ID::generateID();
+	srand(time(NULL));
 	switch (ot)
 	{
 	case OT_POINT:
 		Point p;
-		p.x = rand() % 100;
-		p.y = rand() % 100;
+		p.x = rand() % 500;
+		p.y = rand() % 500;
 		m_points.add(id, p);
 		break;
 	case OT_SEGMENT:
 		Segment s;
-		s.p1.x = rand() % 100;
-		s.p1.y = rand() % 100;
-		s.p2.x = rand() % 100;
-		s.p2.y = rand() % 100;
+		s.p1.x = rand() % 500;
+		s.p1.y = rand() % 500;
+		s.p2.x = rand() % 500;
+		s.p2.y = rand() % 500;
 		m_segments.add(id, s);
 		break;
 	case OT_CIRCLE:
 		Circle c;
-		c.center.x = rand() % 100;
-		c.center.y = rand() % 100;
-		c.r = rand() % 100;
+		c.center.x = rand() % 500;
+		c.center.y = rand() % 500;
+		c.r = rand() % 500;
 		m_circles.add(id, c);
 		break;
 	}

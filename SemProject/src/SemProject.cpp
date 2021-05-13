@@ -319,7 +319,7 @@ int main(int argc, char* argv[])
    
 */
     BasicInterface bi;
-    Array<ID> arr;
+ /*   Array<ID> arr;
 
     ID id1, id2, id3, id4;
     id1 = bi.addObject(OT_SEGMENT);
@@ -335,9 +335,9 @@ int main(int argc, char* argv[])
     bi.addRequirement(arr, RT_PARALLEL);
     arr.removeElementByIdx(0);
     arr.add(id3);
-    bi.addRequirement(arr, RT_ORTHO);
+    bi.addRequirement(arr, RT_ORTHO);*/
 
-    bi.solveComplexReq();
+   
     try {
         while (true) {
             cout << "Что вы хотите сделать?\n";
@@ -345,6 +345,16 @@ int main(int argc, char* argv[])
             char startLetter = cin.get();
             system("cls");
             switch (startLetter) {
+            case 'd': { // " отобразить " состояниие рисунка
+
+                Array<ID> ids = bi.ReceiveIdObjects();
+                PSDrawer ps("picture");
+                for (Array<ID>::Marker mark = ids.init(); mark != ids.afterEnd(); mark++)
+                {
+                    ps.addObj((*mark), bi);
+                }
+                break;
+            }
             case 'a': {// добавить объект
                 char obj = cin.get();
                 cout << "Какое тип объекта вы хотите добавить?" << endl;
@@ -352,45 +362,16 @@ int main(int argc, char* argv[])
                 obj = cin.get();
                 if (obj == 'p')
                 {
-                    int x, y;
-                    cout << "Введите координаты точки:" << endl;
-                    cout << "x: ";
-                    cin >> x;
-                    cout << "y: ";
-                    cin >> y;
-                    //Добавляем точку
+                    bi.addObject(OT_POINT);
 
                 }
                 else if (obj == 's')
                 {
-                    int x1, x2, y1, y2;
-                    cout << "Введите координаты 2-ух точек:" << endl;
-                    cout << "Первая точка:" << endl;
-                    cout << "x: ";
-                    cin >> x1;
-                    cout << "y: ";
-                    cin >> y1;
-                    cout << "Вторая точка:" << endl;
-                    cout << "x: ";
-                    cin >> x2;
-                    cout << "y: ";
-                    cin >> y2;
-                    //Добавляем p1 и p2
-                    //Добавляем сегмент
+                    bi.addObject(OT_SEGMENT);
                 }
                 else if (obj == 'c')
                 {
-                    int R, x, y;
-                    cout << "Введите координаты центра: " << endl;
-                    cout << "x: ";
-                    cin >> x;
-                    cout << "y: ";
-                    cin >> y;
-                    cout << "Введите радиус окружности: " << endl;
-                    cout << "R: ";
-                    cin >> R;
-                    //Добавляем точку P
-                    //Добавляем окружность с центром в точке P радиуса R
+                    bi.addObject(OT_CIRCLE);
                 }
                 else
                     cout << "Unknown command" << endl;
@@ -400,18 +381,23 @@ int main(int argc, char* argv[])
                 Array<ID> ids = bi.ReceiveIdObjects();
                 for (Array<ID>::Marker mark = ids.init();mark != ids.afterEnd(); mark++)
                 {
-                   /* cout << (*mark) << ',';*/
+                    switch (bi.identifyObjTypeByID(*mark))
+                    {
+                    case OT_CIRCLE:
+                        cout << "Окружность: " << (*mark).getID() << '\n';
+                        break;
+                    case OT_POINT:
+                        cout << "Точка: " << (*mark).getID() << '\n';
+                        break;
+                    case OT_SEGMENT:
+                        cout << "Прямая: " << (*mark).getID() << '\n';
+                        break;
+                    case OT_ERROR:
+                        throw;
+                    }
                 }
+                system("pause");
                 break;
-            }
-            case 'd': { // " отобразить " состояниие рисунка
-
-                Array<ID> ids = bi.ReceiveIdObjects();
-                PSDrawer ps("picture");
-                for (Array<ID>::Marker mark = ids.init(); mark != ids.afterEnd(); mark++)
-                {
-                    ps.addObj((*mark), bi);
-                }
             }
             case 'r': {// добавить требование
                 char rq;
@@ -420,15 +406,43 @@ int main(int argc, char* argv[])
                 cin >> rq;
                 if (rq == 'p')
                 {
-                    size_t ID1, ID2;
                     cout << "Введите идентификаторы двух прямых:" << endl;
-                    cout << "Первая прямая: ";
-                    cin >> ID1;
-                    //Проверка что заданный ID принадлежит прямой 
-                    cout << "Вторая прямая: ";
-                    cin >> ID2;
-                    //Проверка что заданный ID принадлежит прямой 
-                    //Добавление свойства
+                    size_t ID1, ID2;
+                    Array<ID> arr;
+                    while(true) {
+                        cout << "Первая прямая: ";
+                        cin >> ID1;
+                        Array<ID> IDs = bi.ReceiveIdObjects();
+                        size_t i = 0;
+                        while (ID1 != IDs[i].getID())
+                        {
+                            i++;
+                        }
+                        arr.add(IDs[i]);
+                        if (bi.identifyObjTypeByID(IDs[i]) == OT_SEGMENT)
+                        {
+                            break;
+                        }
+                        cout << "Это не отрезок";
+                    }
+                    while (true) {
+                        cout << "Вторая прямая: ";
+                        cin >> ID2;
+                        Array<ID> IDs = bi.ReceiveIdObjects();
+                        size_t i = 0;
+                        while (ID2 != IDs[i].getID())
+                        {
+                            i++;
+                        }
+                        arr.add(IDs[i]);
+                        if (bi.identifyObjTypeByID(IDs[i]) == OT_SEGMENT)
+                        {
+                             break;
+                        }
+                        cout << "Это не отрезок";
+                    }
+                    bi.addRequirement(arr, RT_PARALLEL);
+                    bi.solveComplexReq();
                 }
                 else if (rq == 'o')
                 {
