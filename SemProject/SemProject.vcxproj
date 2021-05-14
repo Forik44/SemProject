@@ -145,6 +145,7 @@
     <ClCompile Include="src\SemProject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Hash.h" />
     <ClInclude Include="include\DistancePointSegmentReq.h" />
     <ClInclude Include="include\DistancePointsReq.h" />
     <ClInclude Include="include\DistanceSegments.h" />
