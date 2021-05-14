@@ -1,5 +1,6 @@
 ﻿#ifndef PSDRAWER_H
 #define PSDRAWER_H
+#include "Array.h"
 #include "Errors.h"
 #include "objects.h"
 #include "basicinterface.h"
@@ -10,16 +11,12 @@
 class PSDrawer {
 public:
 	/*
-		(�������� �����, ������ �� x, �� y, ������ ��������� �� x, �� �) ���� ������� ������ �������� �����, �� ��������� ������������ ���������
+		(Названия файла, размер по x, по y, начало коориднат по x, по у) Если указано только название файла, то отсальное определиться автоматом
 	*/
 	PSDrawer(const char* filename) : PSDrawer(filename, -1, -1, 0, 0) {};
 	PSDrawer(const char* filename, double sizex, double sizey) : PSDrawer(filename, sizex, sizey, 0, 0) {};
 	PSDrawer(const char* filename, double endx, double endy, double startx, double starty) {
 		_filename = filename;
-		_size_circle = 0;
-		_array_circle = nullptr;
-		_size_line = 0;
-		_array_line = nullptr;
 		_endx = endx;
 		_endy = endy;
 		_startx = startx;
@@ -33,12 +30,8 @@ public:
 	};
 	~PSDrawer() {
 		writefile();
-		delete[] _array_circle;
-		delete[] _array_line;
-
 	};
 	void addObj(ID id, BasicInterface bi);
-
 
 	//return to private
 	void addPoint(double x1, double y1) { addCircle(x1, y1, 0.2); }
@@ -52,18 +45,15 @@ private:
 	const char* _filename;
 	uint8_t _auto;
 	double _endx, _endy, _startx, _starty;
-	//array circle
 	struct _obj_circle {
 		double x, y, radius;
 	};
-	_obj_circle* _array_circle;
-	uint16_t _size_circle;
-	//array line
+	Array<_obj_circle> _array_circle;
 	struct _obj_line {
 		double x1, y1, x2, y2;
 	};
-	_obj_line* _array_line;
-	uint16_t _size_line;
+	Array<_obj_line> _array_line;
+
 
 	void writefile();
 };
@@ -82,8 +72,8 @@ void PSDrawer::writefile() {
 	delete[] _pathtofile;
 	if (!fout.is_open()) { throw errors("Cant open file"); }
 	//Setting the sheet size and coordinate axes
-	
-	if (_auto == 0 ) {
+
+	if (_auto == 0) {
 		fout << _startx << " " << _starty << " translate\n";
 		fout << "<</PageSize [" << _endx << " " << _endy << "] /ImagingBBox null>> setpagedevice\n";
 	}
@@ -94,11 +84,11 @@ void PSDrawer::writefile() {
 	fout << "0.5 setlinewidth\n";
 
 	//Output of circles and lines
-	for (uint16_t i = 0; i < _size_line; i++) {
+	for (uint16_t i = 0; i < _array_line.getSize(); i++) {
 		fout << _array_line[i].x1 - _startx << " " << _array_line[i].y1 - _starty << " moveto\n";
 		fout << _array_line[i].x2 - _startx << " " << _array_line[i].y2 - _starty << " lineto\n";
 	}
-	for (uint16_t i = 0; i < _size_circle; i++) {
+	for (uint16_t i = 0; i < _array_circle.getSize(); i++) {
 		fout << _array_circle[i].x - _startx + _array_circle[i].radius << " " << _array_circle[i].y - _starty << " moveto\n";
 		fout << _array_circle[i].x - _startx << " " << _array_circle[i].y - _starty << " " << _array_circle[i].radius << " 0 360 arc\n";
 	}
@@ -133,24 +123,7 @@ void PSDrawer::addCircle(double x1, double y1, double radius)
 	if (radius <= 0) throw errors("RADIUS <=0");
 	//Add to array
 	_obj_circle temp = { x1,y1,radius };
-	if (_size_circle == 0)
-	{
-		_array_circle = new _obj_circle[1];
-		_array_circle[0] = temp;
-		_size_circle = 1;
-	}
-	else
-	{
-		_obj_circle* tmp = new _obj_circle[_size_circle + 1];
-		for (size_t i = 0; i < _size_circle; i++)
-		{
-			tmp[i] = _array_circle[i];
-		}
-		tmp[_size_circle] = temp;
-		delete[] _array_circle;
-		_array_circle = tmp;
-		_size_circle++;
-	}
+	_array_circle.add(temp);
 
 };
 void PSDrawer::addLine(double x1, double y1, double x2, double y2)
@@ -168,30 +141,13 @@ void PSDrawer::addLine(double x1, double y1, double x2, double y2)
 	}
 	//Add to array
 	_obj_line temp = { x1,y1,x2,y2 };
-	if (_size_line == 0)
-	{
-		_array_line = new _obj_line[1];
-		_array_line[0] = temp;
-		_size_line = 1;
-	}
-	else
-	{
-		_obj_line* tmp = new _obj_line[_size_line + 1];
-		for (size_t i = 0; i < _size_line; i++)
-		{
-			tmp[i] = _array_line[i];
-		}
-		tmp[_size_line] = temp;
-		delete[] _array_line;
-		_array_line = tmp;
-		_size_line++;
-	}
+	_array_line.add(temp);
 
 };
 void PSDrawer::addObj(ID id, BasicInterface bi)
 {
 	TreeDict<ParamType, double> arr = bi.queryObjProperties(id);
-	
+
 	switch (bi.identifyObjTypeByID(id))
 	{
 	case OT_CIRCLE:
@@ -208,23 +164,23 @@ void PSDrawer::addObj(ID id, BasicInterface bi)
 	}
 }
 
-//
-//void testdraw() {
-//	try {
-//		//PSDrawer test("test.ps",400,400,-150,-150); 
-//		PSDrawer test("test.ps");
-//		test.addCircle(200.0, 200.0, 90.0);
-//		test.addCircle(-200.0, 200.0, 100.0);
-//		test.addCircle(-50, -50, 50);
-//		test.addPoint(200.0, 200.0);
-//		test.addLine(100, 100, 200.0, 200.0);
-//	}
-//	catch (errors& A) {
-//		std::cout << A.message;
-//	}
-//
-//}
+/*
+void testdraw() {
+	try {
+		//PSDrawer test("test.ps",400,400,-150,-150); 
+		PSDrawer test("test.ps");
+		///test.addCircle(200.0, 200.0, 90.0);
+		//test.addCircle(-200.0, 200.0, 100.0);
+		//test.addCircle(-50, -50, 50);
+		//test.addPoint(200.0, 200.0);
+		//test.addLine(100, 100, 200.0, 200.0);
+	}
+	catch (errors& A) {
+		std::cout << A.message;
+	}
 
+}
+*/
 
 
 
