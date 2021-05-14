@@ -26,13 +26,13 @@ public:
     public:
         friend class List;
         Marker():marker(nullptr){}
-        ListElement& getElem()
+        ListElement& operator*()
         {
-            return marker->data;
+            return *marker.data;
         };
-        const ListElement& getElem() const
+        const ListElement& operator*() const
         {
-            return marker->data;
+            return *marker.data;
         };
         bool operator==(const Marker& secondMarker) const{
             return marker == secondMarker.marker;
