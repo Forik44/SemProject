@@ -10,8 +10,8 @@ template<typename Key, typename Value, const size_t size, typename Translator> c
 private:
     struct Para
     {
-        Key key;
-        Value val;
+        Key* key;
+        Value* val;
     };
     OneSizeArray< List<Para> > arr(size);
 public:
@@ -47,9 +47,13 @@ public:
             List<Para>::Marker m = arr[code].init();
             while (m != arr[code].afterEnd())
             {
-                if(*(m))
+                if (*(m) == k)
+                {
+                    break;
+                }
                 m++;
             }
+            return (*m)->val;
         }
 
     };
@@ -58,16 +62,23 @@ public:
         Translator tr;
         size_t code = tr.perform(k) % size;
 
-        Node* tmp = data[code];
-
-        while (tmp->key != k)
+        if (!arr[code].getSize())
         {
-            tmp = tmp->next;
-            if (!tmp)
-                return NULL;
-        };
-
-        return tmp->val;
+            return NULL;
+        }
+        else
+        {
+            List<Para>::Marker m = arr[code].init();
+            while (m != arr[code].afterEnd())
+            {
+                if (*(m) == k)
+                {
+                    break;
+                }
+                m++;
+            }
+            return (*m)->val;
+        }
 
     };
 

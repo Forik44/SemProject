@@ -36,12 +36,6 @@
     <ClCompile Include="DistacePointsReq.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DistancePointSegmentsReq.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="DistacePointsReq.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Array.h">
@@ -94,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="include\DistancePointSegmentReq.h">
       <Filter>Файлы заголовков\Requirements</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
