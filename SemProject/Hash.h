@@ -53,7 +53,10 @@ public:
                 }
                 m++;
             }
-            return (*m)->val;
+            if (m != arr[code].afterEnd())
+                return (*m)->val;
+            else
+                throw 1;
         }
 
     };

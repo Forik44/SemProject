@@ -16,11 +16,17 @@ public:
     List();   
     List(const List& original);
     ~List();  
+    void add(ListElement val2add);
+    ListElement& operator[](size_t idx);
+    const ListElement& operator[](size_t idx) const;
+    bool removeElementByIdx(size_t Num);
+    size_t getSize() const;
     class Marker {
     private:
         Node* marker;
-        Node* getNext()const{
-            if (marker == nullptr ) throw 42;
+        Node* getNext()const
+        {
+            if (marker == nullptr ) throw 2;
             return marker->next;
         }
     public:
@@ -28,14 +34,23 @@ public:
         Marker():marker(nullptr){}
         ListElement& operator*()
         {
-            return *marker.data;
+            if (marker)
+                return marker->data;
+            else
+                throw 2;
         };
         const ListElement& operator*() const
         {
-            return *marker.data;
+            if (marker)
+                return marker->data;
+            else
+                throw 2;
         };
         bool operator==(const Marker& secondMarker) const{
             return marker == secondMarker.marker;
+        }
+        bool operator!=(const Marker& secondMarker) const {
+            return marker != secondMarker.marker;
         }
         void operator++(){
 
@@ -46,6 +61,20 @@ public:
         };
 
     };
+    List& operator= (const List& list)
+    {
+        for (size_t i = 0; i < size; i++)
+        {
+            removeElementByIdx(i);
+        }
+        for (size_t i = 0; i < list.getSize(); i++)
+        {
+            add(list[i]);
+        }
+       
+        return *this;
+
+    }
     Marker init()
     {
         Marker Mark;
@@ -55,11 +84,7 @@ public:
     Marker afterEnd(){
         return Marker();
     }
-    void add(ListElement val2add);
-    const ListElement& getElementByIdx(size_t Num) const;
-    ListElement& getElementByIdx(size_t Num);
-    bool removeElementByIdx(size_t Num);
-    size_t getSize() const;
+    
 };
 
 template<typename ListElement> List<ListElement>::List()
@@ -67,7 +92,6 @@ template<typename ListElement> List<ListElement>::List()
     first = last = nullptr;
     size = 0;
 };
-
 template<typename ListElement> List<ListElement>::List(const List& original)
 {
     size = original.size;
@@ -90,7 +114,6 @@ template<typename ListElement> List<ListElement>::List(const List& original)
         };
     };
 };
-
 template<typename ListElement> List<ListElement>::~List()
 {
     for (Node* tmp = first; tmp; tmp = first)
@@ -99,7 +122,6 @@ template<typename ListElement> List<ListElement>::~List()
         delete tmp;
     };
 };
-
 template<typename ListElement> void List<ListElement>::add(ListElement val2add)
 {
     Node* tmp = new Node;
@@ -118,30 +140,28 @@ template<typename ListElement> void List<ListElement>::add(ListElement val2add)
         size++;
     }
 };
-
-template<typename ListElement> ListElement& List<ListElement>::getElementByIdx(size_t Num)
+template<typename ListElement> ListElement& List<ListElement>::operator[](size_t idx)
 {
-    if (Num < size)
+    if (idx < size)
     {
         Node* tmp;
-        for (tmp = first; tmp->idx != Num; tmp = tmp->next);
+        for (tmp = first; tmp->idx != idx; tmp = tmp->next);
         return tmp->data;
     }
     else
-        exit(1);
+       throw 2;
 };
-template<typename ListElement> const ListElement& List<ListElement>::getElementByIdx(size_t Num) const
+template<typename ListElement> const ListElement& List<ListElement>::operator[](size_t idx) const
 {
-    if (Num < size)
+    if (idx < size)
     {
         Node* tmp;
-        for (tmp = first; tmp->idx != Num; tmp = tmp->next);
+        for (tmp = first; tmp->idx != idx; tmp = tmp->next);
         return tmp->data;
     }
     else
-        exit(1);
+        throw 2;
 };
-
 template<typename ListElement> bool List<ListElement>::removeElementByIdx(size_t Num)
 {
     if (Num >= size)
@@ -178,7 +198,6 @@ template<typename ListElement> bool List<ListElement>::removeElementByIdx(size_t
 
     return 1;
 };
-
 template<typename ListElement> size_t List<ListElement>::getSize() const
 {
     return size;
