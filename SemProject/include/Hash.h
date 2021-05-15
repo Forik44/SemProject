@@ -13,11 +13,11 @@ private:
         Key* key;
         Value* val;
     };
-    OneSizeArray< List<Para> > arr(size);
+    OneSizeArray< List<Para> > arr;
 public:
     Hash()
     {   
-
+        arr = new OneSizeArray(size);
     };
    // Array(const Array& original);
     ~Hash()
@@ -40,7 +40,7 @@ public:
 
         if (!arr[code].getSize())
         {
-            return NULL;
+            throw 1;
         }
         else
         {
@@ -74,41 +74,54 @@ public:
             List<Para>::Marker m = arr[code].init();
             while (m != arr[code].afterEnd())
             {
-                if (*(m) == k)
+                if ((*m).key == k)
                 {
                     break;
                 }
                 m++;
             }
-            return (*m)->val;
+            if (m != arr[code].afterEnd())
+                return (*m)->val;
+            else
+                throw 1;
         }
 
     };
 
     bool removeElementByKey(Key k)
     {
+        Translator tr;
+        size_t code = tr.perform(k) % size;
 
+        if (!arr[code].getSize())
+        {
+            return false;
+        }
+        else
+        {
+            List<Para>::Marker m = arr[code].init();
+            int idx = 0;
+            while (m != arr[code].afterEnd())
+            {
+                if ((*m).key == k)
+                {
+                    arr[code].removeElementByIdx(idx);
+                    return true;
+                }
+                idx++;
+                m++;
+            }
+           
+            return false;
+        }
     };
-    /* removeByMarker(const Marker&);*/
+   
     size_t getSize() const
     {
         return size;
     };
    
-    Array& operator= (const Array& arr)
-    {
-
-        for (size_t i = 0; i < size; i++)
-        {
-            removeElementByIdx(i);
-        }
-        for (size_t i = 0; i < arr.getSize(); i++)
-        {
-            add(arr[i]);
-        }
-        size = arr.size;
-        return *this;
-    }
+   
   
 };
 

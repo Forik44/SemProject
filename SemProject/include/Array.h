@@ -197,6 +197,71 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
 };
 
 
+template<> class Array<bool> {
+private:
+    size_t size;
+    bool* data;
+   
+public:
+    Array()
+    {
+        size = 0;
+        data = nullptr;
+    };
+    Array(const Array& original)
+    {
+        delete[] data;
+        data = new bool[original.size];
+        for (int i = 0; i < original.size; i++)
+        {
+            data[i] = original[i];
+        }
+    };
+    ~Array()
+    {
+        size = 0;
+        delete[] data;
+    };
+    void add(bool val2add)
+    {
+        if (size == 0)
+        {
+
+        }
+        else if (size % 8 != 0)
+        {
+
+        }
+        else
+        {
+
+        }
+        
+    };
+    bool operator[](size_t idx);
+    const bool operator[](size_t idx)const;
+    bool removeElementByIdx(size_t idx);
+    size_t getSize() const
+    {
+        return size;
+    };
+    
+    Array& operator= (const Array& arr)
+    {
+        for (size_t i = 0; i < size; i++)
+        {
+            removeElementByIdx(i);
+        }
+        for (size_t i = 0; i < arr.getSize(); i++)
+        {
+            add(arr[i]);
+        }
+        size = arr.size;
+        return *this;
+    }
+   
+    
+};
 
 
 
