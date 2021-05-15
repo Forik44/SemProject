@@ -200,46 +200,87 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
 template<> class Array<bool> {
 private:
     size_t size;
+    size_t byte_size;
     bool* data;
    
 public:
     Array()
     {
-        size = 0;
+        size = byte_size = 0;
         data = nullptr;
     };
     Array(const Array& original)
     {
         delete[] data;
-        data = new bool[original.size];
-        for (int i = 0; i < original.size; i++)
+        data = new bool[original.byte_size];
+        for (int i = 0; i < original.byte_size; i++)
         {
             data[i] = original[i];
         }
     };
     ~Array()
     {
-        size = 0;
+        size = byte_size = 0;
         delete[] data;
     };
     void add(bool val2add)
     {
-        if (size == 0)
+        if (size % sizeof(bool) == 0)
         {
+            bool* tmp = new bool[byte_size + 1];
 
+            for (int i = 0; i < byte_size; i++)
+            {
+                tmp[i] = data[i];
+            }
+            delete[] data;
+            data = tmp;
+            byte_size++;
         }
-        else if (size % 8 != 0)
-        {
 
-        }
-        else
+        bool mask;
+        mask &= 0;
+        mask |= 1;
+        
+        for (int i = 0; i < size % sizeof(bool); i++)
         {
-
+            mask = mask >> 1;
         }
         
+        if (val2add)
+            data[byte_size - 1] |= mask;
+        else
+            data[byte_size - 1] &= (~mask);
+        
+        size++;
     };
-    bool operator[](size_t idx);
-    const bool operator[](size_t idx)const;
+    bool operator[](size_t idx)
+    {
+        bool mask;
+        mask &= 0;
+        mask |= 1;
+
+        for (int i = 0; i < idx % sizeof(bool); i++)
+        {
+            mask = mask >> 1;
+        }
+
+        return (data[byte_size - 1] & mask);
+
+    };
+    const bool operator[](size_t idx)const
+    {
+        bool mask;
+        mask &= 0;
+        mask |= 1;
+
+        for (int i = 0; i < idx % sizeof(bool); i++)
+        {
+            mask = mask >> 1;
+        }
+
+        return (data[byte_size - 1] & mask);
+    };
     bool removeElementByIdx(size_t idx);
     size_t getSize() const
     {
@@ -248,15 +289,12 @@ public:
     
     Array& operator= (const Array& arr)
     {
-        for (size_t i = 0; i < size; i++)
+        delete[] data;
+        data = new bool[arr.byte_size];
+        for (int i = 0; i < arr.byte_size; i++)
         {
-            removeElementByIdx(i);
+            data[i] = arr[i];
         }
-        for (size_t i = 0; i < arr.getSize(); i++)
-        {
-            add(arr[i]);
-        }
-        size = arr.size;
         return *this;
     }
    
