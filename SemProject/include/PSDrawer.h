@@ -13,14 +13,16 @@ public:
 	/*
 		(Названия файла, размер по x, по y, начало коориднат по x, по у) Если указано только название файла, то отсальное определиться автоматом
 	*/
-	PSDrawer(const char* filename) : PSDrawer(filename, -1, -1, 0, 0) {};
-	PSDrawer(const char* filename, double sizex, double sizey) : PSDrawer(filename, sizex, sizey, 0, 0) {};
-	PSDrawer(const char* filename, double endx, double endy, double startx, double starty) {
+	PSDrawer(const char* filename) : PSDrawer(filename, -1, -1, 0, 0,0) {};
+	PSDrawer(const char* filename, uint16_t offset) : PSDrawer(filename, -1, -1, 0, 0, offset) {};
+	PSDrawer(const char* filename, double sizex, double sizey) : PSDrawer(filename, sizex, sizey, 0, 0, 0) {};
+	PSDrawer(const char* filename, double endx, double endy, double startx, double starty,uint16_t offset) {
 		_filename = filename;
 		_endx = endx;
 		_endy = endy;
 		_startx = startx;
 		_starty = starty;
+		_offset = offset;
 		if (_endx == -1 && _endy == -1)
 			_auto = 1;
 		else {
@@ -31,17 +33,13 @@ public:
 	~PSDrawer() {
 		writefile();
 	};
+	void setOffset(uint16_t offset) { _offset = offset; }
 	void addObj(ID id, BasicInterface bi);
-
-	//return to private
+private:
 	void addPoint(double x1, double y1) { addCircle(x1, y1, 0.2); }
 	void addCircle(double x1, double y1, double radius);
 	void addLine(double x1, double y1, double x2, double y2);
-
-
-
-private:
-
+	uint16_t _offset;
 	const char* _filename;
 	uint8_t _auto;
 	double _endx, _endy, _startx, _starty;
@@ -53,8 +51,6 @@ private:
 		double x1, y1, x2, y2;
 	};
 	Array<_obj_line> _array_line;
-
-
 	void writefile();
 };
 
@@ -74,31 +70,31 @@ void PSDrawer::writefile() {
 	//Setting the sheet size and coordinate axes
 
 	if (_auto == 0) {
-		fout << _startx << " " << _starty << " translate\n";
-		fout << "<</PageSize [" << _endx << " " << _endy << "] /ImagingBBox null>> setpagedevice\n";
+		
+		fout << "<</PageSize [" << _endx+ 2 * _offset << " " << _endy+ 2*_offset << "] /ImagingBBox null>> setpagedevice\n";
+		fout << -_startx + _offset << " " << -_starty + _offset << " translate\n";
 	}
 	else {
-		fout << _startx << " " << _starty << " translate\n";
-		fout << "<</PageSize [" << _endx - _startx << " " << _endy - _starty << "] /ImagingBBox null>> setpagedevice\n";
+		fout << "<</PageSize [" << _endx - _startx+ 2 * _offset << " " << _endy - _starty+ 2 * _offset << "] /ImagingBBox null>> setpagedevice\n";
+		fout << -_startx + _offset << " " << -_starty + _offset << " translate\n";
 	}
 	fout << "0.5 setlinewidth\n";
 
 	//Output of circles and lines
 	for (uint16_t i = 0; i < _array_line.getSize(); i++) {
-		fout << _array_line[i].x1 - _startx << " " << _array_line[i].y1 - _starty << " moveto\n";
-		fout << _array_line[i].x2 - _startx << " " << _array_line[i].y2 - _starty << " lineto\n";
+		fout << _array_line[i].x1 << " " << _array_line[i].y1  << " moveto\n";
+		fout << _array_line[i].x2 << " " << _array_line[i].y2  << " lineto\n";
 	}
 	for (uint16_t i = 0; i < _array_circle.getSize(); i++) {
-		fout << _array_circle[i].x - _startx + _array_circle[i].radius << " " << _array_circle[i].y - _starty << " moveto\n";
-		fout << _array_circle[i].x - _startx << " " << _array_circle[i].y - _starty << " " << _array_circle[i].radius << " 0 360 arc\n";
+		fout << _array_circle[i].x+_array_circle[i].radius << " " << _array_circle[i].y  << " moveto\n";
+		fout << _array_circle[i].x << " " << _array_circle[i].y  << " " << _array_circle[i].radius << " 0 360 arc\n";
 	}
 	//Output of coordinate axes
 	fout << "0.2 setlinewidth\n";
-	fout << -_startx << " " << -_endy - _starty << " moveto\n";
-	fout << -_startx << " " << _endy - _starty << " lineto\n";
-	fout << -_endx + _startx << " " << -_starty << " moveto\n";
-	fout << _endx - _startx << " " << -_starty << " lineto\n";
-
+	fout << -_endx + _startx << " " << 0 << " moveto\n";
+	fout << _endx - _startx << " " << 0 << " lineto\n";
+	fout << 0 << " " << -_endy + _starty << " moveto\n";
+	fout << 0 << " " << _endy - _starty << " lineto\n";
 	fout << "stroke";
 	fout.close();
 
