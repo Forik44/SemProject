@@ -6,6 +6,7 @@
 #include "Stack.h"
 #include "Array.h"
 #include "OneSizeArray.h"
+//#include "Hash.h"
 
 using namespace std;
 
