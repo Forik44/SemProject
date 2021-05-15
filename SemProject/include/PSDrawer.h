@@ -115,6 +115,10 @@ void PSDrawer::addCircle(double x1, double y1, double radius)
 {
 	//Calculating the sheet size and coordinate axes
 	if (_auto) {
+		if (_endx == -1) {
+			_startx = x1 - radius;
+			_starty = y1 - radius;
+		}
 		if (x1 - radius < _startx) _startx = x1 - radius;
 		if (x1 + radius > _endx) _endx = x1 + radius;
 		if (y1 - radius < _starty) _starty = y1 - radius;
@@ -130,6 +134,10 @@ void PSDrawer::addLine(double x1, double y1, double x2, double y2)
 {
 	//Calculating the sheet size and coordinate axes
 	if (_auto) {
+		if (_endx == -1) {
+			_startx = x1; 
+			_starty = y1;
+		}
 		if (x1 < _startx) _startx = x1;
 		if (x1 > _endx) _endx = x1;
 		if (x2 < _startx) _startx = x2;
