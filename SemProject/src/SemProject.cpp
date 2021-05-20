@@ -56,9 +56,7 @@ std::ostream& operator<<(std::ostream& ost, enum ObjType& obj)
 int main(int argc, char* argv[])
 {
     setlocale(LC_ALL, "Russian");
-
     BasicInterface bi;
-
     try {
         while (true) {
             cout << "Что вы хотите сделать?\n";

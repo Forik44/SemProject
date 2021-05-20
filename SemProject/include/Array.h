@@ -66,16 +66,13 @@ public:
     }; 
     Array& operator= (const Array& arr)
     {
+        Array tmp = new Array[size];
         for (size_t i = 0; i < size; i++)
         {
-            removeElementByIdx(i);
+            tmp[i] = arr[i];
         }
-        for (size_t i = 0; i < arr.getSize(); i++)
-        {
-            add(arr[i]);
-        }
-        size = arr.size;
-        return *this;
+        delete[] *this;
+        return tmp;
     }
     Marker init()
     {
@@ -281,7 +278,34 @@ public:
 
         return (data[byte_size - 1] & mask);
     };
-    bool removeElementByIdx(size_t idx);
+    bool removeElementByIdx(size_t idx)
+    {
+        if ((size <= idx) || (idx < 0))
+            return false;
+        else if (size == 1)
+        {
+            delete[] data;
+            data = nullptr;
+            size--;
+            return true;
+        }
+        else
+        {
+            bool* tmp;
+            if (size - 1 % sizeof(bool) == 0)
+            {
+                byte_size--;
+                tmp = new bool[byte_size - 1];
+            }
+            else
+            {
+                tmp = new bool[byte_size];
+            }
+
+         
+          
+        }
+    };
     size_t getSize() const
     {
         return size;
