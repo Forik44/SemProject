@@ -67,7 +67,8 @@ int main(int argc, char* argv[])
             case 'd': { // " отобразить " состояниие рисунка
 
                 Array<ID> ids = bi.ReceiveIdObjects();
-                PSDrawer ps("picture");
+                PSDrawer ps("picture",10);
+
                 for (Array<ID>::Marker mark = ids.init(); mark != ids.afterEnd(); mark++)
                 {
                     ps.addObj((*mark), bi);
