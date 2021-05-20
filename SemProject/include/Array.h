@@ -16,6 +16,7 @@ private:
 public:
     Array();  
     Array(const Array& original);
+    Array(Array&& original);
     ~Array();   
     void add(ArrayElement val2add);
     ArrayElement& operator[](size_t idx);
@@ -75,6 +76,15 @@ public:
         delete[] *this;
         return tmp;
     }
+    Array& operator= (Array&& arr)
+    {
+        delete[] data;
+        data = arr.data;
+        size = arr.size;
+        arr.data = nullptr;
+        arr.size = 0;
+        return *this;
+    }
     Marker init()
     {
         Marker ma;
@@ -119,6 +129,13 @@ template<typename ArrayElement> Array<ArrayElement>::Array(const Array<ArrayElem
         for (size_t k = 0; k < size; ++k)
             data[k] = original.data[k];
     }
+};
+template<typename ArrayElement> Array<ArrayElement>::Array(Array<ArrayElement>&& original)
+{
+    data = original.data;
+    size = original.size;
+    original.data = nullptr;
+    original.size = 0;
 };
 template<typename ArrayElement> Array<ArrayElement>::~Array()
 {
