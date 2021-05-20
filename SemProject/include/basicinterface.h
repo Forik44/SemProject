@@ -28,6 +28,8 @@ class BasicInterface
 {
 public:
     BasicInterface();
+    BasicInterface(const BasicInterface& original);
+    ~BasicInterface();
     ID addObject(ObjType);
     bool removeObjectByID(ID);
     TreeDict<ParamType, double> queryObjProperties(ID);

@@ -11,6 +11,21 @@
 
 BasicInterface::BasicInterface()
 {};
+template<typename ArrayElement> Array<ArrayElement>::Array(const Array<ArrayElement>& original)
+{
+	//Копирующий конструктор
+};
+template<typename ArrayElement> Array<ArrayElement>::~Array()
+{
+	if (m_points != nullptr)
+		delete[] m_points;
+	if (m_circles != nullptr)
+		delete[] m_points;
+	if (m_segments != nullptr)
+		delete[] m_points;
+	if (m_points != nullptr)
+		delete[] m_points;
+};
 ID  BasicInterface::addObject(ObjType ot)
 {
 	ID id = ID::generateID();
