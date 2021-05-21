@@ -120,6 +120,7 @@ template<typename ArrayElement> Array<ArrayElement>::Array()
 };
 template<typename ArrayElement> Array<ArrayElement>::Array(const Array<ArrayElement>& original)
 {
+
     size = original.size;
     if (size == 0)
         data = nullptr;
@@ -315,6 +316,7 @@ public:
     
     Array& operator= (const Array& arr)
     {
+        if(data != nullptr)
         delete[] data;
         data = new unsigned char[arr.byte_size];
         for (int i = 0; i < arr.byte_size; i++)
