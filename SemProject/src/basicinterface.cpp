@@ -11,11 +11,11 @@
 
 BasicInterface::BasicInterface()
 {};
-template<typename ArrayElement> Array<ArrayElement>::Array(const Array<ArrayElement>& original)
+/*template<typename ArrayElement> std::vector<ArrayElement>::Array(const std::vector<ArrayElement>& original)
 {
 	//Копирующий конструктор
 };
-template<typename ArrayElement> Array<ArrayElement>::~Array()
+template<typename ArrayElement> std::vector<ArrayElement>::~Array()
 {
 	if (m_points != nullptr)
 		delete[] m_points;
@@ -25,7 +25,7 @@ template<typename ArrayElement> Array<ArrayElement>::~Array()
 		delete[] m_points;
 	if (m_points != nullptr)
 		delete[] m_points;
-};
+};*/
 ID  BasicInterface::addObject(ObjType ot)
 {
 	ID id = ID::generateID();
@@ -36,7 +36,7 @@ ID  BasicInterface::addObject(ObjType ot)
 		Point p;
 		p.x = rand() % 500;
 		p.y = rand() % 500;
-		m_points.add(id, p);
+        m_points[id] = p;
 		break;
 	case OT_SEGMENT:
 		Segment s;
@@ -44,14 +44,14 @@ ID  BasicInterface::addObject(ObjType ot)
 		s.p1.y = rand() % 500;
 		s.p2.x = rand() % 500;
 		s.p2.y = rand() % 500;
-		m_segments.add(id, s);
+        m_segments[id] =  s;
 		break;
 	case OT_CIRCLE:
 		Circle c;
 		c.center.x = rand() % 500;
 		c.center.y = rand() % 500;
 		c.r = rand() % 500;
-		m_circles.add(id, c);
+        m_circles[id] = c;
 		break;
 	}
 	return id;
@@ -63,36 +63,36 @@ bool BasicInterface::removeObjectByID(ID id)
 	switch (ot)
 	{
 	case OT_CIRCLE:
-		m_circles.removeElementByKey(id);
+        m_circles.erase(id);
 		break;
 	case OT_POINT:
-		m_points.removeElementByKey(id);
+        m_points.erase(id);
 		break;
 	case OT_SEGMENT:
-		m_segments.removeElementByKey(id);
+        m_segments.erase(id);
 		break;
 	case OT_ERROR:
 		return false;
 	}
 
 	int i = 0;
-	Array<ID> arrID;
+    std::vector<ID> arrID;
 	/*
-	for (TreeDict<ID, Requirement>::Marker m1 = m_requirements.init(); m1 != m_requirements.afterEnd(); m1++, i++)
+    for (std::map<ID, Requirement>::iterator m1 = m_requirements.begin(); m1 != m_requirements.end(); m1++, i++)
 	{
-		for (Array<ID>::Marker m2 = (*m1).val.objs.init(); m2 != (*m1).val.objs.afterEnd(); m2++)
+        for (std::vector<ID>::iterator m2 = (*m1).val.objs.begin(); m2 != (*m1).val.objs.end(); m2++)
 		{
 			if ((*m2) == id)
 			{
-				arrID.add((*m1).key);
+                arrID.add((*m1).first);
 				break;
 			}
 		}
 	};
 	*/
-	for (int i = 0; i < arrID.getSize(); i++)
+    for (int i = 0; i < arrID.size(); i++)
 	{
-		m_requirements.removeElementByKey(arrID[i]);
+        m_requirements.erase(arrID[i]);
 	}
 
 	return false;
@@ -100,15 +100,15 @@ bool BasicInterface::removeObjectByID(ID id)
 bool BasicInterface::removeRequirementByID(ID id)
 {
 	///////////////////////////////////////////////////////////Удалить выделенную под Req память/////////////////////////////////////////////////////////
-	return m_requirements.removeElementByKey(id);
+    return m_requirements.erase(id);
 };
-Array<ID>& BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, double dist)
+std::vector<ID>& BasicInterface::addRequirement(const std::vector<ID>& idArr, ReqType rt, double dist)
 {
 	ID id;
-	Array<ID> reqIds;
+    std::vector<ID> reqIds;
 	bool segmentWasFound = 0, pointWasFound = 0, circleWasFound = 0;
 
-	for (int i = 0; i < idArr.getSize(); i++)
+    for (int i = 0; i < idArr.size(); i++)
 	{
 		ObjType ot = identifyObjTypeByID(idArr[i]);
 		switch (ot)
@@ -138,12 +138,12 @@ Array<ID>& BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, do
 			throw;
 		}
 
-		for (int i = 0; i < idArr.getSize() - 1; i++)
+        for (int i = 0; i < idArr.size() - 1; i++)
 		{
 			ParallelReq* req = new ParallelReq(&m_segments, idArr[i], idArr[i + 1]);
 			id = ID::generateID();
-			reqIds.add(id);
-			m_requirements.add(id, req);
+            reqIds.push_back(id);
+            m_requirements[id] = req;
 		}
 
 		break;
@@ -156,12 +156,12 @@ Array<ID>& BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, do
 			throw;
 		}
 
-		for (int i = 0; i < idArr.getSize() - 1; i++)
+        for (int i = 0; i < idArr.size() - 1; i++)
 		{
 			OrthoReq* req = new OrthoReq(&m_segments, idArr[i], idArr[i + 1]);
 			id = ID::generateID();
-			reqIds.add(id);
-			m_requirements.add(id, req);
+            reqIds.push_back(id);
+            m_requirements[id] = req;
 		}
 
 		break;
@@ -184,39 +184,39 @@ Array<ID>& BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, do
 
 		if (!segmentWasFound)
 		{
-			for (int i = 0; i < idArr.getSize() - 1; i++)
+            for (int i = 0; i < idArr.size() - 1; i++)
 			{
 				DistancePointsReq* req = new DistancePointsReq(&m_points, idArr[i], idArr[i + 1], dist);
 				id = ID::generateID();
-				reqIds.add(id);
-				m_requirements.add(id, req);
+                reqIds.push_back(id);
+                m_requirements[id] = req;
 			}
 		}
 		else if (!pointWasFound)
 		{
 			//TODO Проверить, если два отрезка, то они должны быть параллельны
-			for (int i = 0; i < idArr.getSize() - 1; i++)
+            for (int i = 0; i < idArr.size() - 1; i++)
 			{
 				DistanceSegmentsReq* req = new DistanceSegmentsReq(&m_segments, idArr[i], idArr[i + 1], dist);
 				id = ID::generateID();
-				reqIds.add(id);
-				m_requirements.add(id, req);
+                reqIds.push_back(id);
+                m_requirements[id] = req;
 			}
 		}
 		else
 		{
 
-			for (int i = 0; i < idArr.getSize(); i++)
+            for (int i = 0; i < idArr.size(); i++)
 			{
 				if (identifyObjTypeByID(idArr[i]) == OT_POINT)
-					for (int k = 0; k < idArr.getSize(); k++)
+                    for (int k = 0; k < idArr.size(); k++)
 						if (identifyObjTypeByID(idArr[k]) == OT_SEGMENT)
 						{
 
 							DistancePointSegmentReq* req = new DistancePointSegmentReq(&m_points, &m_segments, idArr[i], idArr[k], dist);
 							id = ID::generateID();
-							reqIds.add(id);
-							m_requirements.add(id, req);
+                            reqIds.push_back(id);
+                            m_requirements[id]  = req;
 						}
 
 			}
@@ -230,35 +230,38 @@ Array<ID>& BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, do
 
 	return reqIds;
 };
-TreeDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
+std::map<ParamType, double> BasicInterface::queryObjProperties(ID id)
 {
 	switch (identifyObjTypeByID(id))
 	{
 	case OT_CIRCLE:
 	{
-		TreeDict<ID, Circle>::Marker cm = m_circles.init();
-		while ((*cm).key != id)
+        //std::map<ID, Circle>::iterator cm = m_circles.begin();
+        std::map<ID, Circle>::iterator cm = m_circles.begin();
+        while ((*cm).first != id)
 			cm++;
 
-		TreeDict<ParamType, double> arr;
-		arr.add(PT_CIRCLE, 4);
-		arr.add(PT_CX, (*cm).value.center.x);
-		arr.add(PT_CY, (*cm).value.center.y);
-		arr.add(PT_R, (*cm).value.r);
+        std::map<ParamType, double> arr;
+        arr[PT_CIRCLE] = 4;
+        arr[PT_CX] = (*cm).second.center.x;
+        arr[PT_CY] = (*cm).second.center.y;
+        arr[PT_R] = (*cm).second.r;
 
 		return arr;
 		break;
 	}
 	case OT_POINT:
 	{
-		TreeDict<ID, Point>::Marker pm = m_points.init();
-		while ((*pm).key != id)
+        std::map<ID, Point>::iterator  pm = m_points.begin();
+
+        //std::map<ID, Point>::iterator pm = m_points.begin();
+        while ((*pm).first!= id)
 			pm++;
 
-		TreeDict<ParamType, double> arr;
-		arr.add(PT_POINT, 3);
-		arr.add(PT_PX, (*pm).value.x);
-		arr.add(PT_PY, (*pm).value.y);
+        std::map<ParamType, double> arr;
+        arr[PT_POINT] = 3;
+        arr[PT_PX] = (*pm).second.x;
+        arr[PT_PY] = (*pm).second.y;
 
 		return arr;
 		break;
@@ -266,122 +269,124 @@ TreeDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
 	}
 	case OT_SEGMENT:
 	{
-		TreeDict<ID, Segment>::Marker sm = m_segments.init();
-		while ((*sm).key != id)
+        //std::map<ID, Segment>::iterator sm = m_segments.begin();
+        std::map<ID, Segment>::iterator sm = m_segments.begin();
+
+        while ((*sm).first != id)
 			sm++;
 
-		TreeDict<ParamType, double> arr;
-		arr.add(PT_SEGMENT, 5);
-		arr.add(PT_P1X, (*sm).value.p1.x);
-		arr.add(PT_P1Y, (*sm).value.p1.y);
-		arr.add(PT_P2X, (*sm).value.p2.x);
-		arr.add(PT_P2Y, (*sm).value.p2.y);
+        std::map<ParamType, double> arr;
+        arr[PT_SEGMENT] = 5;
+        arr[PT_P1X] = (*sm).second.p1.x;
+        arr[PT_P1Y] = (*sm).second.p1.y;
+        arr[PT_P2X] = (*sm).second.p2.x;
+        arr[PT_P2Y] = (*sm).second.p2.y;
 
 		return arr;
 		break;
 	}
 	default:
 	{
-		TreeDict<ParamType, double> arr;
-		arr.add(PT_ERROR, -1);
+        std::map<ParamType, double> arr;
+        arr[PT_ERROR] =  -1;
 		return arr;
 	}
 	}
 }
 ObjType BasicInterface::identifyObjTypeByID(ID id)
 {
-	TreeDict<ID, Point>::Marker pm = m_points.init();
-	while (pm != m_points.afterEnd())
+    std::map<ID, Point>::iterator pm = m_points.begin();
+    while (pm != m_points.end())
 	{
-		if ((*pm).key == id)
+        if ((*pm).first == id)
 			return OT_POINT;
 		pm++;
 	};
-	TreeDict<ID, Circle>::Marker cm = m_circles.init();
-	while (cm != m_circles.afterEnd())
+    std::map<ID, Circle>::iterator cm = m_circles.begin();
+    while (cm != m_circles.end())
 	{
-		if ((*cm).key == id)
+        if ((*cm).first == id)
 			return OT_CIRCLE;
 		cm++;
 	}
-	TreeDict<ID, Segment>::Marker sm = m_segments.init();
-	while (sm != m_segments.afterEnd())
+    std::map<ID, Segment>::iterator sm = m_segments.begin();
+    while (sm != m_segments.end())
 	{
-		if ((*sm).key == id)
+        if ((*sm).first == id)
 			return OT_SEGMENT;
 		sm++;
 	}
 	return OT_ERROR;
 }
-Array<double> BasicInterface::getX()
+std::vector<double> BasicInterface::getX()
 {
-	Array<double> res;
+    std::vector<double> res;
 
-	TreeDict<ID, Point>::Marker pointMarker = m_points.init();
-	while (pointMarker != m_points.afterEnd())
+    std::map<ID, Point>::iterator pointMarker = m_points.begin();
+    while (pointMarker != m_points.end())
 	{
-		res.add((*pointMarker).value.x);
-		res.add((*pointMarker).value.y);
+        res.push_back((*pointMarker).second.x);
+        res.push_back((*pointMarker).second.y);
 		pointMarker++;
 	}
 
-	TreeDict<ID, Segment>::Marker segmentMarker = m_segments.init();
-	while (segmentMarker != m_segments.afterEnd())
+    std::map<ID, Segment>::iterator segmentMarker = m_segments.begin();
+    while (segmentMarker != m_segments.end())
 	{
-		res.add((*segmentMarker).value.p1.x);
-		res.add((*segmentMarker).value.p1.y);
-		res.add((*segmentMarker).value.p2.x);
-		res.add((*segmentMarker).value.p2.y);
+        res.push_back((*segmentMarker).second.p1.x);
+        res.push_back((*segmentMarker).second.p1.y);
+        res.push_back((*segmentMarker).second.p2.x);
+        res.push_back((*segmentMarker).second.p2.y);
 		segmentMarker++;
 	}
 
-	TreeDict<ID, Circle>::Marker circleMarker = m_circles.init();
-	while (circleMarker != m_circles.afterEnd())
+    std::map<ID, Circle>::iterator circleMarker = m_circles.begin();
+    while (circleMarker != m_circles.end())
 	{
-		res.add((*circleMarker).value.center.x);
-		res.add((*circleMarker).value.center.y);
-		res.add((*circleMarker).value.r);
+        res.push_back((*circleMarker).second.center.x);
+        res.push_back((*circleMarker).second.center.y);
+        res.push_back((*circleMarker).second.r);
 		circleMarker++;
 	}
 
 	return res;
 }
-void BasicInterface::setX(const Array<double>& X)
+void BasicInterface::setX(const std::vector<double>& X)
 {
 	size_t i = 0;
-	TreeDict<ID, Point>::Marker pointMarker = m_points.init();
+    std::map<ID, Point>::iterator pointMarker = m_points.begin();
 
-	while (pointMarker != m_points.afterEnd())
+    while (pointMarker != m_points.end())
 	{
-		(*pointMarker).value.x = X[i];
+        (*pointMarker).second.x = X[i];
 		i++;
-		(*pointMarker).value.y = X[i];
+        (*pointMarker).second.y = X[i];
 		i++;
 		pointMarker++;
 	}
 
-	TreeDict<ID, Segment>::Marker segmentMarker = m_segments.init();
-	while (segmentMarker != m_segments.afterEnd())
+    std::map<ID, Segment>::iterator segmentMarker = m_segments.begin();
+    while (segmentMarker != m_segments.end())
 	{
-		(*segmentMarker).value.p1.x = X[i];
+        (*segmentMarker).second.p1.x = X[i];
 		i++;
-		(*segmentMarker).value.p1.y = X[i];
+        (*segmentMarker).second.p1.y = X[i];
 		i++;
-		(*segmentMarker).value.p2.x = X[i];
+        (*segmentMarker).second.p2.x = X[i];
 		i++;
-		(*segmentMarker).value.p2.y = X[i];
+        (*segmentMarker).second.p2.y = X[i];
 		i++;
 		segmentMarker++;
 	}
 
-	TreeDict<ID, Circle>::Marker circleMarker = m_circles.init();
-	while (circleMarker != m_circles.afterEnd())
+    std::map<ID, Circle>::iterator circleMarker = m_circles.begin();
+    while (circleMarker != m_circles.end())
 	{
-		(*circleMarker).value.center.x = X[i];
+        (*circleMarker).second.center.x = X[i];
 		i++;
-		(*circleMarker).value.center.y = X[i];
+        (*circleMarker).second.center.y = X[i];
 		i++;
-		(*circleMarker).value.r = X[i];
+        (*circleMarker).second.r = X[i];
 		i++;
 		segmentMarker++;
 	}
@@ -397,16 +402,16 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 		if ((ot1 != OT_SEGMENT) || (ot2 != OT_SEGMENT))
 			return -1;
 
-		TreeDict<ID, Segment>::Marker mark;
-		mark = m_segments.init();
-		while ((*mark).key != id1)
+        std::map<ID, Segment>::iterator mark;
+        mark = m_segments.begin();
+        while ((*mark).first != id1)
 			mark++;
-		Segment& l1 = (*mark).value;
+        Segment& l1 = (*mark).second;
 
-		mark = m_segments.init();
-		while ((*mark).key != id2)
+        mark = m_segments.begin();
+        while ((*mark).first != id2)
 			mark++;
-		Segment& l2 = (*mark).value;
+        Segment& l2 = (*mark).second;
 
 
 		double length;
@@ -424,16 +429,16 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 		if ((ot1 != OT_SEGMENT) || (ot2 != OT_SEGMENT))
 			return -1;
 
-		TreeDict<ID, Segment>::Marker mark;
-		mark = m_segments.init();
-		while ((*mark).key != id1)
+        std::map<ID, Segment>::iterator mark;
+        mark = m_segments.begin();
+        while ((*mark).first != id1)
 			mark++;
-		Segment& l1 = (*mark).value;
+        Segment& l1 = (*mark).second;
 
-		mark = m_segments.init();
-		while ((*mark).key != id2)
+        mark = m_segments.begin();
+        while ((*mark).first != id2)
 			mark++;
-		Segment& l2 = (*mark).value;
+        Segment& l2 = (*mark).second;
 
 		double A1 = l1.p1.x - l1.p2.x;
 		double B1 = l1.p1.y - l1.p2.y;
@@ -446,32 +451,32 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 	{
 		if ((ot1 == OT_POINT) && (ot2 == OT_POINT)) //2 points
 		{
-			TreeDict<ID, Point>::Marker mark;
-			mark = m_points.init();
-			while ((*mark).key != id1)
+            std::map<ID, Point>::iterator mark;
+            mark = m_points.begin();
+            while ((*mark).first != id1)
 				mark++;
-			Point& p1 = (*mark).value;
+            Point& p1 = (*mark).second;
 
-			mark = m_points.init();
-			while ((*mark).key != id2)
+            mark = m_points.begin();
+            while ((*mark).first != id2)
 				mark++;
-			Point& p2 = (*mark).value;
+            Point& p2 = (*mark).second;
 
 			return abs(distance - sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
 		}
 		else if ((ot1 == OT_POINT) && (ot2 == OT_SEGMENT)) //point and line
 		{
-			TreeDict<ID, Point>::Marker mark1;
-			mark1 = m_points.init();
-			while ((*mark1).key != id1)
+            std::map<ID, Point>::iterator mark1;
+            mark1 = m_points.begin();
+            while ((*mark1).first != id1)
 				mark1++;
-			Point& p = (*mark1).value;
+            Point& p = (*mark1).second;
 
-			TreeDict<ID, Segment>::Marker mark2;
-			mark2 = m_segments.init();
-			while ((*mark2).key != id2)
+            std::map<ID, Segment>::iterator mark2;
+            mark2 = m_segments.begin();
+            while ((*mark2).first != id2)
 				mark2++;
-			Segment& l = (*mark2).value;
+            Segment& l = (*mark2).second;
 
 			double A = l.p2.y - l.p1.y;
 			double B = l.p1.x - l.p2.x;
@@ -481,17 +486,17 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 		}
 		else if ((ot2 == OT_POINT) && (ot1 == OT_SEGMENT)) //point and line
 		{
-			TreeDict<ID, Point>::Marker mark1;
-			mark1 = m_points.init();
-			while ((*mark1).key != id2)
+            std::map<ID, Point>::iterator mark1;
+            mark1 = m_points.begin();
+            while ((*mark1).first != id2)
 				mark1++;
-			Point& p = (*mark1).value;
+            Point& p = (*mark1).second;
 
-			TreeDict<ID, Segment>::Marker mark2;
-			mark2 = m_segments.init();
-			while ((*mark2).key != id1)
+            std::map<ID, Segment>::iterator mark2;
+            mark2 = m_segments.begin();
+            while ((*mark2).first != id1)
 				mark2++;
-			Segment& l = (*mark2).value;
+            Segment& l = (*mark2).second;
 
 
 			double A = l.p2.y - l.p1.y;
@@ -501,16 +506,16 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 		}
 		else if ((ot2 == OT_SEGMENT) && (ot1 == OT_SEGMENT)) //2 lines 
 		{
-			TreeDict<ID, Segment>::Marker mark;
-			mark = m_segments.init();
-			while ((*mark).key != id1)
+            std::map<ID, Segment>::iterator mark;
+            mark = m_segments.begin();
+            while ((*mark).first != id1)
 				mark++;
-			Segment& l1 = (*mark).value;
+            Segment& l1 = (*mark).second;
 
-			mark = m_segments.init();
-			while ((*mark).key != id2)
+            mark = m_segments.begin();
+            while ((*mark).first != id2)
 				mark++;
-			Segment& l2 = (*mark).value;
+            Segment& l2 = (*mark).second;
 
 			if (particularErrValue(id1, id2, RT_PARALLEL) <= 0.01)
 			{
@@ -533,9 +538,9 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 };
 double  BasicInterface::partDerivative(int varNumber, ID id1, ID id2, ReqType rt, double distance)
 {
-	Array<double> arr = getX();
+    std::vector<double> arr = getX();
 
-	if (arr.getSize() <= varNumber)
+    if (arr.size() <= varNumber)
 		return 0;
 
 	double delta = 1e-10;
@@ -565,7 +570,7 @@ double  BasicInterface::partDerivative(int varNumber, ID id1, ID id2, ReqType rt
 }
 void BasicInterface::solveParticularReq(ID id1, ID id2, ReqType rt, double distance)
 {
-	Array<double> arr = getX();
+    std::vector<double> arr = getX();
 
 	double secondReqValue, firstReqValue = particularErrValue(id1, id2, rt, distance);
 
@@ -574,20 +579,20 @@ void BasicInterface::solveParticularReq(ID id1, ID id2, ReqType rt, double dista
 	double lambda = 0.1;
 	while (firstReqValue > 0.0001)
 	{
-		Array<double> devArr, newArr;
+        std::vector<double> devArr, newArr;
 
 		firstReqValue = particularErrValue(id1, id2, rt, distance);
 
 		int i = 0;
-		for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+        for (std::vector<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 		{
-			devArr.add(partDerivative(i, id1, id2, rt, distance));   //Составляем вектор производных
+            devArr.push_back(partDerivative(i, id1, id2, rt, distance));   //Составляем вектор производных
 		};
 
 		i = 0;
-		for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+        for (std::vector<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 		{
-			newArr.add(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
+            newArr.push_back(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
 		};
 
 		setX(newArr);
@@ -603,7 +608,7 @@ void BasicInterface::solveParticularReq(ID id1, ID id2, ReqType rt, double dista
 		{
 			firstReqValue = secondReqValue;
 			i = 0;
-			for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+            for (std::vector<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 			{
 				arr[i] = newArr[i];
 			};
@@ -616,14 +621,14 @@ double BasicInterface::complexErrValue()
 {
 	double complexError = 0;
 
-	for (TreeDict<ID, IReq*>::Marker reqMark = m_requirements.init(); reqMark != m_requirements.afterEnd(); reqMark++)
-		complexError += (*reqMark).value->getError();
+    for (std::map<ID, IReq*>::iterator reqMark = m_requirements.begin(); reqMark != m_requirements.end(); reqMark++)
+        complexError += (*reqMark).second->getError();
 
 	return complexError;
 };
 bool BasicInterface::solveComplexReq()
 {
-	Array<double> arr = getX();
+    std::vector<double> arr = getX();
 
 	double secondReqValue, firstReqValue = complexErrValue();
 
@@ -632,20 +637,20 @@ bool BasicInterface::solveComplexReq()
 	double lambda = 0.1;
 	while (firstReqValue > 1e-2)
 	{
-		Array<double> devArr, newArr;
+        std::vector<double> devArr, newArr;
 
 		firstReqValue = complexErrValue();
 
 		int i = 0;
-		for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+        for (std::vector<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 		{
-			devArr.add(complexPartDerivative(i));   //Составляем вектор производных 
+            devArr.push_back(complexPartDerivative(i));   //Составляем вектор производных
 		};
 
 		i = 0;
-		for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+        for (std::vector<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 		{
-			newArr.add(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
+            newArr.push_back(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
 		};
 
 		setX(newArr);
@@ -661,7 +666,7 @@ bool BasicInterface::solveComplexReq()
 		{
 			firstReqValue = secondReqValue;
 			i = 0;
-			for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+            for (std::vector<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 			{
 				arr[i] = newArr[i];
 			};
@@ -673,9 +678,9 @@ bool BasicInterface::solveComplexReq()
 }
 double  BasicInterface::complexPartDerivative(int varNumber)
 {
-	Array<double> arr = getX();
+    std::vector<double> arr = getX();
 
-	if (arr.getSize() <= varNumber)
+    if (arr.size() <= varNumber)
 		return 0;
 
 	double delta = 1e-5;
@@ -703,20 +708,20 @@ double  BasicInterface::complexPartDerivative(int varNumber)
 
 	return (req2 - req1) / delta;
 }
-Array<ID> BasicInterface::ReceiveIdObjects()
+std::vector<ID> BasicInterface::ReceiveIdObjects()
 {
-	Array<ID> IDs;
-	for (TreeDict<ID, Point>::Marker mark = m_points.init();mark != m_points.afterEnd(); mark++)
+    std::vector<ID> IDs;
+    for (std::map<ID, Point>::iterator mark = m_points.begin();mark != m_points.end(); mark++)
 	{
-		IDs.add((*mark).key);
+        IDs.push_back((*mark).first);
 	}
-	for (TreeDict<ID, Segment>::Marker mark = m_segments.init();mark != m_segments.afterEnd(); mark++)
+    for (std::map<ID, Segment>::iterator mark = m_segments.begin();mark != m_segments.end(); mark++)
 	{
-		IDs.add((*mark).key);
+        IDs.push_back((*mark).first);
 	}
-	for (TreeDict<ID, Circle>::Marker mark = m_circles.init();mark != m_circles.afterEnd(); mark++)
+    for (std::map<ID, Circle>::iterator mark = m_circles.begin();mark != m_circles.end(); mark++)
 	{
-		IDs.add((*mark).key);
+        IDs.push_back((*mark).first);
 	}
 	return IDs;
 }

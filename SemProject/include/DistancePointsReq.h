@@ -1,14 +1,14 @@
 #pragma once 
 
 #include "IReq.h"
-#include "Dict.h"
+#include <map>
 
 class DistancePointsReq : public BasicReq
 {
 private:
-    TreeDict<ID, Point>* m_storage;
+    std::map<ID, Point>* m_storage;
 public:
-    DistancePointsReq(TreeDict<ID, Point>* storage, ID id1, ID id2, double distance) :
+    DistancePointsReq(std::map<ID, Point>* storage, ID id1, ID id2, double distance) :
         m_storage(storage),
         dist(distance),
         BasicReq(id1, id2) {};
@@ -18,16 +18,13 @@ public:
 
 double DistancePointsReq::getError()
 {
-    TreeDict<ID, Point>::Marker mark;
-    mark = m_storage->init();
-    while ((*mark).key != m_id1)
-        mark++;
-    Point& p1 = (*mark).value;
+    std::map<ID, Point>::const_iterator mark = m_storage->find(m_id1);
+    if ( mark == m_storage->end() ) throw std::runtime_error("No point");
+    const Point& p1 = (*mark).second;
 
-    mark = m_storage->init();
-    while ((*mark).key != m_id2)
-        mark++;
-    Point& p2 = (*mark).value;
+    mark = m_storage->find(m_id2);
+    if ( mark == m_storage->end() ) throw std::runtime_error("No point");
+    const Point& p2 = (*mark).second;
 
     return abs(dist - sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
 }

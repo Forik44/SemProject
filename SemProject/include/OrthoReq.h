@@ -1,14 +1,14 @@
 #pragma once 
 
 #include "IReq.h"
-#include "Dict.h"
+#include <map>
 
 class OrthoReq: public BasicReq
 {
 private:
-    TreeDict<ID, Segment>* m_storage;
+    std::map<ID, Segment>* m_storage;
 public:
-    OrthoReq(TreeDict<ID, Segment>* storage, ID id1, ID id2) :
+    OrthoReq(std::map<ID, Segment>* storage, ID id1, ID id2) :
         m_storage(storage),
         BasicReq(id1, id2) {};
     virtual double getError();
@@ -16,16 +16,15 @@ public:
 
 double OrthoReq::getError()
 {
-    TreeDict<ID, Segment>::Marker mark;
-    mark = m_storage->init();
-    while ((*mark).key != m_id1)
-        mark++;
-    Segment& l1 = (*mark).value;
+    std::map<ID, Segment>::iterator mark  = m_storage->find(m_id1);
+    if ( mark == m_storage->end() )
+        throw std::runtime_error("No segment");
+    Segment& l1 = (*mark).second;
 
-    mark = m_storage->init();
-    while ((*mark).key != m_id2)
-        mark++;
-    Segment& l2 = (*mark).value;
+    mark = m_storage->find(m_id2);
+    if (mark == m_storage->end() )
+        throw std::runtime_error("No segment");
+    Segment& l2 = (*mark).second;
 
     double A1 = l1.p1.x - l1.p2.x;
     double B1 = l1.p1.y - l1.p2.y;

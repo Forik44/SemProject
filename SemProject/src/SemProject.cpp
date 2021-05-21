@@ -66,10 +66,10 @@ int main(int argc, char* argv[])
             switch (startLetter) {
             case 'd': { // " отобразить " состояниие рисунка
 
-                Array<ID> ids = bi.ReceiveIdObjects();
+                std::vector<ID> ids = bi.ReceiveIdObjects();
                 PSDrawer ps("picture",10);
 
-                for (Array<ID>::Marker mark = ids.init(); mark != ids.afterEnd(); mark++)
+                for (std::vector<ID>::iterator mark = ids.begin(); mark != ids.end(); mark++)
                 {
                     ps.addObj((*mark), bi);
                 }
@@ -98,8 +98,8 @@ int main(int argc, char* argv[])
                 break;
             }
             case 'l': {// показать идентификаторы объектов
-                Array<ID> ids = bi.ReceiveIdObjects();
-                for (Array<ID>::Marker mark = ids.init();mark != ids.afterEnd(); mark++)
+                std::vector<ID> ids = bi.ReceiveIdObjects();
+                for (std::vector<ID>::iterator mark = ids.begin();mark != ids.end(); mark++)
                 {
                     switch (bi.identifyObjTypeByID(*mark))
                     {
@@ -128,17 +128,17 @@ int main(int argc, char* argv[])
                 {
                     cout << "Введите идентификаторы двух прямых:" << endl;
                     size_t ID1, ID2;
-                    Array<ID> arr;
+                    std::vector<ID> arr;
                     while(true) {
                         cout << "Первая прямая: ";
                         cin >> ID1;
-                        Array<ID> IDs = bi.ReceiveIdObjects();
+                        std::vector<ID> IDs = bi.ReceiveIdObjects();
                         size_t i = 0;
                         while (ID1 != IDs[i].getID())
                         {
                             i++;
                         }
-                        arr.add(IDs[i]);
+                        arr.push_back(IDs[i]);
                         if (bi.identifyObjTypeByID(IDs[i]) == OT_SEGMENT)
                         {
                             break;
@@ -148,13 +148,13 @@ int main(int argc, char* argv[])
                     while (true) {
                         cout << "Вторая прямая: ";
                         cin >> ID2;
-                        Array<ID> IDs = bi.ReceiveIdObjects();
+                        std::vector<ID> IDs = bi.ReceiveIdObjects();
                         size_t i = 0;
                         while (ID2 != IDs[i].getID())
                         {
                             i++;
                         }
-                        arr.add(IDs[i]);
+                        arr.push_back(IDs[i]);
                         if (bi.identifyObjTypeByID(IDs[i]) == OT_SEGMENT)
                         {
                              break;

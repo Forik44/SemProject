@@ -1,14 +1,15 @@
 #pragma once 
 
 #include "IReq.h"
-#include "Dict.h"
+#include <map>
+#include <stdexcept>
 
 class ParallelReq : public BasicReq
 {
 private:
-    TreeDict<ID, Segment>* m_storage;
+    std::map<ID, Segment>* m_storage;
 public:
-    ParallelReq(TreeDict<ID, Segment>* storage, ID id1, ID id2) :
+    ParallelReq(std::map<ID, Segment>* storage, ID id1, ID id2) :
         m_storage(storage),
         BasicReq(id1, id2) {};
     virtual double getError();
@@ -16,17 +17,16 @@ public:
 
 double ParallelReq::getError() {
 
-    TreeDict<ID, Segment>::Marker mark;
-    mark = m_storage->init();
-    while ((*mark).key != m_id1)
-        mark++;
+    std::map<ID, Segment>::iterator mark;
+    mark = m_storage->find(m_id1);
+    if (mark == m_storage->end() ) throw std::runtime_error("No segment");
 
-    Segment& l1 = (*mark).value;
+    Segment& l1 = (*mark).second;
 
-    mark = m_storage->init();
-    while ((*mark).key != m_id2)
-        mark++;
-    Segment& l2 = (*mark).value;
+    mark = m_storage->find(m_id2);
+    if (mark == m_storage->end() ) throw std::runtime_error("No segment");
+
+    Segment& l2 = (*mark).second;
 
     double length;
 

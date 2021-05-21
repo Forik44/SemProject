@@ -68,19 +68,19 @@ public:
     {
         return m_id;
     }
-    bool operator ==(const ID& other)
+    bool operator ==(const ID& other)const
     {
         return (other.m_id == this->m_id);
     }
-    bool operator !=(const ID& other)
+    bool operator !=(const ID& other)const
     {
         return !(other.m_id == this->m_id);
     }
-    bool operator < (const ID& other)
+    bool operator < (const ID& other)const
     {
         return (other.m_id < this->m_id);
     }
-    bool operator > (const ID& other)
+    bool operator > (const ID& other)const
     {
         return (other.m_id > this->m_id);
     }

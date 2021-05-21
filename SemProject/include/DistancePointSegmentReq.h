@@ -1,15 +1,15 @@
 #pragma once 
 
 #include "IReq.h"
-#include "Dict.h"
+#include <map>
 
 class DistancePointSegmentReq : public BasicReq
 {
 private:
-    TreeDict<ID, Segment>* m_storage_segment;
-    TreeDict<ID, Point>* m_storage_point;
+    std::map<ID, Segment>* m_storage_segment;
+    std::map<ID, Point>* m_storage_point;
 public:
-    DistancePointSegmentReq(TreeDict<ID, Point>* pointStorage, TreeDict<ID, Segment>* segmentStorage, ID pointID, ID segmentID, double distance) :
+    DistancePointSegmentReq(std::map<ID, Point>* pointStorage, std::map<ID, Segment>* segmentStorage, ID pointID, ID segmentID, double distance) :
         m_storage_segment(segmentStorage),
         m_storage_point(pointStorage),
         dist(distance),
@@ -20,17 +20,17 @@ public:
 
 double DistancePointSegmentReq::getError()
 {
-    TreeDict<ID, Point>::Marker mark1;
-    mark1 = m_storage_point->init();
-    while ((*mark1).key != m_id1)
-        mark1++;
-    Point& p = (*mark1).value;
+    std::map<ID, Point>::const_iterator mark1;
+    mark1 = m_storage_point->find(m_id1);
+    if ( mark1 == m_storage_point->end() ) throw std::runtime_error("No point");
+    const Point& p = (*mark1).second;
 
-    TreeDict<ID, Segment>::Marker mark2;
-    mark2 = m_storage_segment->init();
-    while ((*mark2).key != m_id2)
-        mark2++;
-    Segment& l = (*mark2).value;
+    std::map<ID, Segment>::const_iterator mark2;
+    mark2 = m_storage_segment->find(m_id2);
+    if ( mark2 == m_storage_segment->end() ) throw std::runtime_error("No segment");
+
+
+    const Segment& l = (*mark2).second;
 
     double A = l.p2.y - l.p1.y;
     double B = l.p1.x - l.p2.x;

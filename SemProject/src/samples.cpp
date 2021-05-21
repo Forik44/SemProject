@@ -26,20 +26,45 @@ void OutObj(Base &b){
 }
 
 Array<int> generateArr(){
+    int flag = 0;
+    std::cin >> flag;
     Array<int> res;
-    res.add(1);
-    res.add(3);
-    res.add(5);
-    res.add(7);
-    return res;
+    if ( flag < 0 ){
+        Array<int> tmp;
+        tmp.add(24);
+        res.add(1);
+        std::cin >> res[0];
+        if ( res[0] < 10 )
+            res[0] = 10;
+        res.add(3);
+        res.add(5);
+        res.add(7);
+        res.add(tmp[0]);
+        return res;
+    }
+    else{
+        Array<int> res;
+        res.add(2);
+        res.add(4);
+        res.add(6);
+        res.add(8);
+        return res;
+    }
+
 }
+#include "pointer.h"
 
 int main(){
+    /*
     Array<int> a;
     a.operator=(generateArr());
+    Array<int> atmp = generateArr();
+    a.operator=(atmp);
     for (Array<int>::Marker m = a.init(); m != a.afterEnd() ; ++m)
         std::cout << "*m " << *m << std::endl;
     std::cout << "--------------------" << std::endl;
+    atmp.add(2);
+
     Array<int> b(generateArr());
     for (Array<int>::Marker m = b.init(); m != b.afterEnd() ; ++m)
         std::cout << "*m " << *m << std::endl;
@@ -48,6 +73,38 @@ int main(){
     for (Array<int>::Marker m = c.init(); m != c.afterEnd() ; ++m)
         std::cout << "*m " << *m << std::endl;
     std::cout << "=======================" << std::endl;
+    std::cout << " Swapppp" << std::endl;
+    swapthis(a,b);
+    //a.swap(b);
+    std::cout << "--------A------------" << std::endl;
+    for (Array<int>::Marker m = a.init(); m != a.afterEnd() ; ++m)
+        std::cout << "*m " << *m << std::endl;
+    std::cout << "--------B------------" << std::endl;
+    for (Array<int>::Marker m = b.init(); m != b.afterEnd() ; ++m)
+        std::cout << "*m " << *m << std::endl;
+    std::cout << "--------------------" << std::endl;
+
+
+    Array<bool> ab;
+    ab.add(true);
+
+*/
+    Array<int> ai;
+    ai.add(22);
+    ai.add(533);
+    for (Array<int>::Marker m = ai.init();m != ai.afterEnd() ; ++m)
+        std::cout << " " << *m << std::endl;
+
+    Array<int*> api;
+    api.add(new int(5));
+    api.add(new int(55));
+    for (Array<int*>::Marker m = api.init();m != api.afterEnd() ; ++m)
+        std::cout << " " << **m << std::endl;
+    while(true)
+    {
+        Pointer<int> ptr(new int);
+        *ptr = 34;
+    }
 
 
 

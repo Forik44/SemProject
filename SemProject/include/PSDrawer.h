@@ -7,6 +7,8 @@
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
+#include <cstring>
+
 
 class PSDrawer {
 public:
@@ -34,7 +36,7 @@ public:
 		writefile();
 	};
 	void setOffset(uint16_t offset) { _offset = offset; }
-	void addObj(ID id, BasicInterface bi);
+    void addObj(ID id, BasicInterface &bi);
 private:
 	void addPoint(double x1, double y1) { addCircle(x1, y1, 0.2); }
 	void addCircle(double x1, double y1, double radius);
@@ -58,14 +60,16 @@ void PSDrawer::writefile() {
 
 	if (_endx <= 0 || _endy <= 0) return;
 	//Check file
-	char* _pathtofile = new char[8 + strlen(_filename)];
+    /*char* _pathtofile = new char[8 + strlen(_filename)];
 	memcpy(_pathtofile, "Drawer/", 7);
 	for (int i = 7; i < 8 + strlen(_filename); i++) {
 		_pathtofile[i] = _filename[i - 7];
-	}
+    }*/
+    char _pathtofile[256];
+    snprintf(_pathtofile,sizeof(_pathtofile),"Drawer/%s",_filename);
 	std::ofstream fout;
 	fout.open(_pathtofile, std::ios_base::trunc);
-	delete[] _pathtofile;
+    //delete[] _pathtofile;
 	if (!fout.is_open()) { throw errors("Cant open file"); }
 	//Setting the sheet size and coordinate axes
 
@@ -148,9 +152,9 @@ void PSDrawer::addLine(double x1, double y1, double x2, double y2)
 	_array_line.add(temp);
 
 };
-void PSDrawer::addObj(ID id, BasicInterface bi)
+void PSDrawer::addObj(ID id, BasicInterface &bi)
 {
-	TreeDict<ParamType, double> arr = bi.queryObjProperties(id);
+    std::map<ParamType, double> arr = bi.queryObjProperties(id);
 
 	switch (bi.identifyObjTypeByID(id))
 	{
