@@ -16,6 +16,7 @@ private:
 public:
     Array();  
     Array(const Array& original);
+    Array(Array&& original);
     ~Array();   
     void add(ArrayElement val2add);
     ArrayElement& operator[](size_t idx);
@@ -67,15 +68,21 @@ public:
     }; 
     Array& operator= (const Array& arr)
     {
+        Array tmp = new Array[size];
         for (size_t i = 0; i < size; i++)
         {
-            removeElementByIdx(i);
+            tmp[i] = arr[i];
         }
-        for (size_t i = 0; i < arr.getSize(); i++)
-        {
-            add(arr[i]);
-        }
+        delete[] *this;
+        return tmp;
+    }
+    Array& operator= (Array&& arr)
+    {
+        delete[] data;
+        data = arr.data;
         size = arr.size;
+        arr.data = nullptr;
+        arr.size = 0;
         return *this;
     }
     Marker init()
@@ -122,6 +129,13 @@ template<typename ArrayElement> Array<ArrayElement>::Array(const Array<ArrayElem
         for (size_t k = 0; k < size; ++k)
             data[k] = original.data[k];
     }
+};
+template<typename ArrayElement> Array<ArrayElement>::Array(Array<ArrayElement>&& original)
+{
+    data = original.data;
+    size = original.size;
+    original.data = nullptr;
+    original.size = 0;
 };
 template<typename ArrayElement> Array<ArrayElement>::~Array()
 {
@@ -266,7 +280,34 @@ public:
         mask = mask << idx % (sizeof(unsigned char) * 8);
         return (data[byte_size - 1] & mask);
     };
-    bool removeElementByIdx(size_t idx);
+    bool removeElementByIdx(size_t idx)
+    {
+        if ((size <= idx) || (idx < 0))
+            return false;
+        else if (size == 1)
+        {
+            delete[] data;
+            data = nullptr;
+            size--;
+            return true;
+        }
+        else
+        {
+            bool* tmp;
+            if (size - 1 % sizeof(bool) == 0)
+            {
+                byte_size--;
+                tmp = new bool[byte_size - 1];
+            }
+            else
+            {
+                tmp = new bool[byte_size];
+            }
+
+         
+          
+        }
+    };
     size_t getSize() const
     {
         return size;
