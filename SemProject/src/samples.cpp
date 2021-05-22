@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Array.h"
 #include "basicinterface.h"
+#include <algorithm>
+#include <vector>
 
 class Base{
 public:
@@ -25,20 +27,146 @@ void OutObj(Base &b){
     std::cout << b.getI() << std::endl;
 }
 
-Array<int> generateArr(){
-    Array<int> res;
-    res.add(1);
-    res.add(3);
-    res.add(5);
-    res.add(7);
+std::vector<int> generateArr(){
+    std::vector<int> res;
+    res.push_back(1);
+    res.push_back(3);
+    res.push_back(5);
+    res.push_back(7);
     return res;
 }
 
+std::vector<Segment> generateSeg( ){
+    std::vector<Segment> ase;
+    ase.push_back({{1,2},{2,1}});
+    ase.push_back({{1,3},{3,1}});
+    ase.push_back({{2,2},{2,3}});
+    return ase;
+}
+struct printse{
+    void operator()(const Segment&s){
+        std::cout << '(' << s.p1.x << ','<<s.p1.y << ") -> (" << s.p2.x << ',' << s.p2.y << ')' << std::endl;
+    }
+};
+struct printa{
+    void operator()(Array<int>&a){
+        for (auto v:a)
+            std::cout << v << ' ';
+            std::cout << std::endl;
+    }
+};
+
+class is_longer_than{
+    double l;
+public:
+    is_longer_than(double d):l(d) {}
+    bool operator()(const Segment&s){
+        double len = std::sqrt( (s.p1.x - s.p2.x)*(s.p1.x - s.p2.x) + (s.p1.y - s.p2.y)*(s.p1.y - s.p2.y));
+        return l < len;
+    }
+};
+
+class is_shorter_than{
+    double l;
+public:
+    is_shorter_than(double d):l(d) {}
+    bool operator()(const Segment&s){
+        double len = std::sqrt( (s.p1.x - s.p2.x)*(s.p1.x - s.p2.x) + (s.p1.y - s.p2.y)*(s.p1.y - s.p2.y));
+        return l > len;
+    }
+};
+
+
+struct normalizer{
+    void operator()(Segment&s){
+        double len = std::sqrt( (s.p1.x - s.p2.x)*(s.p1.x - s.p2.x) + (s.p1.y - s.p2.y)*(s.p1.y - s.p2.y));
+        s.p2.x = s.p1.x + (s.p2.x - s.p1.x)/len;
+        s.p2.y = s.p1.y + (s.p2.y - s.p1.y)/len;
+
+    }
+};
+class length_sum{
+
+};
+
+
+bool iseq3_fun(int n) {
+    return n == 3;
+}
+struct is_eq3{
+    bool operator()(int n){
+        return n == 3;
+    }
+};
+
 int main(){
-    Array<int> a;
+
+    std::vector<int> a;
     a.operator=(generateArr());
-    for (Array<int>::Marker m = a.init(); m != a.afterEnd() ; ++m)
+    for (std::vector<int>::iterator m = a.begin(); m != a.end() ; ++m)
         std::cout << "*m " << *m << std::endl;
+    for (auto v:a)
+        std::cout << "v " << v << std::endl;
+    std::cout << "Done" << std::endl;
+    std::cout << "3 s = " << std::count(a.begin(),a.end(),3) << std::endl;
+    std::cout << "3 s = " << std::count_if(a.begin(),a.end(),is_eq3{}) << std::endl;
+    std::cout << "3 s = " << std::count_if(a.begin(),a.end(),iseq3_fun) << std::endl;
+
+    std::vector<Segment> as = generateSeg();
+
+    std::for_each(as.begin(),as.end(), printse());
+    std::cout << "longer than 1 = " << std::count_if(as.begin(),as.end(),is_longer_than{1}) << std::endl;
+    std::cout << "longer than 1.5 = " << std::count_if(as.begin(),as.end(),is_longer_than{1.5}) << std::endl;
+    std::cout << "After remove" << std::endl;
+    std::vector<Segment>::iterator it = std::remove_if(as.begin(),as.end(),is_longer_than(1.3));
+    std::for_each(as.begin(),it, printse());
+    std::cout << "All " << std::endl;
+    std::for_each(as.begin(),as.end(), printse());
+
+
+
+
+    std::vector<Array<int> > aa;
+    aa.push_back(Array<int>());
+    aa.back().push_back(1);
+    aa.push_back(Array<int>());
+    aa.back().push_back(2);
+    aa.back().push_back(3);
+    aa.push_back(Array<int>());
+    aa.back().push_back(4);
+    aa.back().push_back(6);
+    std::for_each(aa.begin(),aa.end(), printa());
+
+    struct has_less_than{
+        size_t  s;
+        has_less_than(size_t a):s(a){}
+        bool operator()(const Array<int>&a ){
+            return a.size() < s;
+        }
+    };
+    size_t size_thresh = 2;
+    // std::cin >> size_thresh ;
+
+    std::vector<Array<int> >::iterator it1 =
+            std::remove_if(aa.begin(),aa.end(),[size_thresh](const Array<int>&a){return a.size() < size_thresh;});
+    std::for_each(aa.begin(),it1, printa());
+    std::cout << "All " << std::endl;
+    std::for_each(aa.begin(),aa.end(), printa());
+    std::cout << "Done" << std::endl;
+
+
+
+
+
+    //std::cout << "Normalizer " << std::endl;
+    //std::for_each(as.begin(),as.end(),normalizer());
+    //std::cout << "longer than 1 = " << std::count_if(as.begin(),as.end(),is_longer_than{1}) << std::endl;
+
+
+
+
+
+/*
     std::cout << "--------------------" << std::endl;
     Array<int> b(generateArr());
     for (Array<int>::Marker m = b.init(); m != b.afterEnd() ; ++m)
@@ -48,7 +176,7 @@ int main(){
     for (Array<int>::Marker m = c.init(); m != c.afterEnd() ; ++m)
         std::cout << "*m " << *m << std::endl;
     std::cout << "=======================" << std::endl;
-
+*/
 
 
 
@@ -76,7 +204,7 @@ int main(){
 /*    Base b;
     Follower f;
 
-    std::cout << "b " << b.getI() << std::endl;
+    std::cout << "b " p(*first)<< b.getI() << std::endl;
     std::cout <<"f " << f.getI() << std::endl;
 
     OutObj(b);
