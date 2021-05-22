@@ -15,7 +15,7 @@ bool testListIteration(){
     List<int>::Marker marker = li.init();
     int k = 1;
     while ( ! (marker == li.afterEnd()) ){
-        if ( marker.getElem() != k ) return false;
+        if ( (*marker) != k ) return false;
         ++k;
         ++marker;
     }

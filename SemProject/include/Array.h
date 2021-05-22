@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdlib>
-#include <iostream>
+
 
 template<typename ArrayElement> class Array{
 private:
