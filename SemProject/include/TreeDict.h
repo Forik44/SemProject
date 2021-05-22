@@ -15,7 +15,7 @@ private:
 		Node* left, * right, * prev;
 		Para data;
 	};
-	size_t size;
+	size_t _size;
 	Node* m_root;
 	size_t getHeightR(Node* tmp)const
 	{
@@ -86,7 +86,7 @@ public:
 	};
 	TreeDict()
 	{
-		size = 0;
+		_size = 0;
 		m_root = nullptr;
 	}
 	~TreeDict()
@@ -95,12 +95,12 @@ public:
 	}
 	TreeDict(const TreeDict& original)
 	{
-		size = original.size;
+		_size = original._size;
 		m_root = copyBranch(original.m_root, nullptr);
 	}
 	TreeDict& operator= (const TreeDict& original)
 	{
-		size = original.size;
+		_size = original._size;
 		m_root = copyBranch(original.m_root, nullptr);
 		return *this;
 	}
@@ -193,7 +193,7 @@ public:
 	};
 	size_t size()const
 	{
-		return size;
+		return _size;
 	};
 	size_t getHeight()const
 	{
@@ -296,12 +296,12 @@ template<typename Key, typename Value> bool TreeDict<Key, Value>::erase(Key key)
 
 
 			delete ptr;
-			size--;
+			_size--;
 			
 			//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ Балансировка/////////////////////////////\\
             
 
-			if (size == 0)
+			if (_size == 0)
 				m_root = nullptr;
 
 			return true;
@@ -333,7 +333,7 @@ template<typename Key, typename Value> Value& TreeDict<Key, Value>::operator[](K
 	Node* tmp = new Node;
 	tmp->left = tmp->right = nullptr;
 	tmp->data.key = key;
-	size++;
+	_size++;
 
 	if (!m_root)
 	{
@@ -461,7 +461,7 @@ template<typename Key, typename Value> void TreeDict<Key, Value>::DoRotate(Node*
 }
 template<typename Key, typename Value> void TreeDict<Key, Value>::add(Key key, Value value)
 {
-	size++;
+	_size++;
 	Node* tmp = new Node;
 	tmp->left = tmp->right = nullptr;
 	tmp->data.key = key;
