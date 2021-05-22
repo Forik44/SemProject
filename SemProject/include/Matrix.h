@@ -4,35 +4,35 @@ using namespace std;
 
 template<typename MatrixElement> class Matrix {
 private:
-    int v_size, h_size;
+    int _v_size, _h_size;
     MatrixElement** data;
 public:
     Matrix(const int vertical_size, const int horizontal_size)
     {
-        v_size = vertical_size;
-        h_size = horizontal_size;
+        _v_size = vertical_size;
+        _h_size = horizontal_size;
 
-        data = new MatrixElement * [v_size];
-        for (int i = 0; i < v_size; i++)
+        data = new MatrixElement * [_v_size];
+        for (int i = 0; i < _v_size; i++)
         {
-            data[i] = new MatrixElement[h_size];
+            data[i] = new MatrixElement[_h_size];
         }
        
     };
     Matrix(const Matrix& original)
     {
-        v_size = original.v_size;
-        h_size = original.h_size;
+        _v_size = original._v_size;
+        _h_size = original._h_size;
 
-        data = new MatrixElement * [v_size];
-        for (int i = 0; i < v_size; i++)
+        data = new MatrixElement * [_v_size];
+        for (int i = 0; i < _v_size; i++)
         {
-            data[i] = new MatrixElement[h_size];
+            data[i] = new MatrixElement[_h_size];
         }
 
-        for (int i = 0; i < v_size; i++)
+        for (int i = 0; i < _v_size; i++)
         {
-            for (int k = 0; k < h_size; k++)
+            for (int k = 0; k < _h_size; k++)
             {
                 data[i][k] = original.data[i][k];
             }
@@ -40,33 +40,41 @@ public:
     };
     Matrix(Matrix&& original)
     {
-        v_size = original.v_size;
-        h_size = original.h_size;
+        _v_size = original._v_size;
+        _h_size = original._h_size;
         data = original.data;
        
         original.data = nullptr;
-        original.h_size = original.v_size = 0;
+        original._h_size = original._v_size = 0;
     };
     ~Matrix()
     {
-        for (int i = 0; i < v_size; i++)
+        for (int i = 0; i < _v_size; i++)
             delete[] data[i];
-        v_size = h_size = 0;
+        _v_size = _h_size = 0;
     }; 
 
-    int getSizeV() const
+    int v_size() const
     {
-        return v_size;
+        return _v_size;
     };
-    int getSizeH() const
+    int h_size() const
     {
-        return h_size;
+        return _h_size;
+    };
+    int v_size() 
+    {
+        return _v_size;
+    };
+    int h_size() 
+    {
+        return _h_size;
     };
     void console_output()
     {
-        for (int i = 0; i < v_size; i++)
+        for (int i = 0; i < _v_size; i++)
         {
-            for (int k = 0; k < h_size; k++)
+            for (int k = 0; k < _h_size; k++)
             {
                 cout << data[i][k] << " ";
             }
@@ -77,12 +85,12 @@ public:
 
     Matrix& operator= (const Matrix& original)
     {      
-        if (original.h_size != h_size || original.v_size != v_size)
-            throw - 1;
+        if (original._h_size != _h_size || original._v_size != _v_size)
+            throw std::runtime_error("Invalid matrix size\n");
 
-        for (int i = 0; i < v_size; i++)
+        for (int i = 0; i < _v_size; i++)
         {
-            for (int k = 0; k < h_size; k++)
+            for (int k = 0; k < _h_size; k++)
             {
                 data[i][k] = original.data[i][k];
             }
@@ -90,28 +98,28 @@ public:
 
         return *this;
     }
-    Matrix& operator^=(const Matrix& original)
+    Matrix operator~()
     {
-        if (h_size != original.v_size || v_size != original.h_size)
-            throw - 1;
+        Matrix<MatrixElement> C(_h_size, _v_size);
 
-        for (int i = 0; i < v_size; i++)
+        for (int i = 0; i < C._v_size; i++)
         {
-            for (int k = 0; k < h_size; k++)
+            for (int k = 0; k < C._h_size; k++)
             {
-                data[k][i] = original.data[i][k];
+                 C.data[i][k] = data[k][i];
             }
         }
-        return *this;
+
+        return C;
     }
 
     Matrix& operator+= (const Matrix& original)
     {
-        if (original.h_size != h_size || original.v_size != v_size)
-            throw;
-        for (int i = 0; i < v_size; i++)
+        if (original._h_size != _h_size || original._v_size != _v_size)
+            throw std::runtime_error("Invalid matrix size\n");
+        for (int i = 0; i < _v_size; i++)
         {
-            for (int k = 0; k < h_size; k++)
+            for (int k = 0; k < _h_size; k++)
             {
                 data[i][k] += original.data[i][k];
             }
@@ -121,9 +129,9 @@ public:
     }
     Matrix& operator+= (const MatrixElement Num)
     {
-        for (int i = 0; i < v_size; i++)
+        for (int i = 0; i < _v_size; i++)
         {
-            for (int k = 0; k < h_size; k++)
+            for (int k = 0; k < _h_size; k++)
             {
                 data[i][k] += Num;
             }
@@ -134,11 +142,11 @@ public:
    
     Matrix& operator-= (const Matrix& original)
     {
-        if (original.h_size != h_size || original.v_size != v_size)
-            throw - 1;
-        for (int i = 0; i < v_size; i++)
+        if (original._h_size != _h_size || original._v_size != _v_size)
+            throw std::runtime_error("Invalid matrix size\n");
+        for (int i = 0; i < _v_size; i++)
         {
-            for (int k = 0; k < h_size; k++)
+            for (int k = 0; k < _h_size; k++)
             {
                 data[i][k] -= original.data[i][k];
             }
@@ -148,9 +156,9 @@ public:
     }
     Matrix& operator-= (const MatrixElement Num)
     {
-        for (int i = 0; i < v_size; i++)
+        for (int i = 0; i < _v_size; i++)
         {
-            for (int k = 0; k < h_size; k++)
+            for (int k = 0; k < _h_size; k++)
             {
                 data[i][k] -= Num;
             }
@@ -159,37 +167,11 @@ public:
         return *this;
     }
 
-    Matrix& operator*= (const Matrix& original)
-    {
-        if (h_size != original.v_size)
-            throw std::runtime_error("Invalid matrix size\n");
-
-        Matrix<MatrixElement> C(v_size, original.h_size);
-
-        for (int i = 0; i < C.v_size; i++)
-        {
-            for (int k = 0; k < C.h_size; k++)
-            {
-                MatrixElement Sum = 0;
-
-                for (int j = 0; j < h_size; j++)
-                {
-                    Sum += data[i][j] * original.data[j][k];
-                }
-
-                C[i][k] = Sum;
-            }
-        }
-
-        return C;
-        
-        
-    }
     Matrix& operator*= (const MatrixElement Num)
     {
-        for (int i = 0; i < v_size; i++)
+        for (int i = 0; i < _v_size; i++)
         {
-            for (int k = 0; k < h_size; k++)
+            for (int k = 0; k < _h_size; k++)
             {
                 data[i][k] *= Num;
             }
@@ -200,6 +182,8 @@ public:
 
     MatrixElement* operator[](int h_idx)
     {
+        if (h_idx>_h_size)
+            throw std::runtime_error("Invalid matrix size\n");
         return data[h_idx];
     }
 
@@ -208,14 +192,14 @@ public:
 
     Matrix operator+ (const Matrix& original)
     {
-        Matrix<MatrixElement> C(original.v_size, original.h_size);
+        Matrix<MatrixElement> C(original._v_size, original._h_size);
         C = *this;
         C += original;
         return C;
     }
     Matrix operator+(const MatrixElement Num)
     {
-        Matrix<MatrixElement> C(v_size, h_size);
+        Matrix<MatrixElement> C(_v_size, _h_size);
         C = *this;
         C += Num;
         return C;
@@ -223,14 +207,14 @@ public:
 
     Matrix operator- (const Matrix& original)
     {
-        Matrix<MatrixElement> C(original.v_size, original.h_size);
+        Matrix<MatrixElement> C(original._v_size, original._h_size);
         C = *this;
         C -= original;
         return C;
     }
     Matrix operator-(const MatrixElement Num)
     {
-        Matrix<MatrixElement> C(v_size, h_size);
+        Matrix<MatrixElement> C(_v_size, _h_size);
         C = *this;
         C -= Num;
         return C;
@@ -238,18 +222,19 @@ public:
 
     Matrix operator* (const Matrix& original)
     {
-        if (h_size != original.v_size)
-            throw;
+        if (_h_size != original._v_size)
+            throw std::runtime_error("Invalid matrix size\n");
 
-        Matrix<MatrixElement> C(v_size, original.h_size);
 
-        for (int i = 0; i < C.v_size; i++)
+        Matrix<MatrixElement> C(_v_size, original._h_size);
+
+        for (int i = 0; i < C._v_size; i++)
         {
-            for (int k = 0; k < C.h_size; k++)
+            for (int k = 0; k < C._h_size; k++)
             {
                 MatrixElement Sum = 0;
               
-                for (int j = 0; j < h_size; j++)
+                for (int j = 0; j < _h_size; j++)
                 {
                     Sum += data[i][j] * original.data[j][k];
                 }
@@ -262,7 +247,7 @@ public:
     }
     Matrix operator*(const MatrixElement Num)
     {
-        Matrix<MatrixElement> C(v_size, h_size);
+        Matrix<MatrixElement> C(_v_size, _h_size);
         C = *this;
         C *= Num;
         return C;

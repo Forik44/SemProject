@@ -7,30 +7,23 @@ using namespace std;
 
 int main()
 {
-	Matrix<int> A(2, 3);
+	Matrix<int> A(1, 3);
 	Matrix<int> B(3, 1);
-	for (int i = 0; i < A.getSizeV(); i++)
+
+	for (int i = 0; i < B.v_size(); i++)
 	{
-		for (int k = 0; k < A.getSizeH(); k++)
-		{
-			A[i][k] = i;
-		}
-	}
-	for (int i = 0; i < B.getSizeV(); i++)
-	{
-		for (int k = 0; k < B.getSizeH(); k++)
+		for (int k = 0; k < B.h_size(); k++)
 		{
 			B[i][k] = i+3;
 		}
 	}
 
+	A = ~B;
 	A.console_output();
-	B.console_output();
-	cout << "----------------" << endl;
-	Matrix<int> C(2, 1);
-	C = A * B;
 	
-	C.console_output();
+	cout << "----------------" << endl;
+
+	B.console_output();
 	
 	
 	
