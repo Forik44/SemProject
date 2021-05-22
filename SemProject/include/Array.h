@@ -5,7 +5,7 @@
 
 template<typename ArrayElement> class Array{
 private:
-    size_t size;
+    size_t m_size;
     ArrayElement* data;
     struct marker
     {
@@ -18,15 +18,15 @@ public:
     Array(const Array& original);
     Array(Array&& original);
     ~Array();   
-    void add(ArrayElement val2add);
+    void push_back(ArrayElement val2add);
     ArrayElement& operator[](size_t idx);
     const ArrayElement& operator[](size_t idx)const;
-    bool removeElementByIdx(size_t idx);
-    size_t getSize() const
+    bool erase(size_t idx);
+    size_t size() const
     {
-        return size;
+        return m_size;
     };
-    class Marker
+    class iterator
     {
         marker mark;
     public:
@@ -49,11 +49,11 @@ public:
             mark.Elem++;
             mark.Idx++;
         };
-        bool operator==(const Marker& secondMarker) const
+        bool operator==(const iterator& secondMarker) const
         {
             return (this->mark.Elem == secondMarker.mark.Elem && this->mark.Idx == secondMarker.mark.Idx);
         };
-        bool operator!=(const Marker& secondMarker) const
+        bool operator!=(const iterator& secondMarker) const
         {
             return !(*this == secondMarker);
         }
@@ -80,122 +80,122 @@ public:
     {
         delete[] data;
         data = arr.data;
-        size = arr.size;
+        m_size = arr.m_size;
         arr.data = nullptr;
-        arr.size = 0;
+        arr.m_size = 0;
         return *this;
     }
-    Marker init()
+    iterator begin()
     {
-        Marker ma;
-        ma.setMarkerSize(size);
+        iterator ma;
+        ma.setMarkerSize(m_size);
         ma.mark.Elem = data;
         ma.mark.Idx = 0;
         return ma;
     };
-    Marker afterEnd()
+    iterator end()
     {
-        Marker ma;
-        ma.setMarkerSize(size);
-        ma.mark.Elem = data + size;
+        iterator ma;
+        ma.setMarkerSize(m_size);
+        ma.mark.Elem = data + m_size;
         ma.mark.Idx = ma.mark.markerSize;
         return ma;
     };
-    Marker initAfterAddingNewElement()
+    iterator initAfterAddingNewElement()
     {
-        Marker ma;
-        ma.setMarkerSize(size);
-        ma.mark.Elem = data + size - 2;
-        ma.mark.Idx = size - 2;
+        iterator ma;
+        ma.setMarkerSize(m_size);
+        ma.mark.Elem = data + m_size - 2;
+        ma.mark.Idx = m_size - 2;
         return ma;
     };
-    friend class Marker;
+    friend class iterator;
 };
 
 
 template<typename ArrayElement> Array<ArrayElement>::Array()
 {
-    size = 0;
+    m_size = 0;
     data = nullptr;
 };
 template<typename ArrayElement> Array<ArrayElement>::Array(const Array<ArrayElement>& original)
 {
 
-    size = original.size;
-    if (size == 0)
+    m_size = original.m_size;
+    if (m_size == 0)
         data = nullptr;
     else
     {
-        data = new ArrayElement[size];
-        for (size_t k = 0; k < size; ++k)
+        data = new ArrayElement[m_size];
+        for (size_t k = 0; k < m_size; ++k)
             data[k] = original.data[k];
     }
 };
 template<typename ArrayElement> Array<ArrayElement>::Array(Array<ArrayElement>&& original)
 {
     data = original.data;
-    size = original.size;
+    m_size = original.m_size;
     original.data = nullptr;
-    original.size = 0;
+    original.m_size = 0;
 };
 template<typename ArrayElement> Array<ArrayElement>::~Array()
 {
     if (data != nullptr)
         delete[] data;
 };
-template<typename ArrayElement> void Array<ArrayElement>::add(ArrayElement val2add)
+template<typename ArrayElement> void Array<ArrayElement>::push_back(ArrayElement val2add)
 {
-    if (size == 0)
+    if (m_size == 0)
     {
         data = new ArrayElement[1];
         data[0] = val2add;
-        size = 1;
+        m_size = 1;
     }
     else
     {
-        ArrayElement* tmp = new ArrayElement[size + 1];
-        for (size_t i = 0; i < size; i++)
+        ArrayElement* tmp = new ArrayElement[m_size + 1];
+        for (size_t i = 0; i < m_size; i++)
         {
             tmp[i] = data[i];
         }
-        tmp[size] = val2add;
+        tmp[m_size] = val2add;
         delete[] data;
         data = tmp;
-        size++;     
+        m_size++;     
     }
     
 };
 template<typename ArrayElement> ArrayElement& Array<ArrayElement>::operator[](size_t idx)
 {
-    if (size <= idx)
+    if (m_size <= idx)
         exit(1);
     else
         return data[idx]; // *(data + index)
 };
 template<typename ArrayElement> const ArrayElement& Array<ArrayElement>::operator[](size_t idx)const
 {
-    if (size <= idx)
+    if (m_size <= idx)
         exit(1);
     else
         return data[idx]; // *(data + index)
 };
-template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(size_t idx)
+template<typename ArrayElement> bool Array<ArrayElement>::erase(size_t idx)
 {
-    if ((size <= idx) || (idx < 0))
+    if ((m_size <= idx) || (idx < 0))
         return false;
-    else if (size == 1)
+    else if (m_size == 1)
     {
         delete[] data;
         data = nullptr;
-        size--;
+        m_size--;
         return true;
     }
     else
     {
-        ArrayElement* tmp = new ArrayElement[size - 1];
+        ArrayElement* tmp = new ArrayElement[m_size - 1];
 
         int k = 0;
-        for (size_t i = 0; i < size; i++)
+        for (size_t i = 0; i < m_size; i++)
         {
             if (idx != i)
             {
@@ -207,7 +207,7 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
 
         delete[] data;
         data = tmp;
-        size--;
+        m_size--;
         return true;
     }
 };
@@ -215,14 +215,14 @@ template<typename ArrayElement> bool Array<ArrayElement>::removeElementByIdx(siz
 
 template<> class Array<bool> {
 private:
-    size_t size;
+    size_t m_size;
     size_t byte_size;
     unsigned char* data;
    
 public:
     Array()
     {
-        size = byte_size = 0;
+        m_size = byte_size = 0;
         data = nullptr;
     };
     Array(const Array& original)
@@ -236,12 +236,12 @@ public:
     };
     ~Array()
     {
-        size = byte_size = 0;
+        m_size = byte_size = 0;
         delete[] data;
     };
     void add(bool val2add)
     {
-        if (size % (sizeof(unsigned char) * 8) == 0)
+        if (m_size % (sizeof(unsigned char) * 8) == 0)
         {
             unsigned char* tmp = new unsigned char[byte_size + 1];
 
@@ -256,7 +256,7 @@ public:
         }
 
         unsigned char mask = 1; 
-        int shift = size % (sizeof(unsigned char) * 8);
+        int shift = m_size % (sizeof(unsigned char) * 8);
         mask = mask << shift;
       
         if (val2add)
@@ -264,7 +264,7 @@ public:
         else
             data[byte_size - 1] = data[byte_size - 1] & (~mask);
 
-        size++;
+        m_size++;
     };
 
     bool operator[](size_t idx)
@@ -283,19 +283,19 @@ public:
     };
     bool removeElementByIdx(size_t idx)
     {
-        if ((size <= idx) || (idx < 0))
+        if ((m_size <= idx) || (idx < 0))
             return false;
-        else if (size == 1)
+        else if (m_size == 1)
         {
             delete[] data;
             data = nullptr;
-            size--;
+            m_size--;
             return true;
         }
         else
         {
             bool* tmp;
-            if (size - 1 % sizeof(bool) == 0)
+            if (m_size - 1 % sizeof(bool) == 0)
             {
                 byte_size--;
                 tmp = new bool[byte_size - 1];
@@ -309,9 +309,9 @@ public:
           
         }
     };
-    size_t getSize() const
+    size_t size() const
     {
-        return size;
+        return m_size;
     };
     
     Array& operator= (const Array& arr)

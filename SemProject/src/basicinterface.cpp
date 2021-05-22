@@ -26,6 +26,10 @@ BasicInterface::BasicInterface()
 //	if (m_points != nullptr)
 //		delete[] m_points;
 //};
+BasicInterface::~BasicInterface()
+{
+
+}
 ID  BasicInterface::addObject(ObjType ot)
 {
 	ID id = ID::generateID();
@@ -90,7 +94,7 @@ bool BasicInterface::removeObjectByID(ID id)
 		}
 	};
 	*/
-	for (int i = 0; i < arrID.getSize(); i++)
+	for (int i = 0; i < arrID.size(); i++)
 	{
 		m_requirements.removeElementByKey(arrID[i]);
 	}
@@ -108,7 +112,7 @@ Array<ID>& BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, do
 	Array<ID> reqIds;
 	bool segmentWasFound = 0, pointWasFound = 0, circleWasFound = 0;
 
-	for (int i = 0; i < idArr.getSize(); i++)
+	for (int i = 0; i < idArr.size(); i++)
 	{
 		ObjType ot = identifyObjTypeByID(idArr[i]);
 		switch (ot)
@@ -138,11 +142,11 @@ Array<ID>& BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, do
 			throw;
 		}
 
-		for (int i = 0; i < idArr.getSize() - 1; i++)
+		for (int i = 0; i < idArr.size() - 1; i++)
 		{
 			ParallelReq* req = new ParallelReq(&m_segments, idArr[i], idArr[i + 1]);
 			id = ID::generateID();
-			reqIds.add(id);
+			reqIds.push_back(id);
 			m_requirements.add(id, req);
 		}
 
@@ -156,11 +160,11 @@ Array<ID>& BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, do
 			throw;
 		}
 
-		for (int i = 0; i < idArr.getSize() - 1; i++)
+		for (int i = 0; i < idArr.size() - 1; i++)
 		{
 			OrthoReq* req = new OrthoReq(&m_segments, idArr[i], idArr[i + 1]);
 			id = ID::generateID();
-			reqIds.add(id);
+			reqIds.push_back(id);
 			m_requirements.add(id, req);
 		}
 
@@ -184,38 +188,38 @@ Array<ID>& BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, do
 
 		if (!segmentWasFound)
 		{
-			for (int i = 0; i < idArr.getSize() - 1; i++)
+			for (int i = 0; i < idArr.size() - 1; i++)
 			{
 				DistancePointsReq* req = new DistancePointsReq(&m_points, idArr[i], idArr[i + 1], dist);
 				id = ID::generateID();
-				reqIds.add(id);
+				reqIds.push_back(id);
 				m_requirements.add(id, req);
 			}
 		}
 		else if (!pointWasFound)
 		{
 			//TODO Проверить, если два отрезка, то они должны быть параллельны
-			for (int i = 0; i < idArr.getSize() - 1; i++)
+			for (int i = 0; i < idArr.size() - 1; i++)
 			{
 				DistanceSegmentsReq* req = new DistanceSegmentsReq(&m_segments, idArr[i], idArr[i + 1], dist);
 				id = ID::generateID();
-				reqIds.add(id);
+				reqIds.push_back(id);
 				m_requirements.add(id, req);
 			}
 		}
 		else
 		{
 
-			for (int i = 0; i < idArr.getSize(); i++)
+			for (int i = 0; i < idArr.size(); i++)
 			{
 				if (identifyObjTypeByID(idArr[i]) == OT_POINT)
-					for (int k = 0; k < idArr.getSize(); k++)
+					for (int k = 0; k < idArr.size(); k++)
 						if (identifyObjTypeByID(idArr[k]) == OT_SEGMENT)
 						{
 
 							DistancePointSegmentReq* req = new DistancePointSegmentReq(&m_points, &m_segments, idArr[i], idArr[k], dist);
 							id = ID::generateID();
-							reqIds.add(id);
+							reqIds.push_back(id);
 							m_requirements.add(id, req);
 						}
 
@@ -320,27 +324,27 @@ Array<double> BasicInterface::getX()
 	TreeDict<ID, Point>::Marker pointMarker = m_points.init();
 	while (pointMarker != m_points.afterEnd())
 	{
-		res.add((*pointMarker).value.x);
-		res.add((*pointMarker).value.y);
+		res.push_back((*pointMarker).value.x);
+		res.push_back((*pointMarker).value.y);
 		pointMarker++;
 	}
 
 	TreeDict<ID, Segment>::Marker segmentMarker = m_segments.init();
 	while (segmentMarker != m_segments.afterEnd())
 	{
-		res.add((*segmentMarker).value.p1.x);
-		res.add((*segmentMarker).value.p1.y);
-		res.add((*segmentMarker).value.p2.x);
-		res.add((*segmentMarker).value.p2.y);
+		res.push_back((*segmentMarker).value.p1.x);
+		res.push_back((*segmentMarker).value.p1.y);
+		res.push_back((*segmentMarker).value.p2.x);
+		res.push_back((*segmentMarker).value.p2.y);
 		segmentMarker++;
 	}
 
 	TreeDict<ID, Circle>::Marker circleMarker = m_circles.init();
 	while (circleMarker != m_circles.afterEnd())
 	{
-		res.add((*circleMarker).value.center.x);
-		res.add((*circleMarker).value.center.y);
-		res.add((*circleMarker).value.r);
+		res.push_back((*circleMarker).value.center.x);
+		res.push_back((*circleMarker).value.center.y);
+		res.push_back((*circleMarker).value.r);
 		circleMarker++;
 	}
 
@@ -535,7 +539,7 @@ double  BasicInterface::partDerivative(int varNumber, ID id1, ID id2, ReqType rt
 {
 	Array<double> arr = getX();
 
-	if (arr.getSize() <= varNumber)
+	if (arr.size() <= varNumber)
 		return 0;
 
 	double delta = 1e-10;
@@ -579,15 +583,15 @@ void BasicInterface::solveParticularReq(ID id1, ID id2, ReqType rt, double dista
 		firstReqValue = particularErrValue(id1, id2, rt, distance);
 
 		int i = 0;
-		for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+		for (Array<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 		{
-			devArr.add(partDerivative(i, id1, id2, rt, distance));   //Составляем вектор производных
+			devArr.push_back(partDerivative(i, id1, id2, rt, distance));   //Составляем вектор производных
 		};
 
 		i = 0;
-		for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+		for (Array<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 		{
-			newArr.add(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
+			newArr.push_back(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
 		};
 
 		setX(newArr);
@@ -603,7 +607,7 @@ void BasicInterface::solveParticularReq(ID id1, ID id2, ReqType rt, double dista
 		{
 			firstReqValue = secondReqValue;
 			i = 0;
-			for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+			for (Array<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 			{
 				arr[i] = newArr[i];
 			};
@@ -637,15 +641,15 @@ bool BasicInterface::solveComplexReq()
 		firstReqValue = complexErrValue();
 
 		int i = 0;
-		for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+		for (Array<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 		{
-			devArr.add(complexPartDerivative(i));   //Составляем вектор производных 
+			devArr.push_back(complexPartDerivative(i));   //Составляем вектор производных 
 		};
 
 		i = 0;
-		for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+		for (Array<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 		{
-			newArr.add(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
+			newArr.push_back(arr[i] - lambda * devArr[i]);   //Составляем новый вектор координат
 		};
 
 		setX(newArr);
@@ -661,7 +665,7 @@ bool BasicInterface::solveComplexReq()
 		{
 			firstReqValue = secondReqValue;
 			i = 0;
-			for (Array<double>::Marker m = arr.init(); m != arr.afterEnd(); m++, i++)
+			for (Array<double>::iterator m = arr.begin(); m != arr.end(); m++, i++)
 			{
 				arr[i] = newArr[i];
 			};
@@ -675,7 +679,7 @@ double  BasicInterface::complexPartDerivative(int varNumber)
 {
 	Array<double> arr = getX();
 
-	if (arr.getSize() <= varNumber)
+	if (arr.size() <= varNumber)
 		return 0;
 
 	double delta = 1e-5;
@@ -708,15 +712,15 @@ Array<ID> BasicInterface::ReceiveIdObjects()
 	Array<ID> IDs;
 	for (TreeDict<ID, Point>::Marker mark = m_points.init();mark != m_points.afterEnd(); mark++)
 	{
-		IDs.add((*mark).key);
+		IDs.push_back((*mark).key);
 	}
 	for (TreeDict<ID, Segment>::Marker mark = m_segments.init();mark != m_segments.afterEnd(); mark++)
 	{
-		IDs.add((*mark).key);
+		IDs.push_back((*mark).key);
 	}
 	for (TreeDict<ID, Circle>::Marker mark = m_circles.init();mark != m_circles.afterEnd(); mark++)
 	{
-		IDs.add((*mark).key);
+		IDs.push_back((*mark).key);
 	}
 	return IDs;
 }
