@@ -41,6 +41,7 @@ public:
     void solveParticularReq(ID id1, ID id2, ReqType rt, double distance = 0);
     std::vector<ID>& addRequirement(const std::vector<ID>& idArr, ReqType rt, double distance = 0);
     std::vector<ID> ReceiveIdObjects();
+    Segment calcbox(ID id, ObjType ot);
 private:
 
     std::map<ID, Point> m_points;

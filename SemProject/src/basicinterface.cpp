@@ -54,8 +54,56 @@ ID  BasicInterface::addObject(ObjType ot)
         m_circles[id] = c;
 		break;
 	}
+	calcbox(id, ot);
 	return id;
 };
+
+
+std::ostream& operator<<(std::ostream& ost, const Segment& s)
+{
+	ost << '(' << s.p1.x << ',' << s.p1.y << "),(" << s.p2.x << ',' << s.p2.y << ')';
+	return ost;
+}
+
+Segment BasicInterface::calcbox(ID id, ObjType ot) {
+	Segment s;
+	switch (ot)
+	{
+	case OT_SEGMENT:
+		s.p1.x = m_segments[id].p1.x;
+		s.p1.y = m_segments[id].p1.y;
+		s.p2.x = m_segments[id].p1.x;
+		s.p2.y = m_segments[id].p1.y;
+		if (m_segments[id].p2.x < s.p1.x) s.p1.x = m_segments[id].p2.x;
+		if (m_segments[id].p2.x > s.p2.x) s.p2.x = m_segments[id].p2.x;
+		if (m_segments[id].p2.y < s.p1.y) s.p1.y = m_segments[id].p2.y;
+		if (m_segments[id].p2.y > s.p2.y) s.p2.y = m_segments[id].p2.y;
+	break;
+	case OT_POINT:
+		s.p1.x = m_points[id].x - 0.5;
+		s.p1.y = m_points[id].y - 0.5;
+		s.p2.x = m_points[id].x + 0.5;
+		s.p2.y = m_points[id].y + 0.5;
+		break;
+	case OT_CIRCLE :
+		s.p1.x = m_circles[id].center.x-m_circles[id].r;
+		s.p1.y = m_circles[id].center.y-m_circles[id].r;
+		s.p2.x = m_circles[id].center.x+m_circles[id].r;
+		s.p2.y = m_circles[id].center.y+m_circles[id].r;
+		std::cout << "CIRCLE";
+	break;
+	}
+	std::cout << s << std::endl;
+	//system("pause");
+	return s;
+}
+
+
+
+
+
+
+
 bool BasicInterface::removeObjectByID(ID id)
 {
 	ObjType ot = identifyObjTypeByID(id);
