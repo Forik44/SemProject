@@ -81,11 +81,11 @@ void PSDrawer::writefile() {
 	fout << "0.5 setlinewidth\n";
 
 	//Output of circles and lines
-	for (uint16_t i = 0; i < _array_line.getSize(); i++) {
+	for (uint16_t i = 0; i < _array_line.size(); i++) {
 		fout << _array_line[i].x1 << " " << _array_line[i].y1  << " moveto\n";
 		fout << _array_line[i].x2 << " " << _array_line[i].y2  << " lineto\n";
 	}
-	for (uint16_t i = 0; i < _array_circle.getSize(); i++) {
+	for (uint16_t i = 0; i < _array_circle.size(); i++) {
 		fout << _array_circle[i].x+_array_circle[i].radius << " " << _array_circle[i].y  << " moveto\n";
 		fout << _array_circle[i].x << " " << _array_circle[i].y  << " " << _array_circle[i].radius << " 0 360 arc\n";
 	}
@@ -123,7 +123,7 @@ void PSDrawer::addCircle(double x1, double y1, double radius)
 	if (radius <= 0) throw errors("RADIUS <=0");
 	//Add to array
 	_obj_circle temp = { x1,y1,radius };
-	_array_circle.add(temp);
+	_array_circle.push_back(temp);
 
 };
 void PSDrawer::addLine(double x1, double y1, double x2, double y2)
@@ -145,7 +145,7 @@ void PSDrawer::addLine(double x1, double y1, double x2, double y2)
 	}
 	//Add to array
 	_obj_line temp = { x1,y1,x2,y2 };
-	_array_line.add(temp);
+	_array_line.push_back(temp);
 
 };
 void PSDrawer::addObj(ID id, BasicInterface bi)

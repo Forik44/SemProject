@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
                 Array<ID> ids = bi.ReceiveIdObjects();
                 PSDrawer ps("picture",10);
 
-                for (Array<ID>::Marker mark = ids.init(); mark != ids.afterEnd(); mark++)
+                for (Array<ID>::iterator mark = ids.begin(); mark != ids.end(); mark++)
                 {
                     ps.addObj((*mark), bi);
                 }
@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
             }
             case 'l': {// показать идентификаторы объектов
                 Array<ID> ids = bi.ReceiveIdObjects();
-                for (Array<ID>::Marker mark = ids.init();mark != ids.afterEnd(); mark++)
+                for (Array<ID>::iterator mark = ids.begin();mark != ids.end(); mark++)
                 {
                     switch (bi.identifyObjTypeByID(*mark))
                     {
@@ -138,7 +138,7 @@ int main(int argc, char* argv[])
                         {
                             i++;
                         }
-                        arr.add(IDs[i]);
+                        arr.push_back(IDs[i]);
                         if (bi.identifyObjTypeByID(IDs[i]) == OT_SEGMENT)
                         {
                             break;
@@ -154,7 +154,7 @@ int main(int argc, char* argv[])
                         {
                             i++;
                         }
-                        arr.add(IDs[i]);
+                        arr.push_back(IDs[i]);
                         if (bi.identifyObjTypeByID(IDs[i]) == OT_SEGMENT)
                         {
                              break;
