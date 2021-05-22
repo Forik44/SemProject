@@ -38,7 +38,7 @@ public:
             }
         }
     };
-    Matrix(const Matrix&& original)
+    Matrix(Matrix&& original)
     {
         v_size = original.v_size;
         h_size = original.h_size;
@@ -90,23 +90,6 @@ public:
 
         return *this;
     }
-    Matrix& operator*(const Matrix& original)///////////////////////////////////////////////////////////
-    {
-        if (h_size != original.v_size)
-            throw - 1;
-
-        Matrix<MatrixElement> result(v_size, original.h_size);
-
-        for (int i = 0; i < result.v_size; i++)
-        {
-            for (int k = 0; k < result.h_size; i++)
-            {
-
-            }
-        }
-
-        return *this;
-    }
     Matrix& operator^=(const Matrix& original)
     {
         if (h_size != original.v_size || v_size != original.h_size)
@@ -122,12 +105,10 @@ public:
         return *this;
     }
 
-
-
     Matrix& operator+= (const Matrix& original)
     {
         if (original.h_size != h_size || original.v_size != v_size)
-            throw - 1;
+            throw;
         for (int i = 0; i < v_size; i++)
         {
             for (int k = 0; k < h_size; k++)
@@ -138,7 +119,7 @@ public:
 
         return *this;
     }
-    Matrix& operator+= (const int Num)
+    Matrix& operator+= (const MatrixElement Num)
     {
         for (int i = 0; i < v_size; i++)
         {
@@ -150,20 +131,7 @@ public:
 
         return *this;
     }
-    Matrix& operator+= (const double Num)
-    {
-        for (int i = 0; i < v_size; i++)
-        {
-            for (int k = 0; k < h_size; k++)
-            {
-                data[i][k] += Num;
-            }
-        }
-
-        return *this;
-    }
-  
-
+   
     Matrix& operator-= (const Matrix& original)
     {
         if (original.h_size != h_size || original.v_size != v_size)
@@ -178,7 +146,7 @@ public:
 
         return *this;
     }
-    Matrix& operator-= (const int Num)
+    Matrix& operator-= (const MatrixElement Num)
     {
         for (int i = 0; i < v_size; i++)
         {
@@ -190,33 +158,34 @@ public:
 
         return *this;
     }
-    Matrix& operator-= (const double Num)
+
+    Matrix& operator*= (const Matrix& original)
     {
-        for (int i = 0; i < v_size; i++)
+        if (h_size != original.v_size)
+            throw std::runtime_error("Invalid matrix size\n");
+
+        Matrix<MatrixElement> C(v_size, original.h_size);
+
+        for (int i = 0; i < C.v_size; i++)
         {
-            for (int k = 0; k < h_size; k++)
+            for (int k = 0; k < C.h_size; k++)
             {
-                data[i][k] -= Num;
+                MatrixElement Sum = 0;
+
+                for (int j = 0; j < h_size; j++)
+                {
+                    Sum += data[i][j] * original.data[j][k];
+                }
+
+                C[i][k] = Sum;
             }
         }
 
-        return *this;
+        return C;
+        
+        
     }
-    
-
-    Matrix& operator*= (const int Num)
-    {
-        for (int i = 0; i < v_size; i++)
-        {
-            for (int k = 0; k < h_size; k++)
-            {
-                data[i][k] *= Num;
-            }
-        }
-
-        return *this;
-    }
-    Matrix& operator*= (const double Num)
+    Matrix& operator*= (const MatrixElement Num)
     {
         for (int i = 0; i < v_size; i++)
         {
@@ -234,6 +203,70 @@ public:
         return data[h_idx];
     }
 
+   
+
+
+    Matrix operator+ (const Matrix& original)
+    {
+        Matrix<MatrixElement> C(original.v_size, original.h_size);
+        C = *this;
+        C += original;
+        return C;
+    }
+    Matrix operator+(const MatrixElement Num)
+    {
+        Matrix<MatrixElement> C(v_size, h_size);
+        C = *this;
+        C += Num;
+        return C;
+    }
+
+    Matrix operator- (const Matrix& original)
+    {
+        Matrix<MatrixElement> C(original.v_size, original.h_size);
+        C = *this;
+        C -= original;
+        return C;
+    }
+    Matrix operator-(const MatrixElement Num)
+    {
+        Matrix<MatrixElement> C(v_size, h_size);
+        C = *this;
+        C -= Num;
+        return C;
+    }
+
+    Matrix operator* (const Matrix& original)
+    {
+        if (h_size != original.v_size)
+            throw;
+
+        Matrix<MatrixElement> C(v_size, original.h_size);
+
+        for (int i = 0; i < C.v_size; i++)
+        {
+            for (int k = 0; k < C.h_size; k++)
+            {
+                MatrixElement Sum = 0;
+              
+                for (int j = 0; j < h_size; j++)
+                {
+                    Sum += data[i][j] * original.data[j][k];
+                }
+
+                C[i][k] = Sum;
+            }
+        }
+
+        return C;
+    }
+    Matrix operator*(const MatrixElement Num)
+    {
+        Matrix<MatrixElement> C(v_size, h_size);
+        C = *this;
+        C *= Num;
+        return C;
+    }
    
     
 };

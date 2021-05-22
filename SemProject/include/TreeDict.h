@@ -4,7 +4,7 @@
 template<typename Key, typename Value> class TreeDict
 {
 private:
-	friend class Marker;
+	friend class iterator;
 	struct Para
 	{
 		Key key;
@@ -62,7 +62,6 @@ private:
 	void leadRotate(Node* current);
 	void DoRotate(Node* current);
 	void DoRotateRoot(Node* current);
-
 public:
 	Node* copyBranch(Node* original, Node* prev)
 	{
@@ -105,9 +104,9 @@ public:
 		m_root = copyBranch(original.m_root, nullptr);
 		return *this;
 	}
-	void add(Key key, Value val);
 	Value& operator[](Key key);
-	class Marker
+	void add(Key key, Value val);
+	class iterator
 	{
 	private:
 		Node* mark;
@@ -171,7 +170,7 @@ public:
 			return getNextNode() != nullptr;
 		};
 	};
-	Marker init()
+	iterator begin()
 	{
 		Marker m;
 		Node* tmp = m_root;
@@ -186,13 +185,13 @@ public:
 
 		return m;
 	};
-	Marker afterEnd()
+	iterator end()
 	{
 		Marker m;
 		m.mark = nullptr;
 		return m;
 	};
-	size_t getSize()const
+	size_t size()const
 	{
 		return size;
 	};
@@ -217,11 +216,11 @@ public:
 		else
 			return b++;
 	}
-	bool removeElementByKey(Key key);
+	bool erase(Key key);
 };
 
 
-template<typename Key, typename Value> bool TreeDict<Key, Value>::removeElementByKey(Key key)
+template<typename Key, typename Value> bool TreeDict<Key, Value>::erase(Key key)
 {
 	Node* ptr = m_root;
 	while (ptr)
