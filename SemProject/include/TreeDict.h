@@ -157,11 +157,11 @@ public:
 		{
 			mark = getNextNode();
 		};
-		bool operator==(const Marker& secondMarker) const
+		bool operator==(const iterator& secondMarker) const
 		{
 			return mark == secondMarker.mark;
 		};
-		bool operator!=(const Marker& secondMarker) const
+		bool operator!=(const iterator& secondMarker) const
 		{
 			return mark != secondMarker.mark;
 		}
@@ -172,7 +172,7 @@ public:
 	};
 	iterator begin()
 	{
-		Marker m;
+		iterator m;
 		Node* tmp = m_root;
 
 		if (tmp)
@@ -187,7 +187,7 @@ public:
 	};
 	iterator end()
 	{
-		Marker m;
+		iterator m;
 		m.mark = nullptr;
 		return m;
 	};

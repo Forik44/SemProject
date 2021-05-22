@@ -20,14 +20,14 @@ public:
 
 double DistancePointSegmentReq::getError()
 {
-    TreeDict<ID, Point>::Marker mark1;
-    mark1 = m_storage_point->init();
+    TreeDict<ID, Point>::iterator mark1;
+    mark1 = m_storage_point->begin();
     while ((*mark1).key != m_id1)
         mark1++;
     Point& p = (*mark1).value;
 
-    TreeDict<ID, Segment>::Marker mark2;
-    mark2 = m_storage_segment->init();
+    TreeDict<ID, Segment>::iterator mark2;
+    mark2 = m_storage_segment->begin();
     while ((*mark2).key != m_id2)
         mark2++;
     Segment& l = (*mark2).value;

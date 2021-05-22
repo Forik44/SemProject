@@ -16,14 +16,14 @@ public:
 
 double ParallelReq::getError() {
 
-    TreeDict<ID, Segment>::Marker mark;
-    mark = m_storage->init();
+    TreeDict<ID, Segment>::iterator mark;
+    mark = m_storage->begin();
     while ((*mark).key != m_id1)
         mark++;
 
     Segment& l1 = (*mark).value;
 
-    mark = m_storage->init();
+    mark = m_storage->begin();
     while ((*mark).key != m_id2)
         mark++;
     Segment& l2 = (*mark).value;

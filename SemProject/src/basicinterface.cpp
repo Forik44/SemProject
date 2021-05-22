@@ -67,13 +67,13 @@ bool BasicInterface::removeObjectByID(ID id)
 	switch (ot)
 	{
 	case OT_CIRCLE:
-		m_circles.removeElementByKey(id);
+		m_circles.erase(id);
 		break;
 	case OT_POINT:
-		m_points.removeElementByKey(id);
+		m_points.erase(id);
 		break;
 	case OT_SEGMENT:
-		m_segments.removeElementByKey(id);
+		m_segments.erase(id);
 		break;
 	case OT_ERROR:
 		return false;
@@ -96,7 +96,7 @@ bool BasicInterface::removeObjectByID(ID id)
 	*/
 	for (int i = 0; i < arrID.size(); i++)
 	{
-		m_requirements.removeElementByKey(arrID[i]);
+		m_requirements.erase(arrID[i]);
 	}
 
 	return false;
@@ -104,7 +104,7 @@ bool BasicInterface::removeObjectByID(ID id)
 bool BasicInterface::removeRequirementByID(ID id)
 {
 	///////////////////////////////////////////////////////////Удалить выделенную под Req память/////////////////////////////////////////////////////////
-	return m_requirements.removeElementByKey(id);
+	return m_requirements.erase(id);
 };
 Array<ID>& BasicInterface::addRequirement(const Array<ID>& idArr, ReqType rt, double dist)
 {
@@ -240,7 +240,7 @@ TreeDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
 	{
 	case OT_CIRCLE:
 	{
-		TreeDict<ID, Circle>::Marker cm = m_circles.init();
+		TreeDict<ID, Circle>::iterator cm = m_circles.begin();
 		while ((*cm).key != id)
 			cm++;
 
@@ -255,7 +255,7 @@ TreeDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
 	}
 	case OT_POINT:
 	{
-		TreeDict<ID, Point>::Marker pm = m_points.init();
+		TreeDict<ID, Point>::iterator pm = m_points.begin();
 		while ((*pm).key != id)
 			pm++;
 
@@ -270,7 +270,7 @@ TreeDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
 	}
 	case OT_SEGMENT:
 	{
-		TreeDict<ID, Segment>::Marker sm = m_segments.init();
+		TreeDict<ID, Segment>::iterator sm = m_segments.begin();
 		while ((*sm).key != id)
 			sm++;
 
@@ -294,22 +294,22 @@ TreeDict<ParamType, double> BasicInterface::queryObjProperties(ID id)
 }
 ObjType BasicInterface::identifyObjTypeByID(ID id)
 {
-	TreeDict<ID, Point>::Marker pm = m_points.init();
-	while (pm != m_points.afterEnd())
+	TreeDict<ID, Point>::iterator pm = m_points.begin();
+	while (pm != m_points.end())
 	{
 		if ((*pm).key == id)
 			return OT_POINT;
 		pm++;
 	};
-	TreeDict<ID, Circle>::Marker cm = m_circles.init();
-	while (cm != m_circles.afterEnd())
+	TreeDict<ID, Circle>::iterator cm = m_circles.begin();
+	while (cm != m_circles.end())
 	{
 		if ((*cm).key == id)
 			return OT_CIRCLE;
 		cm++;
 	}
-	TreeDict<ID, Segment>::Marker sm = m_segments.init();
-	while (sm != m_segments.afterEnd())
+	TreeDict<ID, Segment>::iterator sm = m_segments.begin();
+	while (sm != m_segments.end())
 	{
 		if ((*sm).key == id)
 			return OT_SEGMENT;
@@ -321,16 +321,16 @@ Array<double> BasicInterface::getX()
 {
 	Array<double> res;
 
-	TreeDict<ID, Point>::Marker pointMarker = m_points.init();
-	while (pointMarker != m_points.afterEnd())
+	TreeDict<ID, Point>::iterator pointMarker = m_points.begin();
+	while (pointMarker != m_points.end())
 	{
 		res.push_back((*pointMarker).value.x);
 		res.push_back((*pointMarker).value.y);
 		pointMarker++;
 	}
 
-	TreeDict<ID, Segment>::Marker segmentMarker = m_segments.init();
-	while (segmentMarker != m_segments.afterEnd())
+	TreeDict<ID, Segment>::iterator segmentMarker = m_segments.begin();
+	while (segmentMarker != m_segments.end())
 	{
 		res.push_back((*segmentMarker).value.p1.x);
 		res.push_back((*segmentMarker).value.p1.y);
@@ -339,8 +339,8 @@ Array<double> BasicInterface::getX()
 		segmentMarker++;
 	}
 
-	TreeDict<ID, Circle>::Marker circleMarker = m_circles.init();
-	while (circleMarker != m_circles.afterEnd())
+	TreeDict<ID, Circle>::iterator circleMarker = m_circles.begin();
+	while (circleMarker != m_circles.end())
 	{
 		res.push_back((*circleMarker).value.center.x);
 		res.push_back((*circleMarker).value.center.y);
@@ -353,9 +353,9 @@ Array<double> BasicInterface::getX()
 void BasicInterface::setX(const Array<double>& X)
 {
 	size_t i = 0;
-	TreeDict<ID, Point>::Marker pointMarker = m_points.init();
+	TreeDict<ID, Point>::iterator pointMarker = m_points.begin();
 
-	while (pointMarker != m_points.afterEnd())
+	while (pointMarker != m_points.end())
 	{
 		(*pointMarker).value.x = X[i];
 		i++;
@@ -364,8 +364,8 @@ void BasicInterface::setX(const Array<double>& X)
 		pointMarker++;
 	}
 
-	TreeDict<ID, Segment>::Marker segmentMarker = m_segments.init();
-	while (segmentMarker != m_segments.afterEnd())
+	TreeDict<ID, Segment>::iterator segmentMarker = m_segments.begin();
+	while (segmentMarker != m_segments.end())
 	{
 		(*segmentMarker).value.p1.x = X[i];
 		i++;
@@ -378,8 +378,8 @@ void BasicInterface::setX(const Array<double>& X)
 		segmentMarker++;
 	}
 
-	TreeDict<ID, Circle>::Marker circleMarker = m_circles.init();
-	while (circleMarker != m_circles.afterEnd())
+	TreeDict<ID, Circle>::iterator circleMarker = m_circles.begin();
+	while (circleMarker != m_circles.end())
 	{
 		(*circleMarker).value.center.x = X[i];
 		i++;
@@ -401,13 +401,13 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 		if ((ot1 != OT_SEGMENT) || (ot2 != OT_SEGMENT))
 			return -1;
 
-		TreeDict<ID, Segment>::Marker mark;
-		mark = m_segments.init();
+		TreeDict<ID, Segment>::iterator mark;
+		mark = m_segments.begin();
 		while ((*mark).key != id1)
 			mark++;
 		Segment& l1 = (*mark).value;
 
-		mark = m_segments.init();
+		mark = m_segments.begin();
 		while ((*mark).key != id2)
 			mark++;
 		Segment& l2 = (*mark).value;
@@ -428,13 +428,13 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 		if ((ot1 != OT_SEGMENT) || (ot2 != OT_SEGMENT))
 			return -1;
 
-		TreeDict<ID, Segment>::Marker mark;
-		mark = m_segments.init();
+		TreeDict<ID, Segment>::iterator mark;
+		mark = m_segments.begin();
 		while ((*mark).key != id1)
 			mark++;
 		Segment& l1 = (*mark).value;
 
-		mark = m_segments.init();
+		mark = m_segments.begin();
 		while ((*mark).key != id2)
 			mark++;
 		Segment& l2 = (*mark).value;
@@ -450,13 +450,13 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 	{
 		if ((ot1 == OT_POINT) && (ot2 == OT_POINT)) //2 points
 		{
-			TreeDict<ID, Point>::Marker mark;
-			mark = m_points.init();
+			TreeDict<ID, Point>::iterator mark;
+			mark = m_points.begin();
 			while ((*mark).key != id1)
 				mark++;
 			Point& p1 = (*mark).value;
 
-			mark = m_points.init();
+			mark = m_points.begin();
 			while ((*mark).key != id2)
 				mark++;
 			Point& p2 = (*mark).value;
@@ -465,14 +465,14 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 		}
 		else if ((ot1 == OT_POINT) && (ot2 == OT_SEGMENT)) //point and line
 		{
-			TreeDict<ID, Point>::Marker mark1;
-			mark1 = m_points.init();
+			TreeDict<ID, Point>::iterator mark1;
+			mark1 = m_points.begin();
 			while ((*mark1).key != id1)
 				mark1++;
 			Point& p = (*mark1).value;
 
-			TreeDict<ID, Segment>::Marker mark2;
-			mark2 = m_segments.init();
+			TreeDict<ID, Segment>::iterator mark2;
+			mark2 = m_segments.begin();
 			while ((*mark2).key != id2)
 				mark2++;
 			Segment& l = (*mark2).value;
@@ -485,14 +485,14 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 		}
 		else if ((ot2 == OT_POINT) && (ot1 == OT_SEGMENT)) //point and line
 		{
-			TreeDict<ID, Point>::Marker mark1;
-			mark1 = m_points.init();
+			TreeDict<ID, Point>::iterator mark1;
+			mark1 = m_points.begin();
 			while ((*mark1).key != id2)
 				mark1++;
 			Point& p = (*mark1).value;
 
-			TreeDict<ID, Segment>::Marker mark2;
-			mark2 = m_segments.init();
+			TreeDict<ID, Segment>::iterator mark2;
+			mark2 = m_segments.begin();
 			while ((*mark2).key != id1)
 				mark2++;
 			Segment& l = (*mark2).value;
@@ -505,13 +505,13 @@ double BasicInterface::particularErrValue(ID id1, ID id2, ReqType rt, double dis
 		}
 		else if ((ot2 == OT_SEGMENT) && (ot1 == OT_SEGMENT)) //2 lines 
 		{
-			TreeDict<ID, Segment>::Marker mark;
-			mark = m_segments.init();
+			TreeDict<ID, Segment>::iterator mark;
+			mark = m_segments.begin();
 			while ((*mark).key != id1)
 				mark++;
 			Segment& l1 = (*mark).value;
 
-			mark = m_segments.init();
+			mark = m_segments.begin();
 			while ((*mark).key != id2)
 				mark++;
 			Segment& l2 = (*mark).value;
@@ -620,7 +620,7 @@ double BasicInterface::complexErrValue()
 {
 	double complexError = 0;
 
-	for (TreeDict<ID, IReq*>::Marker reqMark = m_requirements.init(); reqMark != m_requirements.afterEnd(); reqMark++)
+	for (TreeDict<ID, IReq*>::iterator reqMark = m_requirements.begin(); reqMark != m_requirements.end(); reqMark++)
 		complexError += (*reqMark).value->getError();
 
 	return complexError;
@@ -710,15 +710,15 @@ double  BasicInterface::complexPartDerivative(int varNumber)
 Array<ID> BasicInterface::ReceiveIdObjects()
 {
 	Array<ID> IDs;
-	for (TreeDict<ID, Point>::Marker mark = m_points.init();mark != m_points.afterEnd(); mark++)
+	for (TreeDict<ID, Point>::iterator mark = m_points.begin();mark != m_points.end(); mark++)
 	{
 		IDs.push_back((*mark).key);
 	}
-	for (TreeDict<ID, Segment>::Marker mark = m_segments.init();mark != m_segments.afterEnd(); mark++)
+	for (TreeDict<ID, Segment>::iterator mark = m_segments.begin();mark != m_segments.end(); mark++)
 	{
 		IDs.push_back((*mark).key);
 	}
-	for (TreeDict<ID, Circle>::Marker mark = m_circles.init();mark != m_circles.afterEnd(); mark++)
+	for (TreeDict<ID, Circle>::iterator mark = m_circles.begin();mark != m_circles.end(); mark++)
 	{
 		IDs.push_back((*mark).key);
 	}

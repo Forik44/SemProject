@@ -18,13 +18,13 @@ public:
 
 double DistancePointsReq::getError()
 {
-    TreeDict<ID, Point>::Marker mark;
-    mark = m_storage->init();
+    TreeDict<ID, Point>::iterator mark;
+    mark = m_storage->begin();
     while ((*mark).key != m_id1)
         mark++;
     Point& p1 = (*mark).value;
 
-    mark = m_storage->init();
+    mark = m_storage->begin();
     while ((*mark).key != m_id2)
         mark++;
     Point& p2 = (*mark).value;
